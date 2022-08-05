@@ -30,11 +30,14 @@ export const Input: FC<IInput> = ({
     required,
     register,
     value,
+    max,
+    min,
     handleChange,
     ...other
 }) => {
     const idFallback = other.id ?? "";
-    const registeredProps = register?.(idFallback, { required });
+    const registerValidation = { required, max, min };
+    const registeredProps = register?.(idFallback, registerValidation);
 
     return (
         <>
@@ -99,7 +102,11 @@ export const Input: FC<IInput> = ({
             )}
             {inputError ? (
                 <Paragraph color="white">
-                    {handleFormError(inputError, other.name ?? idFallback)}
+                    {handleFormError(
+                        inputError,
+                        other.name ?? idFallback,
+                        registerValidation
+                    )}
                 </Paragraph>
             ) : null}
         </>
