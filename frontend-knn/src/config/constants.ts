@@ -1,4 +1,4 @@
-export const brandName = "Titanic Survivor";
+export const brandName = "Iris Classifier";
 
 export const app = {
     metadata: {
