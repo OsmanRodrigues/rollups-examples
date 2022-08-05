@@ -2,29 +2,29 @@
 export const id = {
     sendInputForm: {
         main: "sendInputForm",
-        ageInput: "Age",
-        sexInput: "Sex",
-        embarkedInput: "Embarked",
+        petalLengthInput: "pl",
+        petalWidthInput: "pw",
+        sepalLengthInput: "sl",
+        sepalWidthInput: "sw",
     },
 };
 
 export const string = {
     resultPreview: {
         title: "Result preview",
-        idleFeedback: "Use the form to get started! 🧊🚢",
+        idleFeedback: "Use the form to get started! 🔎🌸",
         pendingFeedback: "Waiting for result...",
-        survivedFeeback: "YOU SURVIVED!",
-        sankFeedback: "YOU SANK!",
     },
     sendInputForm: {
-        ageInputText: "Age",
-        sexInputText: "Gender",
-        embarkedInputText: "Embarked from",
+        petalLabel: "Petal",
+        sepalLabel: "Sepal",
+        lengthLabel: "L",
+        widthLabel: "W",
         submitButtonText: "See result",
         clearButtonText: "Clear result",
         loadingButtonText: "Waiting...",
         description:
-            "Try if you would survive or sink in the Titanic crash! 👀",
+            "Try to find an Iris flower from petal and sepal measurements! 🧐",
     },
     sendInputFeedback: {
         requestStarted:
