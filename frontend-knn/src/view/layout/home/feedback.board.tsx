@@ -30,7 +30,8 @@ export const FeedbackBoard: FC<IFeedbackBoard> = ({
         const notice = currentData[0];
         console.log({currentData, notice});
 
-        const message = 'TODO: ajust message'
+        //TODO: adjust message
+        const message = `You got an ${notice.payload_parsed}!`;
 
         return { message };
     };
