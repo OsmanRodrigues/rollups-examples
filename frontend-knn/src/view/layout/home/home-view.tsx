@@ -10,6 +10,8 @@ import { toast } from "react-toast";
 import { string } from "./constants";
 import { resetServiceState } from "../../../controller/common.controller";
 import { useOnboardedService } from "../../../controller/use-service/use-onboarded-service";
+import { SendInputForm } from "./send-input.form";
+import { FeedbackBoard } from "./feedback.board";
 
 export const HomeView: FC = () => {
     const [noticesState, noticesDispatch] = useService<NoticeViewModel[]>();
@@ -53,7 +55,26 @@ export const HomeView: FC = () => {
     return (
         <SharedLayout>
             <Row>
-                <h1>Home</h1>
+                <SendInputForm
+                    handleSendInput={handleSendInput}
+                    onClearForm={handleResetStates}
+                    isLoading={
+                        sendInputState.status === "pending" ||
+                        noticesState.status === "pending"
+                    }
+                    canClearForm={
+                        sendInputState.status === "resolved" &&
+                        noticesState.status === "resolved"
+                    }
+                />
+                <FeedbackBoard
+                    data={noticesState.data ?? []}
+                    status={
+                        sendInputState.status === "pending"
+                            ? "pending"
+                            : noticesState.status
+                    }
+                />
             </Row>
         </SharedLayout>
     );
