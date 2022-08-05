@@ -48,7 +48,7 @@ services:
       hardhat:
         condition: service_healthy
       deployer:
-        condition: service_completed_successfully
+        condition: service_started
       state_server:
         condition: service_started
       server_manager:
@@ -138,7 +138,7 @@ services:
       hardhat:
         condition: service_healthy
       deployer:
-        condition: service_completed_successfully
+        condition: service_started
       state_server:
         condition: service_started
       server_manager:
