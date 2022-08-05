@@ -2,7 +2,13 @@ import injectedModule from "@web3-onboard/injected-wallets";
 import { init } from "@web3-onboard/react";
 import { app as appConstants } from "../config/constants";
 import {
-    Chain, ChainId, ChainLabel, ChainRpcUrl, ChainToken, WalletName, WalletUrl
+    Chain,
+    ChainId,
+    ChainLabel,
+    ChainRpcUrl,
+    ChainToken,
+    WalletName,
+    WalletUrl
 } from "./types";
 
 export const chains: Chain[] = [
