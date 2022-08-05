@@ -4,10 +4,10 @@ import { ServiceReducerActions } from "./use-service/use-service.hook";
 import { WalletState, ConnectedChain } from "@web3-onboard/core";
 
 export interface SendInputData {
-    sl: number;
-    sw: number;
-    pl: number;
-    pw: number;
+    sl: string | number;
+    sw: string | number;
+    pl: string | number;
+    pw: string | number;
 }
 
 export const sendInput = async (
@@ -21,8 +21,8 @@ export const sendInput = async (
         Object.keys(data)
             .forEach(key => {
                 const typedKey = key as keyof typeof data;
-                data[typedKey] = Number(data[typedKey].toFixed(2));
-             })
+                data[typedKey] = +(+data[typedKey]).toFixed(2);
+            })
         const sendInputResult = await sendInputService(
             {
                 input: JSON.stringify(data)
