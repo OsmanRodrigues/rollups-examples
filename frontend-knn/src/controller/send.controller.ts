@@ -1,33 +1,44 @@
 import { Dispatch } from "react";
 import { SendInputViewModel, sendInput as sendInputService } from "../service/send.service";
 import { ServiceReducerActions } from "./use-service/use-service.hook";
+import { WalletState, ConnectedChain } from "@web3-onboard/core";
 
 export interface SendInputData {
-    sl: number;
-    sw: number;
-    pl: number;
-    pw: number;
+    sl: string | number;
+    sw: string | number;
+    pl: string | number;
+    pw: string | number;
 }
 
 export const sendInput = async (
     dispatch: Dispatch<ServiceReducerActions<SendInputViewModel>>,
-    data: SendInputData
+    data: SendInputData,
+    chainId: ConnectedChain["id"],
+    walletProvider: WalletState["provider"]
 ) => {
-    dispatch({ type: 'start_request' });
+    dispatch({ type: "start_request" });
     try {
-        Object.keys(data).forEach((key) => {
-            const prop = key as keyof typeof data;
-            data[prop] = Number(data[prop]);
-        });
-        const sendInputResult = await sendInputService({
-            input: JSON.stringify(data)
-        });
+        Object.keys(data)
+            .forEach(key => {
+                const typedKey = key as keyof typeof data;
+                data[typedKey] = +(+data[typedKey]).toFixed(2);
+            })
+        const sendInputResult = await sendInputService(
+            {
+                input: JSON.stringify(data)
+            },
+            chainId,
+            walletProvider
+        );
         dispatch({
-            type: 'resolve_request',
-            data: sendInputResult
+            type: "resolve_request",
+            data: sendInputResult,
         });
+
         return sendInputResult;
     } catch (err) {
-        dispatch({ type: 'fail_request', error: err });
+        dispatch({ type: "fail_request", error: err });
+
+        throw err;
     }
 };
