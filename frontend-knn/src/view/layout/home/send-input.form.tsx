@@ -89,7 +89,7 @@ export const SendInputForm: FC<ISendInputForm> = ({
                     >
                         <Row>
                             <Col>
-                                <Label>{formString.sepalLabel}</Label>
+                                <Label paddingX="sm">{formString.sepalLabel}</Label>
                             </Col>
                         </Row>
                         <Row>
@@ -145,7 +145,7 @@ export const SendInputForm: FC<ISendInputForm> = ({
                         <Separator />
                         <Row>
                             <Col>
-                                <Label>{formString.petalLabel}</Label>
+                                <Label paddingX="sm">{formString.petalLabel}</Label>
                             </Col>
                         </Row>
                         <Row>
