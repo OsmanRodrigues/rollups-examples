@@ -9,6 +9,7 @@ export interface InputLayout {
 const inputSharedCss = css`
     color: ${color.white};
     padding: ${spacing.padding.sm};
+    width: 100%;
 `;
 
 const inputVariantCss = {
@@ -41,7 +42,6 @@ export const FormWrapper = styled.form`
 `;
 export const FieldsetWrapper = styled.fieldset`
     display: flex;
-    flex-direction: column;
 `;
 export const InputWrapper = styled.input<InputLayout>`
     ${({variant})=> inputVariantCss[variant ?? 'primary']}
