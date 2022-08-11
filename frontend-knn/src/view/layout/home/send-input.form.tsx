@@ -28,7 +28,15 @@ export const SendInputForm: FC<ISendInputForm> = ({
     canClearForm
 
 }) => {
-    const { handleSubmit, register, formState, clearErrors, reset } = useForm<SendInputData>();
+    const {
+        handleSubmit,
+        register,
+        formState,
+        clearErrors,
+        reset,
+        watch
+    } = useForm<SendInputData>();
+
     const handleClearForm = useCallback((e: any) => {
         e.preventDefault();
         onClearForm();
@@ -72,7 +80,7 @@ export const SendInputForm: FC<ISendInputForm> = ({
             <Separator />
             <Row>
                 <Col xs={12} md={8} lg={9}>
-                    <ChartDraw />
+                    <ChartDraw inputData={watch()} />
                 </Col>
                 <Col xs={12} md={4} lg={3}>
                     <FormWrapper
