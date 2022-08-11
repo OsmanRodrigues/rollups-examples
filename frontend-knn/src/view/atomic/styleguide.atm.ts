@@ -83,6 +83,7 @@ export const size = {
                 height: "2.636rem",
             },
         },
+        sm: "4rem"
     },
     modal: {
         minHeight: "296px",
