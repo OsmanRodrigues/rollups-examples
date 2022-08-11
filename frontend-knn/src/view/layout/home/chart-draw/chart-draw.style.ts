@@ -7,10 +7,27 @@ export const ChartDrawSVGDefs = styled.svg`
     width: 0;
     height: 0;
     image {
-        x: -20;
-        y: 100;
-        width: 264px;
-        height: 264px;
+        y: 50;
+        width: 20rem;
+        height: 20rem;
+        @media only screen and (min-width: 288px) {
+            x: -60;
+        }
+        @media only screen and (min-width: 416px) {
+            x: -30;
+        }
+        @media only screen and (min-width: 576px) {
+            x: 20;
+        }
+        @media only screen and (min-width: 768px) {
+            x: -50;
+        }
+        @media only screen and (min-width: 992px) {
+            x: -50;
+        }
+        @media only screen and (min-width: 1200px) {
+            x: 0;
+        }
     }
 `;
 
