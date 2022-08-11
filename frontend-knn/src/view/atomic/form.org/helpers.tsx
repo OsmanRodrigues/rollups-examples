@@ -30,7 +30,7 @@ export const handleFormError = (
 
 export const InputError: FC<IInputError> = ({ error, name, options }) =>
     error ? (
-        <Paragraph color="white">
+        <Paragraph color="white" paddingX="sm" paddingY="sm">
             {handleFormError(error, name, options)}
         </Paragraph>
     ) : null;

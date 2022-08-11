@@ -39,9 +39,14 @@ const inputVariantCss = {
 };
 
 export const FormWrapper = styled.form`
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: flex-end;
 `;
 export const FieldsetWrapper = styled.fieldset`
     display: flex;
+    padding: 0  0 ${spacing.padding.sm} 0;
 `;
 export const InputWrapper = styled.input<InputLayout>`
     ${({variant})=> inputVariantCss[variant ?? 'primary']}
