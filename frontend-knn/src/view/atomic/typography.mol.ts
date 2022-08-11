@@ -43,5 +43,9 @@ export const Paragraph = styled.p<SharedDefaultProps>`
     ${sharedDefaultCss}
 `;
 export const Label = styled.label<SharedDefaultProps>`
+    min-width: 42px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     ${sharedDefaultCss}
 `;
