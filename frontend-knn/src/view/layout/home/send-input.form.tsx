@@ -94,12 +94,13 @@ export const SendInputForm: FC<ISendInputForm> = ({
                         </Row>
                         <Row>
                             <Col xs={6} md={12}>
-                                <FieldsetWrapper form={id.sendInputForm.main}>
+                                <FieldsetWrapper form={id.sendInputForm.main} flexDir="row">
                                     <Input
                                         id={id.sendInputForm.sepalWidthInput}
                                         name={formString.widthLabel}
                                         register={register}
                                         type="number"
+                                        flexDir="row"
                                         max={10}
                                         min={0.1}
                                         step={0.01}
@@ -118,12 +119,13 @@ export const SendInputForm: FC<ISendInputForm> = ({
                                 />
                             </Col>
                             <Col xs={6} md={12}>
-                                <FieldsetWrapper form={id.sendInputForm.main}>
+                                <FieldsetWrapper form={id.sendInputForm.main} flexDir="row">
                                     <Input
                                         id={id.sendInputForm.sepalLengthInput}
                                         name={formString.lengthLabel}
                                         register={register}
                                         type="number"
+                                        flexDir="row"
                                         max={10}
                                         min={0.1}
                                         step={0.01}
@@ -150,12 +152,13 @@ export const SendInputForm: FC<ISendInputForm> = ({
                         </Row>
                         <Row>
                             <Col xs={6} md={12}>
-                                <FieldsetWrapper form={id.sendInputForm.main}>
+                                <FieldsetWrapper form={id.sendInputForm.main} flexDir="row">
                                     <Input
                                         id={id.sendInputForm.petalWidthInput}
                                         name={formString.widthLabel}
                                         register={register}
                                         type="number"
+                                        flexDir="row"
                                         max={10}
                                         min={0.1}
                                         step={0.01}
@@ -174,12 +177,13 @@ export const SendInputForm: FC<ISendInputForm> = ({
                                 />
                             </Col>
                             <Col xs={6} md={12}>
-                                <FieldsetWrapper form={id.sendInputForm.main}>
+                                <FieldsetWrapper form={id.sendInputForm.main} flexDir="row">
                                     <Input
                                         id={id.sendInputForm.petalLengthInput}
                                         name={formString.lengthLabel}
                                         register={register}
                                         type="number"
+                                        flexDir="row"
                                         max={10}
                                         min={0.1}
                                         step={0.01}
