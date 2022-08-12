@@ -26,7 +26,6 @@ export const SendInputForm: FC<ISendInputForm> = ({
     onClearForm,
     isLoading,
     canClearForm
-
 }) => {
     const {
         handleSubmit,
@@ -36,6 +35,15 @@ export const SendInputForm: FC<ISendInputForm> = ({
         reset,
         watch
     } = useForm<SendInputData>();
+    const formValue = watch();
+    const lengthAndWidthMax = 10;
+    const plMaxFallback = !!formValue.sl ? +formValue.sl : lengthAndWidthMax;
+    const pwMaxFallback = !!formValue.sw ? +formValue.sw : lengthAndWidthMax;
+    const chartDrawData = {
+        ...formValue,
+        pl: formValue.pl > formValue.sl ? formValue.sl : formValue.pl,
+        pw: formValue.pw > formValue.sw ? formValue.sw : formValue.pw,
+    };
 
     const handleClearForm = useCallback((e: any) => {
         e.preventDefault();
@@ -43,35 +51,6 @@ export const SendInputForm: FC<ISendInputForm> = ({
         clearErrors();
         reset();
     }, [onClearForm, clearErrors, reset])
-    //TODO: extract this custom render function from component
-    const renderSubmitButton = useCallback(() => {
-        return (
-            <>
-                <Col xs="content">
-                    {canClearForm ? (
-                        <Button
-                            form={id.sendInputForm.main}
-                            type="reset"
-                            onClick={handleClearForm}
-                        >
-                            {formString.clearButtonText}
-                        </Button>
-                    ) : (
-                        <Button
-                            form={id.sendInputForm.main}
-                            type="submit"
-                            sideElement="right"
-                            disabled={isLoading}
-                        >
-                            {isLoading
-                                ? formString.loadingButtonText
-                                : formString.submitButtonText}
-                        </Button>
-                    )}
-                </Col>
-            </>
-        );
-    }, [canClearForm, handleClearForm, isLoading])
 
     return (
         <Col xs={12} md={6}>
@@ -80,7 +59,7 @@ export const SendInputForm: FC<ISendInputForm> = ({
             <Separator />
             <Row>
                 <Col xs={12} md={8} lg={9}>
-                    <ChartDraw inputData={watch()} />
+                    <ChartDraw inputData={chartDrawData} />
                 </Col>
                 <Col xs={12} md={4} lg={3}>
                     <FormWrapper
@@ -89,19 +68,24 @@ export const SendInputForm: FC<ISendInputForm> = ({
                     >
                         <Row>
                             <Col>
-                                <Label paddingX="sm">{formString.sepalLabel}</Label>
+                                <Label paddingX="sm">
+                                    {formString.sepalLabel}
+                                </Label>
                             </Col>
                         </Row>
                         <Row>
                             <Col xs={6} md={12}>
-                                <FieldsetWrapper form={id.sendInputForm.main} flexDir="row">
+                                <FieldsetWrapper
+                                    form={id.sendInputForm.main}
+                                    flexDir="row"
+                                >
                                     <Input
                                         id={id.sendInputForm.sepalWidthInput}
                                         name={formString.widthLabel}
                                         register={register}
                                         type="number"
                                         flexDir="row"
-                                        max={10}
+                                        max={lengthAndWidthMax}
                                         min={0.1}
                                         step={0.01}
                                         isOutilined
@@ -113,20 +97,23 @@ export const SendInputForm: FC<ISendInputForm> = ({
                                     name={formString.widthLabel}
                                     options={{
                                         required: true,
-                                        max: 10,
+                                        max: lengthAndWidthMax,
                                         min: 0.1,
                                     }}
                                 />
                             </Col>
                             <Col xs={6} md={12}>
-                                <FieldsetWrapper form={id.sendInputForm.main} flexDir="row">
+                                <FieldsetWrapper
+                                    form={id.sendInputForm.main}
+                                    flexDir="row"
+                                >
                                     <Input
                                         id={id.sendInputForm.sepalLengthInput}
                                         name={formString.lengthLabel}
                                         register={register}
                                         type="number"
                                         flexDir="row"
-                                        max={10}
+                                        max={lengthAndWidthMax}
                                         min={0.1}
                                         step={0.01}
                                         isOutilined
@@ -138,7 +125,7 @@ export const SendInputForm: FC<ISendInputForm> = ({
                                     name={formString.lengthLabel}
                                     options={{
                                         required: true,
-                                        max: 10,
+                                        max: lengthAndWidthMax,
                                         min: 0.1,
                                     }}
                                 />
@@ -147,19 +134,24 @@ export const SendInputForm: FC<ISendInputForm> = ({
                         <Separator />
                         <Row>
                             <Col>
-                                <Label paddingX="sm">{formString.petalLabel}</Label>
+                                <Label paddingX="sm">
+                                    {formString.petalLabel}
+                                </Label>
                             </Col>
                         </Row>
                         <Row>
                             <Col xs={6} md={12}>
-                                <FieldsetWrapper form={id.sendInputForm.main} flexDir="row">
+                                <FieldsetWrapper
+                                    form={id.sendInputForm.main}
+                                    flexDir="row"
+                                >
                                     <Input
                                         id={id.sendInputForm.petalWidthInput}
                                         name={formString.widthLabel}
                                         register={register}
                                         type="number"
                                         flexDir="row"
-                                        max={10}
+                                        max={pwMaxFallback}
                                         min={0.1}
                                         step={0.01}
                                         isOutilined
@@ -171,20 +163,23 @@ export const SendInputForm: FC<ISendInputForm> = ({
                                     name={formString.widthLabel}
                                     options={{
                                         required: true,
-                                        max: 10,
+                                        max: pwMaxFallback,
                                         min: 0.1,
                                     }}
                                 />
                             </Col>
                             <Col xs={6} md={12}>
-                                <FieldsetWrapper form={id.sendInputForm.main} flexDir="row">
+                                <FieldsetWrapper
+                                    form={id.sendInputForm.main}
+                                    flexDir="row"
+                                >
                                     <Input
                                         id={id.sendInputForm.petalLengthInput}
                                         name={formString.lengthLabel}
                                         register={register}
                                         type="number"
                                         flexDir="row"
-                                        max={10}
+                                        max={plMaxFallback}
                                         min={0.1}
                                         step={0.01}
                                         isOutilined
@@ -196,7 +191,7 @@ export const SendInputForm: FC<ISendInputForm> = ({
                                     name={formString.lengthLabel}
                                     options={{
                                         required: true,
-                                        max: 10,
+                                        max: plMaxFallback,
                                         min: 0.1,
                                     }}
                                 />
@@ -209,16 +204,59 @@ export const SendInputForm: FC<ISendInputForm> = ({
             <Row>
                 <Col>
                     <Visible xs sm>
-                        <Row justify="center">{renderSubmitButton()}</Row>
+                        <Row justify="center">
+                            {renderSubmitButton(
+                                canClearForm,
+                                handleClearForm,
+                                isLoading
+                            )}
+                        </Row>
                     </Visible>
                     <Hidden xs sm>
-                        <Row>{renderSubmitButton()}</Row>
+                        <Row>
+                            {renderSubmitButton(
+                                canClearForm,
+                                handleClearForm,
+                                isLoading
+                            )}
+                        </Row>
                     </Hidden>
                 </Col>
             </Row>
             <Visible xs sm>
                 <Separator />
             </Visible>
+        </Col>
+    );
+};
+
+const renderSubmitButton = (
+    canClearForm: boolean,
+    handleClearForm: (e: any)=> void,
+    isLoading: boolean
+) => {
+    return (
+        <Col xs="content">
+            {canClearForm ? (
+                <Button
+                    form={id.sendInputForm.main}
+                    type="reset"
+                    onClick={handleClearForm}
+                >
+                    {formString.clearButtonText}
+                </Button>
+            ) : (
+                <Button
+                    form={id.sendInputForm.main}
+                    type="submit"
+                    sideElement="right"
+                    disabled={isLoading}
+                >
+                    {isLoading
+                        ? formString.loadingButtonText
+                        : formString.submitButtonText}
+                </Button>
+            )}
         </Col>
     );
 };
