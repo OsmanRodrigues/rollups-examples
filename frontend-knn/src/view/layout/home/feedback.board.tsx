@@ -5,16 +5,22 @@ import { BoxWrapper } from "../../atomic/layout.org/layout.mol";
 import { H1, H4 } from "../../atomic/typography.mol";
 import { string } from "./constants";
 import { UseServiceState } from "../../../controller/use-service/use-service.hook";
+import { IrisResultCard } from "./iris-result.card/iris-result.card";
+import { IrisType } from "./iris-result.card/constants";
+import { SendInputData } from "../../../controller/send.controller";
+import { PengindLoadingState } from "./pending.loading-state";
 
 interface IFeedbackBoard {
-    data: NoticeViewModel[],
-    status: UseServiceState<any>['status']
+    data: NoticeViewModel[];
+    inputData: SendInputData | null;
+    status: UseServiceState<any>['status'];
 }
 
 const boardString = string.resultPreview;
 
 export const FeedbackBoard: FC<IFeedbackBoard> = ({
     data,
+    inputData,
     status
 }) => {
     const handleResult = (
@@ -25,54 +31,48 @@ export const FeedbackBoard: FC<IFeedbackBoard> = ({
         if (
             currentStatus !== 'resolved' &&
             !data?.length
-        ) return { message: null };
+        ) return { irisType: null };
 
         const notice = currentData[0];
+        const irisType = notice.payload_parsed.toLowerCase();
 
-        //TODO: adjust message
-        const message = `You got an ${notice.payload_parsed}!`;
-
-        return { message };
+        return { irisType };
     };
-    const { message } = handleResult(data, status);
+    const { irisType } = handleResult(data, status);
 
     return (
         <Col sm={12} md={6}>
             <BoxWrapper isFluid>
+                <Row justify="end">
+                    <Col xs="content">
+                        <H4 color="lightMain">{boardString.title}</H4>
+                    </Col>
+                </Row>
                 {status === "pending" ? (
                     <Row justify="center">
                         <Col xs="content">
                             <H1 color="sweetMain" justify="center">
                                 {boardString.pendingFeedback}
                             </H1>
+                            <PengindLoadingState />
                         </Col>
                     </Row>
                 ) : (
-                    <>
-                        <Row justify="end">
-                            <Col xs="content">
-                                <H4 color="lightMain">{boardString.title}</H4>
-                            </Col>
-                        </Row>
-                        <Row justify="center">
-                            <Col xs="content">
-                                {status === "idle" || status === "rejected" ? (
-                                    <H1 color="sweetMain" justify="center">
-                                        {boardString.idleFeedback}
-                                    </H1>
-                                ) : null}
-                                {message ? (
-                                    <H1
-                                        color="sweetMain"
-                                        justify="center"
-                                        isBold
-                                    >
-                                        {message}
-                                    </H1>
-                                ) : null}
-                            </Col>
-                        </Row>
-                    </>
+                    <Row justify="center">
+                        <Col xs="content">
+                            {status === "idle" || status === "rejected" ? (
+                                <H1 color="sweetMain" justify="center">
+                                    {boardString.idleFeedback}
+                                </H1>
+                            ) : null}
+                            {irisType && inputData ? (
+                                <IrisResultCard
+                                    irisType={IrisType.Setosa}
+                                    inputData={inputData}
+                                />
+                            ) : null}
+                        </Col>
+                    </Row>
                 )}
             </BoxWrapper>
         </Col>

@@ -4,6 +4,7 @@ import { border, color, radius, size, spacing, zIndex } from "../styleguide.atm"
 export interface InputLayout {
     isOutilined?: boolean;
     variant?: "primary" | "secondary";
+    flexDir?: "row" | "column";
 }
 
 const inputSharedCss = css`
@@ -44,8 +45,9 @@ export const FormWrapper = styled.form`
     height: 100%;
     justify-content: flex-end;
 `;
-export const FieldsetWrapper = styled.fieldset`
+export const FieldsetWrapper = styled.fieldset<InputLayout>`
     display: flex;
+    flex-direction: ${({flexDir})=> flexDir ?? 'column'};
     padding: 0  0 ${spacing.padding.sm} 0;
 `;
 export const InputWrapper = styled.input<InputLayout>`

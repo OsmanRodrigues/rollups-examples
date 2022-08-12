@@ -8,8 +8,8 @@ export interface ImageLayout {
 
 export const ImageWrapper = styled.div<ImageLayout>`
     display: flex;
+    flex-direction: column;
     justify-content: ${({ justify }) =>
-        justify === 'center' ? justify : `flex-${justify}` };
-    width: auto;
-    height: ${({size})=> sizeConstant.image[size ?? 'md']};
+        justify === "center" ? justify : `flex-${justify}`};
+    height: ${({ size }) => size ? sizeConstant.image[size] : 'auto'};
 `;
