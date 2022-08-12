@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, useMemo } from "react";
 import { AxisOptions, Chart } from "react-charts";
 import { Col } from "react-grid-system";
 import { ChartDrawSVGDefs, ChartDrawWrapper, FLOWER_BG_ID } from "./chart-draw.style";
