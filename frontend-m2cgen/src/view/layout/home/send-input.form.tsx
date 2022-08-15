@@ -1,3 +1,14 @@
+// Copyright 2022 Cartesi Pte. Ltd.
+
+// Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+// this file except in compliance with the License. You may obtain a copy of the
+// License at http://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software distributed
+// under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+// CONDITIONS OF ANY KIND, either express or implied. See the License for the
+// specific language governing permissions and limitations under the License.
+
 import { FC, useCallback } from "react";
 import { Col, Hidden, Row, Visible } from "react-grid-system";
 import { useForm } from "react-hook-form";
@@ -11,21 +22,21 @@ import { H1, Paragraph } from "../../atomic/typography.mol";
 import { id, string } from "./constants";
 
 interface ISendInputForm {
-    handleSendInput: (data: SendInputData) => void,
-    onClearForm: () => void
-    isLoading: boolean,
-    canClearForm: boolean,
+    handleSendInput: (data: SendInputData) => void;
+    onClearForm: () => void;
+    isLoading: boolean;
+    canClearForm: boolean;
 }
 
 const sexOptions: Option[] = [
     { id: "female", name: "Female" },
-    { id: "male", name: "Male" }
+    { id: "male", name: "Male" },
 ];
 
 const embarkedOptions: Option[] = [
     { id: "C", name: "Cherbourg" },
     { id: "Q", name: "Queenstown" },
-    { id: "S", name: "Southampton" }
+    { id: "S", name: "Southampton" },
 ];
 
 const formString = string.sendInputForm;
@@ -34,16 +45,19 @@ export const SendInputForm: FC<ISendInputForm> = ({
     handleSendInput,
     onClearForm,
     isLoading,
-    canClearForm
-
+    canClearForm,
 }) => {
-    const { handleSubmit, register, formState, clearErrors, reset } = useForm<SendInputData>();
-    const handleClearForm = useCallback((e: any) => {
-        e.preventDefault();
-        onClearForm();
-        clearErrors();
-        reset();
-    }, [onClearForm, clearErrors, reset])
+    const { handleSubmit, register, formState, clearErrors, reset } =
+        useForm<SendInputData>();
+    const handleClearForm = useCallback(
+        (e: any) => {
+            e.preventDefault();
+            onClearForm();
+            clearErrors();
+            reset();
+        },
+        [onClearForm, clearErrors, reset]
+    );
     const renderSubmitButton = useCallback(() => {
         return (
             <>
@@ -71,7 +85,7 @@ export const SendInputForm: FC<ISendInputForm> = ({
                 </Col>
             </>
         );
-    }, [canClearForm, handleClearForm, isLoading])
+    }, [canClearForm, handleClearForm, isLoading]);
 
     return (
         <Col sm={12} md={6}>
