@@ -1,5 +1,13 @@
+import { FC } from "react";
 import { RegisterOptions } from "react-hook-form";
 import { FieldError } from "react-hook-form/dist/types/errors";
+import { Paragraph } from "../typography.mol";
+
+interface IInputError {
+    error?: any;
+    name: string;
+    options: RegisterOptions;
+}
 
 export const handleFormError = (
     inputError: FieldError,
@@ -19,3 +27,10 @@ export const handleFormError = (
             return undefined;
     }
 };
+
+export const InputError: FC<IInputError> = ({ error, name, options }) =>
+    error ? (
+        <Paragraph color="white" paddingX="sm" paddingY="sm">
+            {handleFormError(error, name, options)}
+        </Paragraph>
+    ) : null;

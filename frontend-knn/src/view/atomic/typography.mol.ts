@@ -6,18 +6,19 @@ interface SharedDefaultProps {
     isBold?: boolean;
     paddingX?: "sm" | "md" | "lg";
     paddingY?: "sm" | "md" | "lg";
-    justify?: "start" | "center" | "end"
+    noPadding?: boolean;
+    justify?: "start" | "center" | "end" | "justify"
 }
 
 const sharedDefaultCss = css<SharedDefaultProps>`
     word-break: keep-all;
-    ${({ isBold, color, paddingY, paddingX, justify }) => `
+    ${({ isBold, color, noPadding, paddingY, paddingX, justify }) => `
         ${isBold ? "font-weight: 500;" : ""}
         padding: ${
             (paddingX || paddingX)
                 ? `${paddingY ? spacing.padding[paddingY] : "0"}
                     ${paddingX ? spacing.padding[paddingX] : "0"}`
-                : `${spacing.padding.sm} 0`
+                : (noPadding ? '0': `${spacing.padding.sm} 0`)
         };
         ${justify ?
             `text-align: ${justify};`
@@ -43,5 +44,9 @@ export const Paragraph = styled.p<SharedDefaultProps>`
     ${sharedDefaultCss}
 `;
 export const Label = styled.label<SharedDefaultProps>`
+    min-width: 42px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     ${sharedDefaultCss}
 `;

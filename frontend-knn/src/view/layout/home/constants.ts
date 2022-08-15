@@ -1,3 +1,4 @@
+import { emoji } from "../../atomic/emoji.atm";
 
 export const id = {
     sendInputForm: {
@@ -12,7 +13,8 @@ export const id = {
 export const string = {
     resultPreview: {
         title: "Result preview",
-        idleFeedback: "Use the form to get started! 🔎🌸",
+        idleFeedback:
+            `Use the form to get started! ${emoji.magnifyingGlassTiltedRight}${emoji.cherryBlossom}`,
         pendingFeedback: "Waiting for result...",
     },
     sendInputForm: {
@@ -24,7 +26,7 @@ export const string = {
         clearButtonText: "Clear result",
         loadingButtonText: "Waiting...",
         description:
-            "Try to find an Iris flower from petal and sepal measurements! 🧐",
+            `Try to find an Iris flower from petal and sepal measurements! ${emoji.faceWithMonocle}`,
     },
     sendInputFeedback: {
         requestStarted:

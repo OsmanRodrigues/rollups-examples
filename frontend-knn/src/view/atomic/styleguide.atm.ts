@@ -73,7 +73,7 @@ export const size = {
     },
     image: {
         lg: "18.5rem",
-        md: "10rem",
+        md: "12rem",
         sm: "6rem",
         xs: "3rem",
     },
@@ -83,6 +83,7 @@ export const size = {
                 height: "2.636rem",
             },
         },
+        sm: "4rem"
     },
     modal: {
         minHeight: "296px",

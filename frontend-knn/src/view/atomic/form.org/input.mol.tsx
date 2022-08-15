@@ -1,9 +1,8 @@
 import { FC } from "react";
-import { Label, Paragraph } from "../typography.mol";
+import { Label } from "../typography.mol";
 import { SelectWrapper, InputWrapper, InputLayout } from "./form.mol";
 import { AiOutlineDown } from "react-icons/ai";
-import { handleFormError } from "./helpers";
-import { Separator } from "../layout.org/separator.mol/separator.atm";
+import { InputError } from "./helpers";
 import { FieldError } from "react-hook-form";
 
 export interface Option {
@@ -21,6 +20,7 @@ interface IInput
     register?: Function;
     inputError?: FieldError;
     handleChange?: (value: string) => void;
+    flexDir?: "column" | "row"
 }
 
 export const Input: FC<IInput> = ({
@@ -47,9 +47,9 @@ export const Input: FC<IInput> = ({
                     color={
                         other.variant === "secondary" ? "dark" : "mediumGray"
                     }
+                    paddingX={other.flexDir === "row" ? "sm" : undefined}
                 >
-                    {other.name}
-                    {required ? " *" : null}
+                    {`${required ? '*' : ''}${other.name}`}
                 </Label>
             ) : null}
             {type === "select" ? (
@@ -100,15 +100,11 @@ export const Input: FC<IInput> = ({
                     {...registeredProps}
                 />
             )}
-            {inputError ? (
-                <Paragraph color="white">
-                    {handleFormError(
-                        inputError,
-                        other.name ?? idFallback,
-                        registerValidation
-                    )}
-                </Paragraph>
-            ) : null}
+            <InputError
+                error={inputError}
+                name={other.name ?? idFallback}
+                options={registerValidation}
+            />
         </>
     );
 }

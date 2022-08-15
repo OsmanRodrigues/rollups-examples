@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { fetchNotices } from "../../../controller/notices.controller";
 import { SendInputData, sendInput } from "../../../controller/send.controller";
 import { useService } from "../../../controller/use-service/use-service.hook";
@@ -13,10 +13,13 @@ import { useOnboardedService } from "../../../controller/use-service/use-onboard
 import { SendInputForm } from "./send-input.form";
 import { FeedbackBoard } from "./feedback.board";
 
+//TODO: implement context pattern to improve state management
+
 export const HomeView: FC = () => {
     const [noticesState, noticesDispatch] = useService<NoticeViewModel[]>();
     const [sendInputState, sendInputDispatch] =
         useOnboardedService<SendInputViewModel>();
+    const [inputData, setInputData] = useState<SendInputData|null>(null);
     const handleSendInput = (data: SendInputData) => {
         if (sendInputState.chain) {
             toast.info(string.sendInputFeedback.requestStarted);
@@ -35,9 +38,10 @@ export const HomeView: FC = () => {
                         },
                         true
                     )
-                        .then(() =>
+                        .then(() => {
+                            setInputData(data);
                             toast.success(string.fetchNoticesFeedback.onSucess)
-                        )
+                        })
                         .catch(() =>
                             toast.error(string.fetchNoticesFeedback.onError)
                         )
@@ -69,6 +73,7 @@ export const HomeView: FC = () => {
                 />
                 <FeedbackBoard
                     data={noticesState.data ?? []}
+                    inputData={inputData}
                     status={
                         sendInputState.status === "pending"
                             ? "pending"
