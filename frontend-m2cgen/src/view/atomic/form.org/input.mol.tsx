@@ -1,9 +1,19 @@
+// Copyright 2022 Cartesi Pte. Ltd.
+
+// Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+// this file except in compliance with the License. You may obtain a copy of the
+// License at http://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software distributed
+// under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+// CONDITIONS OF ANY KIND, either express or implied. See the License for the
+// specific language governing permissions and limitations under the License.
+
 import { FC } from "react";
 import { Label, Paragraph } from "../typography.mol";
 import { SelectWrapper, InputWrapper, InputLayout } from "./form.mol";
 import { AiOutlineDown } from "react-icons/ai";
 import { handleFormError } from "./helpers";
-import { Separator } from "../layout.org/separator.mol/separator.atm";
 import { FieldError } from "react-hook-form";
 
 export interface Option {
@@ -12,10 +22,8 @@ export interface Option {
 }
 
 interface IInput
-    extends
-    React.InputHTMLAttributes<HTMLInputElement>,
-    InputLayout
-{
+    extends React.InputHTMLAttributes<HTMLInputElement>,
+        InputLayout {
     type?: React.HTMLInputTypeAttribute | "select";
     options?: Option[];
     register?: Function;
@@ -104,4 +112,4 @@ export const Input: FC<IInput> = ({
             ) : null}
         </>
     );
-}
+};
