@@ -1,3 +1,14 @@
+// Copyright 2022 Cartesi Pte. Ltd.
+
+// Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+// this file except in compliance with the License. You may obtain a copy of the
+// License at http://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software distributed
+// under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+// CONDITIONS OF ANY KIND, either express or implied. See the License for the
+// specific language governing permissions and limitations under the License.
+
 import styled, { css } from "styled-components";
 import { color as colorConstant, spacing } from "./styleguide.atm";
 
@@ -7,7 +18,7 @@ interface SharedDefaultProps {
     paddingX?: "sm" | "md" | "lg";
     paddingY?: "sm" | "md" | "lg";
     noPadding?: boolean;
-    justify?: "start" | "center" | "end" | "justify"
+    justify?: "start" | "center" | "end" | "justify";
 }
 
 const sharedDefaultCss = css<SharedDefaultProps>`
@@ -15,15 +26,14 @@ const sharedDefaultCss = css<SharedDefaultProps>`
     ${({ isBold, color, noPadding, paddingY, paddingX, justify }) => `
         ${isBold ? "font-weight: 500;" : ""}
         padding: ${
-            (paddingX || paddingX)
+            paddingX || paddingX
                 ? `${paddingY ? spacing.padding[paddingY] : "0"}
                     ${paddingX ? spacing.padding[paddingX] : "0"}`
-                : (noPadding ? '0': `${spacing.padding.sm} 0`)
+                : noPadding
+                ? "0"
+                : `${spacing.padding.sm} 0`
         };
-        ${justify ?
-            `text-align: ${justify};`
-            : ''
-        }
+        ${justify ? `text-align: ${justify};` : ""}
         color: ${colorConstant[color ?? "white"]};
     `};
 `;
