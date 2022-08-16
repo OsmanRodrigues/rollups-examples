@@ -1,3 +1,14 @@
+// Copyright 2022 Cartesi Pte. Ltd.
+
+// Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+// this file except in compliance with the License. You may obtain a copy of the
+// License at http://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software distributed
+// under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+// CONDITIONS OF ANY KIND, either express or implied. See the License for the
+// specific language governing permissions and limitations under the License.
+
 import { FC, useState } from "react";
 import { fetchNotices } from "../../../controller/notices.controller";
 import { SendInputData, sendInput } from "../../../controller/send.controller";
@@ -19,7 +30,7 @@ export const HomeView: FC = () => {
     const [noticesState, noticesDispatch] = useService<NoticeViewModel[]>();
     const [sendInputState, sendInputDispatch] =
         useOnboardedService<SendInputViewModel>();
-    const [inputData, setInputData] = useState<SendInputData|null>(null);
+    const [inputData, setInputData] = useState<SendInputData | null>(null);
     const handleSendInput = (data: SendInputData) => {
         if (sendInputState.chain) {
             toast.info(string.sendInputFeedback.requestStarted);
@@ -40,16 +51,14 @@ export const HomeView: FC = () => {
                     )
                         .then(() => {
                             setInputData(data);
-                            toast.success(string.fetchNoticesFeedback.onSucess)
+                            toast.success(string.fetchNoticesFeedback.onSucess);
                         })
                         .catch(() =>
                             toast.error(string.fetchNoticesFeedback.onError)
                         )
                 )
                 .catch(() => toast.error(string.sendInputFeedback.onError));
-        } else toast.error(
-            string.sendInputFeedback.web3OnboardError
-        );
+        } else toast.error(string.sendInputFeedback.web3OnboardError);
     };
     const handleResetStates = () => {
         resetServiceState(noticesDispatch);
@@ -83,4 +92,4 @@ export const HomeView: FC = () => {
             </Row>
         </SharedLayout>
     );
-}
+};
