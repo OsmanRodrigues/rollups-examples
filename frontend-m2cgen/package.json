@@ -5,7 +5,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "tsc && vite build",
+        "build": "yarn gen-graphql && tsc && vite build",
         "preview": "vite preview",
         "gen-graphql": "graphql-codegen --config codegen.yml",
         "deploy-dev": "yarn install --production && yarn gen-graphql && yarn build && yarn preview"
