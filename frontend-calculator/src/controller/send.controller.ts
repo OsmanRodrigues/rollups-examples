@@ -17,7 +17,6 @@ export const sendInput = async (
     try {
         const sendInputResult = await sendInputService({
             input: data.Operation
-            
         },
         chainId,
         walletProvider
