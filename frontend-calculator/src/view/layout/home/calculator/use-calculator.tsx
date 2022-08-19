@@ -12,79 +12,94 @@ import React, { useState } from "react";
 "%"  = percent * total %
  */
 
-enum CommonOperations{
+const Numeral = {
+    "0": "0",
+    "1": "1",
+    "2": "2",
+    "3": "3",
+    "4": "4",
+    "5": "5",
+    "6": "6",
+    "7": "7",
+    "8": "8",
+    "9": "9"
+}
+
+enum CommonOperations {
     "+" = "+",
     "-" = "-",
     "/" = "/",
     "*" = "*",
-    "^" = "^"
-}
-enum Delimiter{
-    "." = "."
+    "^" = "^",
 }
 
 enum SpecialOperations{
-"1/x" = "1/x",
-"x²" = "x²",
-"√"  = "√",
-"%"  = "%"
+    "1/x" = "1/x",
+    "√"  = "√",
+    "%"  = "%"
+}
+
+enum Delimiter {
+    "." = ".",
 }
 
 export const useCalculator = () =>{
 
     const [operation, setOperation] = useState<string[]>([])
 
-    const getOperation = (currentOperation: typeof operation) =>
     //TODO - Polish array treatment when operation is empty
-    currentOperation.reduce((total,current)=> total + current)
+    const getOperation = (currentOperation: typeof operation) =>
+        currentOperation.reduce((total,current)=> total + current)
 
+    const handleCommonOperation = (
+        value:
+            | keyof typeof CommonOperations
+            | keyof typeof Delimiter
+            | keyof typeof Numeral,
+        currentOperation: typeof operation
+    ) => {
+        if (!currentOperation.length) {
+            setOperation([value]);
+        } else {
+            const lastIndex = currentOperation.length - 1;
+            const lastElement = currentOperation[lastIndex];
 
-    const handleCommonOperation = (value: string,currentOperation: typeof operation) =>{
-        if(!currentOperation.length){
-            setOperation([value])
-        }else{
-            const lastIndex = currentOperation.length -1;
-            const lastElement = currentOperation[lastIndex]
-
-            const incrementLastElement =(currentValue: string)=>{
-                setOperation((prevState)=>{
-                    const concat = lastElement + currentValue
-                    const prevStateCopy = [...prevState]
+            const incrementLastElement = (currentValue: string) => {
+                setOperation((prevState) => {
+                    const concat = lastElement + currentValue;
+                    const prevStateCopy = [...prevState];
                     prevStateCopy[lastIndex] = concat;
-                    return prevStateCopy
-                })
+                    return prevStateCopy;
+                });
+            };
 
-            }
+            if (Number.isNaN(Number(value))) {
+                const lastElementIsNaN = Number.isNaN(Number(lastElement));
 
-
-            if(Number.isNaN(Number(value))){
-                const lastElementIsNaN = Number.isNaN(Number(lastElement))
-
-                if(value === Delimiter["."]){
-                    if(!lastElementIsNaN){
-                        incrementLastElement(value)
+                if (value === Delimiter["."]) {
+                    if (!lastElementIsNaN) {
+                        incrementLastElement(value);
                     }
-               }else if(Object.keys(CommonOperations).includes(value)){
-                    if(!lastElementIsNaN)
-                        setOperation((prevState)=>{
-                            const prevStateCopy = [...prevState, value]
-                            return prevStateCopy
-                            })
-               }
-            }else{
-                if(Object.keys(CommonOperations).includes(lastElement)){
-                    setOperation((prevState)=>{
-                        const prevStateCopy = [...prevState, value]
-                        return prevStateCopy
-                        })
-                }else if(!Number.isNaN(Number(lastElement))){
-                    incrementLastElement(value)
+                } else if (Object.keys(CommonOperations).includes(value)) {
+                    if (!lastElementIsNaN)
+                        setOperation((prevState) => {
+                            const prevStateCopy = [...prevState, value];
+                            return prevStateCopy;
+                        });
+                }
+            } else {
+                if (Object.keys(CommonOperations).includes(lastElement)) {
+                    setOperation((prevState) => {
+                        const prevStateCopy = [...prevState, value];
+                        return prevStateCopy;
+                    });
+                } else if (!Number.isNaN(Number(lastElement))) {
+                    incrementLastElement(value);
                 }
             }
         }
+    };
 
-
-    }
     const handleClear = (clearType : "CE"|"C"|"<", currentOperation: typeof operation)=>{
         if(!currentOperation.length){
             return null
@@ -92,8 +107,6 @@ export const useCalculator = () =>{
 
         const lastIndex = currentOperation.length -1;
         const lastElement = currentOperation[lastIndex]
-
-
 
         switch (clearType) {
             case "CE":
@@ -130,6 +143,7 @@ export const useCalculator = () =>{
                 break;
         }
     }
+
     return {
         operation,
         getOperation,
