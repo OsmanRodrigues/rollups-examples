@@ -1,14 +1,8 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { sendInput, SendInputData } from "../../../../controller/send.controller";
-import { fetchNotices } from "../../../../controller/notices.controller";
-import { useService } from "../../../../controller/use-service/use-service.hook";
 import { ButtonType } from "./calculator-button";
 import {Button} from "./calculator-button";
-import { SendInputViewModel } from "../../../../service/send.service";
-import { NoticeViewModel } from "../../../../service/notices.service";
-
-
+import { useCalculator } from "./use-calculator";
 
 const Container = styled.div`
 `;
@@ -40,34 +34,39 @@ const Grid = styled.div`
 
 
 export const Calculator: React.FC<{}> = () =>{
+    const {operation,handleCommonOperation, getOperation,handleClear} = useCalculator()
+    console.log(operation)
     return <Container>
         <CurrentOperation>9+9+9</CurrentOperation>
         <Display>0</Display>
         <Grid>
             <Button buttonType = {ButtonType.Misc} label="%"  onClick = {()=>handleNumerical(1)}></Button>
-            <Button buttonType = {ButtonType.Misc} label="CE" onClick = {()=>handleNumerical(1)}></Button>
-            <Button buttonType = {ButtonType.Misc} label="C"  onClick = {()=>handleNumerical(1)}></Button>
-            <Button buttonType = {ButtonType.Misc} label="<"  onClick = {()=>handleNumerical(1)}></Button>
-            <Button buttonType = {ButtonType.Operation}  label="1/x" onClick = {()=>handleNumerical(1)}></Button>
-            <Button buttonType = {ButtonType.Operation}  label="x²" onClick = {()=>handleNumerical(1)}></Button>
-            <Button buttonType = {ButtonType.Operation}  label="√" onClick = {()=>handleNumerical(1)}></Button>
-            <Button buttonType = {ButtonType.Operation}  label="/" onClick = {()=>handleNumerical(1)}></Button>
-            <Button label="1" onClick = {()=>handleNumerical(1)}></Button>
-            <Button label="2" onClick = {()=>handleNumerical(2)}></Button>
-            <Button label="3" onClick = {()=>handleNumerical(3)}></Button>
-            <Button buttonType = {ButtonType.BasicOperation}  label="x" onClick = {()=>handleNumerical(1)}></Button>
-            <Button label="4" onClick = {()=>handleNumerical(4)}></Button>
-            <Button label="5" onClick = {()=>handleNumerical(5)}></Button>
-            <Button label="6" onClick = {()=>handleNumerical(6)}></Button>
-            <Button buttonType = {ButtonType.BasicOperation} label="-" onClick = {()=>handleNumerical(1)}></Button>
-            <Button label="7" onClick = {()=>handleNumerical(7)}></Button>
-            <Button label="8" onClick = {()=>handleNumerical(8)}></Button>
-            <Button label="9" onClick = {()=>handleNumerical(9)}></Button>
-            <Button buttonType = {ButtonType.BasicOperation} label="+" onClick = {()=>handleNumerical(1)}></Button>
-            <Button label="+/-" onClick = {()=>handleNumerical(1)}></Button>
-            <Button label="0" onClick = {()=>handleNumerical(0)} ></Button>
-            <Button label="," onClick = {()=>handleNumerical(1)}></Button>
-            <Button buttonType = {ButtonType.Equals} label="=" onClick = {()=>handleNumerical(1)}></Button>
+            <Button buttonType = {ButtonType.Misc} label="CE" onClick = {()=>handleClear("CE",operation)}></Button>
+            <Button buttonType = {ButtonType.Misc} label="C"  onClick = {()=>handleClear("C",operation)}></Button>
+            <Button buttonType = {ButtonType.Misc} label="<"  onClick = {()=>handleClear("<",operation)}></Button>
+            <Button buttonType = {ButtonType.Operation}  label="1/x" onClick = {()=>handleCommonOperation("1/x",operation)}></Button>
+            <Button buttonType = {ButtonType.Operation}  label="x²" onClick = {()=>handleCommonOperation("^",operation)}></Button>
+            <Button buttonType = {ButtonType.Operation}  label="√" onClick = {()=>handleCommonOperation("sqrt",operation)}></Button>
+            <Button buttonType = {ButtonType.Operation}  label="/" onClick = {()=>handleCommonOperation("/",operation)}></Button>
+            <Button label="1" onClick = {()=>handleCommonOperation("1",operation)}></Button>
+            <Button label="2" onClick = {()=>handleCommonOperation("2",operation)}></Button>
+            <Button label="3" onClick = {()=>handleCommonOperation("3",operation)}></Button>
+            <Button buttonType = {ButtonType.BasicOperation}  label="x" onClick = {()=>handleCommonOperation("*",operation)}></Button>
+            <Button label="4" onClick = {()=>handleCommonOperation("4",operation)}></Button>
+            <Button label="5" onClick = {()=>handleCommonOperation("5",operation)}></Button>
+            <Button label="6" onClick = {()=>handleCommonOperation("6",operation)}></Button>
+            <Button buttonType = {ButtonType.BasicOperation} label="-" onClick = {()=>handleCommonOperation("-",operation)}></Button>
+            <Button label="7" onClick = {()=>handleCommonOperation("7",operation)}></Button>
+            <Button label="8" onClick = {()=>handleCommonOperation("8",operation)}></Button>
+            <Button label="9" onClick = {()=>handleCommonOperation("9",operation)}></Button>
+            <Button buttonType = {ButtonType.BasicOperation} label="+" onClick = {()=>handleCommonOperation("+",operation)}></Button>
+            <Button label="+/-"></Button>
+            <Button label="0" onClick = {()=>handleCommonOperation("0",operation)} ></Button>
+            <Button label="," onClick = {()=>handleCommonOperation(".",operation)}></Button>
+            <Button buttonType = {ButtonType.Equals} label="=" onClick = {()=>{
+                const teste = getOperation(operation)
+                console.log(teste)
+            }}></Button>
         </Grid>
     </Container>;
 };
