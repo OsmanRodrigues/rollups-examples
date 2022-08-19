@@ -45,7 +45,7 @@ enum Delimiter {
 
 export const useCalculator = () =>{
 
-    const [operation, setOperation] = useState<string[]>([])
+    const [operation, setOperation] = useState<string[]>([]);
 
     //TODO - Polish array treatment when operation is empty
     const getOperation = (currentOperation: typeof operation) =>
@@ -57,7 +57,7 @@ export const useCalculator = () =>{
             | keyof typeof Delimiter
             | keyof typeof Numeral,
         currentOperation: typeof operation
-    ) => {
+    ): void => {
         if (!currentOperation.length) {
             setOperation([value]);
         } else {
@@ -94,9 +94,18 @@ export const useCalculator = () =>{
                         incrementOperation(value);
                 }
             } else {
-                if (Object.keys(CommonOperations).includes(lastElement)) {
+                if (lastElement in CommonOperations) {
                     incrementOperation(value);
-                } else if (!Number.isNaN(Number(lastElement))) {
+                } /*
+                    //TODO verify the possibility of do the sqrt case on submit
+                    else if (lastElement in SpecialOperations) {
+                        const typedLastElement = lastElement as SpecialOperations;
+                        handleSpecialOperation(typedLastElement, currentOperation, {
+                            [typedLastElement]: value,
+                        });
+                    }
+                */
+                else if (!Number.isNaN(Number(lastElement))) {
                     incrementLastElement(value);
                 }
             }
@@ -105,16 +114,23 @@ export const useCalculator = () =>{
 
     const handleSpecialOperation = (
         value: keyof typeof SpecialOperations,
-        currentOperation: typeof operation
-    ) => {
+        currentOperation: typeof operation,
+        queue?: {
+            [key in SpecialOperations]: string
+        }
+    ): void => {
         const lastIndex = currentOperation.length - 1;
         const lastElement = currentOperation[lastIndex];
+        const setExpression = (expression: string, lastPosition: number) => {
+            const operationCopy = currentOperation.slice(0, lastPosition);
+            operationCopy.push(expression);
+            setOperation(operationCopy);
+        }
 
         switch (value) {
             case "%":
-                if (currentOperation.length < 3) {
-                    break;
-                } else {
+                if (currentOperation.length < 3) break;
+                else {
                     const percentageExpressionElements = currentOperation.slice(
                         currentOperation.length - 3,
                         currentOperation.length
@@ -142,9 +158,20 @@ export const useCalculator = () =>{
                     setOperation(operationCopy);
                 }
                 break;
-            case "1/x":
-                break;
             case "sqrt":
+                if (!!queue) {
+                    const radicand = queue[value];
+                    const sqrtExpression = `(${value}(${radicand}))`;
+
+                    setExpression(sqrtExpression, currentOperation.length - 2);
+                }
+                else if (Number.isNaN(Number(lastElement))) {
+                    setOperation(prevState => [...prevState, value]);
+                }
+                else break;
+
+                break;
+            case "1/x":
                 break;
         }
     };
