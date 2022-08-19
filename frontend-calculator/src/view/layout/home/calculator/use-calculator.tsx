@@ -33,10 +33,10 @@ enum CommonOperations {
     "^" = "^",
 }
 
-enum SpecialOperations{
+enum SpecialOperations {
     "1/x" = "1/x",
-    "√"  = "√",
-    "%"  = "%"
+    "sqrt" = "sqrt",
+    "%" = "%",
 }
 
 enum Delimiter {
@@ -72,6 +72,12 @@ export const useCalculator = () =>{
                     return prevStateCopy;
                 });
             };
+            const incrementOperation = (currentValue: string) => {
+                setOperation((prevState) => {
+                    const prevStateCopy = [...prevState, currentValue];
+                    return prevStateCopy;
+                });
+            };
 
             if (Number.isNaN(Number(value))) {
                 const lastElementIsNaN = Number.isNaN(Number(lastElement));
@@ -81,22 +87,65 @@ export const useCalculator = () =>{
                         incrementLastElement(value);
                     }
                 } else if (Object.keys(CommonOperations).includes(value)) {
-                    if (!lastElementIsNaN)
-                        setOperation((prevState) => {
-                            const prevStateCopy = [...prevState, value];
-                            return prevStateCopy;
-                        });
+                    if (
+                        !lastElementIsNaN ||
+                        lastElement.startsWith("(")
+                    )
+                        incrementOperation(value);
                 }
             } else {
                 if (Object.keys(CommonOperations).includes(lastElement)) {
-                    setOperation((prevState) => {
-                        const prevStateCopy = [...prevState, value];
-                        return prevStateCopy;
-                    });
+                    incrementOperation(value);
                 } else if (!Number.isNaN(Number(lastElement))) {
                     incrementLastElement(value);
                 }
             }
+        }
+    };
+
+    const handleSpecialOperation = (
+        value: keyof typeof SpecialOperations,
+        currentOperation: typeof operation
+    ) => {
+        const lastIndex = currentOperation.length - 1;
+        const lastElement = currentOperation[lastIndex];
+
+        switch (value) {
+            case "%":
+                if (currentOperation.length < 3) {
+                    break;
+                } else {
+                    const percentageExpressionElements = currentOperation.slice(
+                        currentOperation.length - 3,
+                        currentOperation.length
+                    );
+
+                    for (const [index, element] of percentageExpressionElements.entries()) {
+                        if (
+                            (index === 0 || index === 2) &&
+                            Number.isNaN(Number(element))
+                        )
+                            break;
+                        else if (index === 1 && element !== CommonOperations["*"])
+                            break;
+                    }
+
+                    const percent = percentageExpressionElements[0];
+                    const targetTotal = percentageExpressionElements[2];
+                    const percentageExpression = `((${percent}/100)*${targetTotal})`;
+                    const operationCopy = currentOperation.slice(
+                        0,
+                        currentOperation.length - 3
+                    );
+
+                    operationCopy.push(percentageExpression);
+                    setOperation(operationCopy);
+                }
+                break;
+            case "1/x":
+                break;
+            case "sqrt":
+                break;
         }
     };
 
@@ -148,6 +197,7 @@ export const useCalculator = () =>{
         operation,
         getOperation,
         handleCommonOperation,
+        handleSpecialOperation,
         handleClear
     }
 
