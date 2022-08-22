@@ -43,6 +43,8 @@ enum Delimiter {
     "." = ".",
 }
 
+//TODO: extract functions from useCalculator hook
+
 export const useCalculator = () =>{
 
     const [mainOperation, setMainOperation] = useState<string[]>([]);
