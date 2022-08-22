@@ -45,28 +45,60 @@ enum Delimiter {
 
 export const useCalculator = () =>{
 
-    const [operation, setOperation] = useState<string[]>([]);
+    const [mainOperation, setMainOperation] = useState<string[]>([]);
+    const [hasMalformedExpression, setHasMalformedExpression] = useState(false);
 
-    //TODO - Polish array treatment when operation is empty
-    const getOperation = (currentOperation: typeof operation) =>
-        currentOperation.reduce((total,current)=> total + current)
+    const getOperation = (currentOperation: typeof mainOperation): string => {
+        if (!currentOperation.length) return '';
+        else if (currentOperation.length === 1) {
+            setHasMalformedExpression(true);
+
+            return "";
+        };
+
+        let operationCopy = [...currentOperation];
+        const lastIndex = operationCopy.length - 1;
+        const lastItem = operationCopy[lastIndex];
+
+        if (lastItem in CommonOperations || lastItem in SpecialOperations) {
+            setHasMalformedExpression(true);
+            return "";
+        } else if (
+            !Number.isNaN(Number(lastItem)) &&
+            //Has some especial operation in queue
+            operationCopy[lastIndex - 1] in SpecialOperations
+        ) {
+            const typedSpecialOperation = operationCopy[
+                lastIndex - 1
+            ] as SpecialOperations;
+            const typedNewOperation = handleSpecialOperation(
+                typedSpecialOperation,
+                operationCopy,
+                { next: "" }
+            ) as string[];
+
+            operationCopy = typedNewOperation;
+        }
+
+        return operationCopy.reduce((total, current) => total + current);
+    }
 
     const handleCommonOperation = (
         value:
             | keyof typeof CommonOperations
             | keyof typeof Delimiter
             | keyof typeof Numeral,
-        currentOperation: typeof operation
+        currentOperation: typeof mainOperation
     ): void => {
         if (!currentOperation.length) {
-            setOperation([value]);
+            setMainOperation([value]);
         } else {
             const lastIndex = currentOperation.length - 1;
             const lastElement = currentOperation[lastIndex];
             const isValueNaN = Number.isNaN(Number(value));
 
             const incrementLastElement = (currentValue: string) => {
-                setOperation((prevState) => {
+                setMainOperation((prevState) => {
                     const concat = lastElement + currentValue;
                     const prevStateCopy = [...prevState];
                     prevStateCopy[lastIndex] = concat;
@@ -74,7 +106,7 @@ export const useCalculator = () =>{
                 });
             };
             const incrementOperation = (currentValue: string) => {
-                setOperation((prevState) => {
+                setMainOperation((prevState) => {
                     const prevStateCopy = [...prevState, currentValue];
                     return prevStateCopy;
                 });
@@ -89,16 +121,12 @@ export const useCalculator = () =>{
                     }
                 } else if (value in CommonOperations) {
                     //Last element is an expression
-                    if (
-                        !lastElementIsNaN ||
-                        lastElement.startsWith("(")
-                    ) {
+                    if (!lastElementIsNaN || lastElement.startsWith("(")) {
                         //Has some especial operation in queue
-                        if (
-                            operation[lastIndex - 1] in SpecialOperations
-                        ) {
-                            const typedSpecialOperation =
-                                operation[lastIndex - 1] as SpecialOperations;
+                        if (currentOperation[lastIndex - 1] in SpecialOperations) {
+                            const typedSpecialOperation = currentOperation[
+                                lastIndex - 1
+                            ] as SpecialOperations;
                             handleSpecialOperation(
                                 typedSpecialOperation,
                                 currentOperation,
@@ -125,11 +153,11 @@ export const useCalculator = () =>{
 
     const handleSpecialOperation = (
         value: keyof typeof SpecialOperations,
-        currentOperation: typeof operation,
+        currentOperation: typeof mainOperation,
         queue?: {
-            next: keyof typeof CommonOperations;
+            next: keyof typeof CommonOperations | "";
         }
-    ): void => {
+    ): string[] | void => {
         const lastIndex = currentOperation.length - 1;
         const lastElement = currentOperation[lastIndex];
         const lastElementIsNan = Number.isNaN(Number(lastElement));
@@ -145,7 +173,13 @@ export const useCalculator = () =>{
             const typedNextOperation = currentQueue?.next as string;
 
             operationCopy.push(expression);
-            setOperation([...operationCopy, typedNextOperation]);
+            if (!!typedNextOperation) operationCopy.push(typedNextOperation);
+
+            const newOperation = [...operationCopy];
+
+            setMainOperation(newOperation);
+
+            if(typedNextOperation === "") return newOperation;
         };
 
         switch (value) {
@@ -182,31 +216,34 @@ export const useCalculator = () =>{
                     );
 
                     operationCopy.push(percentageExpression);
-                    setOperation(operationCopy);
+                    setMainOperation(operationCopy);
                 }
                 break;
             case "sqrt":
                 if (!!queue) {
                     const radicand = lastElement;
                     const sqrtExpression = `(${value}(${radicand}))`;
-                    handleQueuedOperation(sqrtExpression, queue);
+                    return handleQueuedOperation(sqrtExpression, queue);
                 } else if (lastElementIsNan) {
-                    setOperation((prevState) => [...prevState, value]);
+                    setMainOperation((prevState) => [...prevState, value]);
                 }
                 break;
             case "1/x":
                 if (!!queue) {
                     const divisor = lastElement;
                     const fractionExpression = `(1/${divisor})`;
-                    handleQueuedOperation(fractionExpression, queue);
+                    return handleQueuedOperation(fractionExpression, queue);
                 } else if (lastElementIsNan) {
-                    setOperation((prevState) => [...prevState, value]);
+                    setMainOperation((prevState) => [...prevState, value]);
                 }
                 break;
         }
     };
 
-    const handleClear = (clearType : "CE"|"C"|"<", currentOperation: typeof operation)=>{
+    const handleClear = (
+        clearType: "CE" | "C" | "<",
+        currentOperation: typeof mainOperation
+    ) => {
         if(!currentOperation.length){
             return null
         }
@@ -216,46 +253,50 @@ export const useCalculator = () =>{
 
         switch (clearType) {
             case "CE":
-                setOperation(()=>{
-                    const currentOperationCopy = [...currentOperation]
-                    currentOperation.pop()
+                setMainOperation(() => {
+                    const currentOperationCopy = [...currentOperation];
+                    currentOperation.pop();
 
-                    return currentOperationCopy
-                    })
+                    return currentOperationCopy;
+                });
                 break;
             case "C":
-                setOperation(()=>{
-                    return []
-                    })
+                setMainOperation(() => {
+                    return [];
+                });
                 break;
             case "<":
                 if(Number.isNaN(Number(lastElement))){
                     return null
                 }
-                setOperation(()=>{
-                    const currentOperationCopy = [...currentOperation]
-                    if(lastElement.length > 1){
-                        const newLastElement = lastElement.slice(0,lastElement.length -1)
-                        currentOperation.pop()
-                        currentOperation.push(newLastElement)
-
-                    }else{
-                        currentOperation.pop()
+                setMainOperation(() => {
+                    const currentOperationCopy = [...currentOperation];
+                    if (lastElement.length > 1) {
+                        const newLastElement = lastElement.slice(
+                            0,
+                            lastElement.length - 1
+                        );
+                        currentOperation.pop();
+                        currentOperation.push(newLastElement);
+                    } else {
+                        currentOperation.pop();
                     }
-                    return currentOperationCopy
-                    })
+                    return currentOperationCopy;
+                });
                 break;
             default:
                 break;
         }
+
+        setHasMalformedExpression(false);
     }
 
     return {
-        operation,
+        mainOperation,
+        hasMalformedExpression,
         getOperation,
         handleCommonOperation,
         handleSpecialOperation,
         handleClear
     }
-
 }
