@@ -63,6 +63,7 @@ export const useCalculator = () =>{
         } else {
             const lastIndex = currentOperation.length - 1;
             const lastElement = currentOperation[lastIndex];
+            const isValueNaN = Number.isNaN(Number(value));
 
             const incrementLastElement = (currentValue: string) => {
                 setOperation((prevState) => {
@@ -79,33 +80,41 @@ export const useCalculator = () =>{
                 });
             };
 
-            if (Number.isNaN(Number(value))) {
+            if (isValueNaN) {
                 const lastElementIsNaN = Number.isNaN(Number(lastElement));
 
                 if (value === Delimiter["."]) {
                     if (!lastElementIsNaN) {
                         incrementLastElement(value);
                     }
-                } else if (Object.keys(CommonOperations).includes(value)) {
+                } else if (value in CommonOperations) {
+                    //Last element is an expression
                     if (
                         !lastElementIsNaN ||
                         lastElement.startsWith("(")
-                    )
-                        incrementOperation(value);
+                    ) {
+                        //Has sqrt operation in queue
+                        if (
+                            operation[lastIndex - 1] === SpecialOperations.sqrt
+                        ) {
+                            handleSpecialOperation(
+                                "sqrt",
+                                currentOperation,
+                                {next: value as CommonOperations}
+                            );
+                        } else {
+                            incrementOperation(value);
+                        }
+                    }
                 }
             } else {
                 if (lastElement in CommonOperations) {
                     incrementOperation(value);
-                } /*
-                    //TODO verify the possibility of do the sqrt case on submit
-                    else if (lastElement in SpecialOperations) {
-                        const typedLastElement = lastElement as SpecialOperations;
-                        handleSpecialOperation(typedLastElement, currentOperation, {
-                            [typedLastElement]: value,
-                        });
+                } else if (lastElement in SpecialOperations) {
+                    if (!isValueNaN) {
+                        incrementOperation(value);
                     }
-                */
-                else if (!Number.isNaN(Number(lastElement))) {
+                } else if (!Number.isNaN(Number(lastElement))) {
                     incrementLastElement(value);
                 }
             }
@@ -116,16 +125,16 @@ export const useCalculator = () =>{
         value: keyof typeof SpecialOperations,
         currentOperation: typeof operation,
         queue?: {
-            [key in SpecialOperations]: string
+            next: keyof typeof CommonOperations;
         }
     ): void => {
         const lastIndex = currentOperation.length - 1;
         const lastElement = currentOperation[lastIndex];
-        const setExpression = (expression: string, lastPosition: number) => {
+        const getOperationWithExpression = (expression: string, lastPosition: number) => {
             const operationCopy = currentOperation.slice(0, lastPosition);
             operationCopy.push(expression);
-            setOperation(operationCopy);
-        }
+            return operationCopy;
+        };
 
         switch (value) {
             case "%":
@@ -136,13 +145,19 @@ export const useCalculator = () =>{
                         currentOperation.length
                     );
 
-                    for (const [index, element] of percentageExpressionElements.entries()) {
+                    for (const [
+                        index,
+                        element,
+                    ] of percentageExpressionElements.entries()) {
                         if (
                             (index === 0 || index === 2) &&
                             Number.isNaN(Number(element))
                         )
                             break;
-                        else if (index === 1 && element !== CommonOperations["*"])
+                        else if (
+                            index === 1 &&
+                            element !== CommonOperations["*"]
+                        )
                             break;
                     }
 
@@ -160,15 +175,15 @@ export const useCalculator = () =>{
                 break;
             case "sqrt":
                 if (!!queue) {
-                    const radicand = queue[value];
+                    const radicand = lastElement;
                     const sqrtExpression = `(${value}(${radicand}))`;
-
-                    setExpression(sqrtExpression, currentOperation.length - 2);
-                }
-                else if (Number.isNaN(Number(lastElement))) {
-                    setOperation(prevState => [...prevState, value]);
-                }
-                else break;
+                    const newOperation = getOperationWithExpression(
+                        sqrtExpression, currentOperation.length - 2
+                    );
+                    setOperation([...newOperation, queue.next])
+                } else if (Number.isNaN(Number(lastElement))) {
+                    setOperation((prevState) => [...prevState, value]);
+                } else break;
 
                 break;
             case "1/x":
