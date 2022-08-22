@@ -97,19 +97,21 @@ export const useCalculator = () =>{
             const lastElement = currentOperation[lastIndex];
             const isValueNaN = Number.isNaN(Number(value));
 
-            const incrementLastElement = (currentValue: string) => {
-                setMainOperation((prevState) => {
-                    const concat = lastElement + currentValue;
-                    const prevStateCopy = [...prevState];
-                    prevStateCopy[lastIndex] = concat;
-                    return prevStateCopy;
-                });
+            const incrementLastElement = (
+                currentValue: string,
+                operation: typeof currentOperation
+            ) => {
+                const concat = lastElement + currentValue;
+                const operationCopy = [...operation];
+                operationCopy[lastIndex] = concat;
+                setMainOperation(operationCopy);
             };
-            const incrementOperation = (currentValue: string) => {
-                setMainOperation((prevState) => {
-                    const prevStateCopy = [...prevState, currentValue];
-                    return prevStateCopy;
-                });
+            const incrementOperation = (
+                currentValue: string,
+                operation: typeof currentOperation
+            ) => {
+                const operationCopy = [...operation, currentValue];
+                setMainOperation(operationCopy);
             };
 
             if (isValueNaN) {
@@ -117,7 +119,7 @@ export const useCalculator = () =>{
 
                 if (value === Delimiter["."]) {
                     if (!lastElementIsNaN) {
-                        incrementLastElement(value);
+                        incrementLastElement(value, currentOperation);
                     }
                 } else if (value in CommonOperations) {
                     //Last element is an expression
@@ -133,19 +135,19 @@ export const useCalculator = () =>{
                                 { next: value as CommonOperations }
                             );
                         } else {
-                            incrementOperation(value);
+                            incrementOperation(value, currentOperation);
                         }
                     }
                 }
             } else {
                 if (lastElement in CommonOperations) {
-                    incrementOperation(value);
+                    incrementOperation(value, currentOperation);
                 } else if (lastElement in SpecialOperations) {
                     if (!isValueNaN) {
-                        incrementOperation(value);
+                        incrementOperation(value, currentOperation);
                     }
                 } else if (!Number.isNaN(Number(lastElement))) {
-                    incrementLastElement(value);
+                    incrementLastElement(value, currentOperation);
                 }
             }
         }
