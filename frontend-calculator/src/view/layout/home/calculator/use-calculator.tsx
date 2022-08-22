@@ -93,14 +93,16 @@ export const useCalculator = () =>{
                         !lastElementIsNaN ||
                         lastElement.startsWith("(")
                     ) {
-                        //Has sqrt operation in queue
+                        //Has some especial operation in queue
                         if (
-                            operation[lastIndex - 1] === SpecialOperations.sqrt
+                            operation[lastIndex - 1] in SpecialOperations
                         ) {
+                            const typedSpecialOperation =
+                                operation[lastIndex - 1] as SpecialOperations;
                             handleSpecialOperation(
-                                "sqrt",
+                                typedSpecialOperation,
                                 currentOperation,
-                                {next: value as CommonOperations}
+                                { next: value as CommonOperations }
                             );
                         } else {
                             incrementOperation(value);
@@ -130,10 +132,20 @@ export const useCalculator = () =>{
     ): void => {
         const lastIndex = currentOperation.length - 1;
         const lastElement = currentOperation[lastIndex];
-        const getOperationWithExpression = (expression: string, lastPosition: number) => {
-            const operationCopy = currentOperation.slice(0, lastPosition);
+        const lastElementIsNan = Number.isNaN(Number(lastElement));
+
+        const handleQueuedOperation = (
+            expression: string,
+            currentQueue = queue
+        ) => {
+            const operationCopy = currentOperation.slice(
+                0,
+                currentOperation.length - 2
+            );
+            const typedNextOperation = currentQueue?.next as string;
+
             operationCopy.push(expression);
-            return operationCopy;
+            setOperation([...operationCopy, typedNextOperation]);
         };
 
         switch (value) {
@@ -177,16 +189,19 @@ export const useCalculator = () =>{
                 if (!!queue) {
                     const radicand = lastElement;
                     const sqrtExpression = `(${value}(${radicand}))`;
-                    const newOperation = getOperationWithExpression(
-                        sqrtExpression, currentOperation.length - 2
-                    );
-                    setOperation([...newOperation, queue.next])
-                } else if (Number.isNaN(Number(lastElement))) {
+                    handleQueuedOperation(sqrtExpression, queue);
+                } else if (lastElementIsNan) {
                     setOperation((prevState) => [...prevState, value]);
-                } else break;
-
+                }
                 break;
             case "1/x":
+                if (!!queue) {
+                    const divisor = lastElement;
+                    const fractionExpression = `(1/${divisor})`;
+                    handleQueuedOperation(fractionExpression, queue);
+                } else if (lastElementIsNan) {
+                    setOperation((prevState) => [...prevState, value]);
+                }
                 break;
         }
     };
