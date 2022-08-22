@@ -12,20 +12,20 @@
 import { InputAddedEvent } from "@cartesi/rollups/dist/src/types/contracts/interfaces/IInput";
 import { ContractReceipt, ethers } from "ethers";
 import { Argv } from "yargs";
-import { NoticeKeys } from "../../generated-src/graphql";
+import { InputKeys } from "../types";
 import {
     connect,
     Args as ConnectArgs,
     builder as connectBuilder,
-} from "../connect";
+} from "../../connect";
 import {
     rollups,
     Args as RollupsArgs,
     builder as rollupsBuilder,
-} from "../rollups";
+} from "../../rollups";
 
 interface Args extends ConnectArgs, RollupsArgs {
-    input: string;
+    payload: string;
 }
 
 export const command = "send";
@@ -39,19 +39,19 @@ export const builder = (yargs: Argv<{}>): Argv<Args> => {
     const rollupsArgs = rollupsBuilder(connectArgs);
 
     // this command args
-    return rollupsArgs.option("input", {
-        describe: "Input message to send",
+    return rollupsArgs.option("payload", {
+        describe: "Input payload to send",
         type: "string",
         demandOption: true,
     });
 };
 
 /**
- * Translate a InputAddedEvent into a NoticeKeys
+ * Retrieve InputKeys from an InputAddedEvent
  * @param receipt Blockchain transaction receipt
- * @returns NoticeKeys to find notice in GraphQL server
+ * @returns input identification keys
  */
-export const findNoticeKeys = (receipt: ContractReceipt): NoticeKeys => {
+export const getInputKeys = (receipt: ContractReceipt): InputKeys => {
     // get InputAddedEvent from transaction receipt
     const event = receipt.events?.find((e) => e.event === "InputAdded");
 
@@ -63,13 +63,13 @@ export const findNoticeKeys = (receipt: ContractReceipt): NoticeKeys => {
 
     const inputAdded = event as InputAddedEvent;
     return {
-        epoch_index: inputAdded.args.epochNumber.toString(),
-        input_index: inputAdded.args.inputIndex.toString(),
+        epoch_index: inputAdded.args.epochNumber.toNumber(),
+        input_index: inputAdded.args.inputIndex.toNumber(),
     };
 };
 
 export const handler = async (args: Args) => {
-    const { rpc, input, mnemonic, accountIndex } = args;
+    const { rpc, payload, mnemonic, accountIndex } = args;
 
     // connect to provider
     console.log(`connecting to ${rpc}`);
@@ -89,10 +89,10 @@ export const handler = async (args: Args) => {
     console.log(`using account "${signerAddress}"`);
 
     // use message from command line option, or from user prompt
-    console.log(`sending "${input}"`);
+    console.log(`sending "${payload}"`);
 
     // convert string to input bytes
-    const inputBytes = ethers.utils.toUtf8Bytes(input);
+    const inputBytes = ethers.utils.toUtf8Bytes(payload);
 
     // send transaction
     const tx = await inputContract.addInput(inputBytes);
@@ -101,8 +101,8 @@ export const handler = async (args: Args) => {
     const receipt = await tx.wait(1);
 
     // find reference to notice from transaction receipt
-    const noticeKeys = findNoticeKeys(receipt);
+    const inputKeys = getInputKeys(receipt);
     console.log(
-        `input ${noticeKeys.input_index} added to epoch ${noticeKeys.epoch_index}`
+        `input ${inputKeys.input_index} added to epoch ${inputKeys.epoch_index}`
     );
 };

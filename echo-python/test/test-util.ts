@@ -149,7 +149,7 @@ export const parseArgs = (argv: string[]): TestOptions => {
 
 export const sendInput = async (input: string): Promise<string> => {
     const cmd = "yarn";
-    const args = ["start", "send", "--input", input];
+    const args = ["start", "input", "send", "--payload", input];
     const options = { cwd: CONSOLE };
     const io = await _execCommand(cmd, args, options);
 
@@ -165,7 +165,8 @@ export const queryNotices = async (
     const cmd = "yarn";
     const args = [
         "start",
-        "notices",
+        "notice",
+        "list",
         "--epoch",
         epoch.toString(),
         "--input",
@@ -392,7 +393,8 @@ export class PollingServerManagerClient {
 
     async getProcessedInputs(
         epoch: number,
-        timeout: number
+        timeout: number,
+        expectedInputCount: number
     ): Promise<ProcessedInput[]> {
         let count = 0;
         let status: GetEpochStatusResponse;
@@ -405,7 +407,7 @@ export class PollingServerManagerClient {
                 let pendingInputsCount = status.pendingInputCount ?? 0;
                 let processedInputsCount = status.processedInputs?.length ?? 0;
 
-                if (pendingInputsCount == 0 && processedInputsCount > 0) {
+                if (pendingInputsCount == 0 && processedInputsCount >= expectedInputCount) {
                     return status.processedInputs ?? [];
                 }
             } catch (error: any) {
