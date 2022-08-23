@@ -150,9 +150,7 @@ export const useCalculator = () =>{
                 if (lastElement in CommonOperations) {
                     incrementOperation(value, currentOperation);
                 } else if (lastElement in SpecialOperations) {
-                    if (!isValueNaN) {
-                        incrementOperation(value, currentOperation);
-                    }
+                    incrementOperation(value, currentOperation);
                 } else if (!Number.isNaN(Number(lastElement))) {
                     incrementLastElement(value, currentOperation);
                 }
@@ -182,13 +180,14 @@ export const useCalculator = () =>{
             const typedNextOperation = currentQueue?.next as string;
 
             operationCopy.push(expression);
+
             if (!!typedNextOperation) operationCopy.push(typedNextOperation);
 
             const newOperation = [...operationCopy];
 
-            setMainOperation(newOperation);
-
             if (typedNextOperation === "") return newOperation;
+
+            setMainOperation(newOperation);
         };
 
         switch (value) {

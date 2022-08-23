@@ -47,17 +47,14 @@ export const Calculator: React.FC<{}> = () =>{
     useEffect(() => {
         if (mainOperation.length >= 4) {
             const operationStr = getOperation(mainOperation);
-            console.log({ operationStr, mainOperation });
-
             setOperationDisplay(operationStr);
         } else if (mainOperation.length === 0) setOperationDisplay("");
     }, [mainOperation]);
 
     return <Container>
-        {/* <CurrentOperation style={{border: '1px solid red'}}> */}
-        <h1 style={{border: '1px solid red'}}>
-            {operationDisplay ?? '0'}
-        </h1>
+        <CurrentOperation>
+            {operationDisplay || '0'}
+        </CurrentOperation>
 
         <Display>0</Display>
         <Grid>
