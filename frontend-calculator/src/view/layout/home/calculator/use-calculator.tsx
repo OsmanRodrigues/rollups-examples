@@ -46,26 +46,29 @@ enum Delimiter {
 //TODO: extract functions from useCalculator hook
 
 export const useCalculator = () =>{
-
     const [mainOperation, setMainOperation] = useState<string[]>([]);
-    const [hasMalformedExpression, setHasMalformedExpression] = useState(false);
+    //TODO: Transfer this validation to parent
+    //const [hasMalformedExpression, setHasMalformedExpression] = useState(false);
 
     const getOperation = (currentOperation: typeof mainOperation): string => {
-        if (!currentOperation.length) return '';
-        else if (currentOperation.length === 1) {
-            setHasMalformedExpression(true);
-
-            return "";
-        };
+        if (!currentOperation.length) return "";
+        //TODO: Transfer this validation to parent
+        //else if (currentOperation.length === 1) {
+        //    setHasMalformedExpression(true);
+        //    return "";
+        //};
 
         let operationCopy = [...currentOperation];
         const lastIndex = operationCopy.length - 1;
         const lastItem = operationCopy[lastIndex];
 
-        if (lastItem in CommonOperations || lastItem in SpecialOperations) {
-            setHasMalformedExpression(true);
-            return "";
-        } else if (
+        //TODO: Transfer this validation to parent
+        ///if (lastItem in CommonOperations || lastItem in SpecialOperations) {
+        ///    setHasMalformedExpression(true);
+        ///    return "";
+        ///}
+
+        if (
             !Number.isNaN(Number(lastItem)) &&
             //Has some especial operation in queue
             operationCopy[lastIndex - 1] in SpecialOperations
@@ -83,7 +86,7 @@ export const useCalculator = () =>{
         }
 
         return operationCopy.reduce((total, current) => total + current);
-    }
+    };
 
     const handleCommonOperation = (
         value:
@@ -127,7 +130,9 @@ export const useCalculator = () =>{
                     //Last element is an expression
                     if (!lastElementIsNaN || lastElement.startsWith("(")) {
                         //Has some especial operation in queue
-                        if (currentOperation[lastIndex - 1] in SpecialOperations) {
+                        if (
+                            currentOperation[lastIndex - 1] in SpecialOperations
+                        ) {
                             const typedSpecialOperation = currentOperation[
                                 lastIndex - 1
                             ] as SpecialOperations;
@@ -183,7 +188,7 @@ export const useCalculator = () =>{
 
             setMainOperation(newOperation);
 
-            if(typedNextOperation === "") return newOperation;
+            if (typedNextOperation === "") return newOperation;
         };
 
         switch (value) {
@@ -248,12 +253,12 @@ export const useCalculator = () =>{
         clearType: "CE" | "C" | "<",
         currentOperation: typeof mainOperation
     ) => {
-        if(!currentOperation.length){
-            return null
+        if (!currentOperation.length) {
+            return null;
         }
 
-        const lastIndex = currentOperation.length -1;
-        const lastElement = currentOperation[lastIndex]
+        const lastIndex = currentOperation.length - 1;
+        const lastElement = currentOperation[lastIndex];
 
         switch (clearType) {
             case "CE":
@@ -270,8 +275,8 @@ export const useCalculator = () =>{
                 });
                 break;
             case "<":
-                if(Number.isNaN(Number(lastElement))){
-                    return null
+                if (Number.isNaN(Number(lastElement))) {
+                    return null;
                 }
                 setMainOperation(() => {
                     const currentOperationCopy = [...currentOperation];
@@ -291,16 +296,13 @@ export const useCalculator = () =>{
             default:
                 break;
         }
-
-        setHasMalformedExpression(false);
-    }
+    };
 
     return {
         mainOperation,
-        hasMalformedExpression,
         getOperation,
         handleCommonOperation,
         handleSpecialOperation,
-        handleClear
-    }
+        handleClear,
+    };
 }

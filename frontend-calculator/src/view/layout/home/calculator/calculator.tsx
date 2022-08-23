@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ButtonType } from "./calculator-button";
 import {Button} from "./calculator-button";
@@ -36,15 +36,29 @@ const Grid = styled.div`
 export const Calculator: React.FC<{}> = () =>{
     const {
         mainOperation,
-        hasMalformedExpression,
         handleCommonOperation,
         handleSpecialOperation,
         handleClear,
         getOperation,
     } = useCalculator();
 
+    const [operationDisplay, setOperationDisplay] = useState("");
+
+    useEffect(() => {
+        if (mainOperation.length >= 4) {
+            const operationStr = getOperation(mainOperation);
+            console.log({ operationStr, mainOperation });
+
+            setOperationDisplay(operationStr);
+        } else if (mainOperation.length === 0) setOperationDisplay("");
+    }, [mainOperation]);
+
     return <Container>
-        <CurrentOperation>9+9+9</CurrentOperation>
+        {/* <CurrentOperation style={{border: '1px solid red'}}> */}
+        <h1 style={{border: '1px solid red'}}>
+            {operationDisplay ?? '0'}
+        </h1>
+
         <Display>0</Display>
         <Grid>
             <Button buttonType = {ButtonType.Misc} label="%"  onClick = {()=>handleSpecialOperation("%", mainOperation)}/>
