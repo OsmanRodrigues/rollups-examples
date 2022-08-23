@@ -41,8 +41,14 @@ export const Calculator: React.FC<{}> = () =>{
         handleClear,
         getOperation,
     } = useCalculator();
-
     const [operationDisplay, setOperationDisplay] = useState("");
+
+    const getCurrentOperationDisplay = (
+        currentOperation: typeof mainOperation
+    ): string => {
+        if (currentOperation.length <= 3) return getOperation(currentOperation);
+        return getOperation(currentOperation.slice(-3));
+    };
 
     useEffect(() => {
         if (mainOperation.length >= 4) {
@@ -56,7 +62,9 @@ export const Calculator: React.FC<{}> = () =>{
             {operationDisplay || '0'}
         </CurrentOperation>
 
-        <Display>0</Display>
+        <Display>
+            {getCurrentOperationDisplay(mainOperation) || '0'}
+        </Display>
         <Grid>
             <Button buttonType = {ButtonType.Misc} label="%"  onClick = {()=>handleSpecialOperation("%", mainOperation)}/>
             <Button buttonType = {ButtonType.Misc} label="CE" onClick = {()=>handleClear("CE",mainOperation)}/>
