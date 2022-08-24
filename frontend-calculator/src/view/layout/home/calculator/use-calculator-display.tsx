@@ -5,8 +5,13 @@ export const useCalculatorDisplay = (
     operation: string[],
     getOperation: (currentOperation: typeof operation)=> string
 ) => {
-    const [inputtedOperation, setInputtedOperation] = useState("");
-
+    const getInputtedOperation = (currentOperation: typeof operation): string => {
+        if (currentOperation.length >= 4) {
+            return getOperation(currentOperation);
+        } else {
+            return "";
+        }
+    };
     const getInputtingOperation = (
         currentOperation: typeof operation
     ): string => {
@@ -29,18 +34,9 @@ export const useCalculatorDisplay = (
         return false;
     };
 
-    useEffect(() => {
-        if (operation.length >= 4) {
-            const operationStr = getOperation(operation);
-            setInputtedOperation(operationStr);
-        } else {
-            if (!!inputtedOperation) setInputtedOperation("");
-        }
-    }, [operation]);
-
     return {
-        inputtedOperation,
+        getInputtedOperation,
+        getInputtingOperation,
         hasMalformedExpression,
-        getInputtingOperation
-    }
+    };
 }
