@@ -20,7 +20,7 @@ export const Calculator: React.FC<{}> = () =>{
         getOperation,
     } = useCalculator();
     const {
-        inputtedOperation,
+        getInputtedOperation,
         getInputtingOperation,
         hasMalformedExpression
     } = useCalculatorDisplay(mainOperation, getOperation);
@@ -38,7 +38,7 @@ export const Calculator: React.FC<{}> = () =>{
         <CalculatorWrapper>
             <InputtedOperationDisplay>
                 <Paragraph noPadding>
-                    {inputtedOperation || '0'}
+                    {getInputtedOperation(mainOperation) || '0'}
                 </Paragraph>
             </InputtedOperationDisplay>
             <InputtingOperationDisplay>
