@@ -4,6 +4,7 @@ const brandColor = {
     mediumMain: "#332C63",
     sweetMain: "#C4A8FF",
     displayMain: "#6D66A1",
+    buttonNumeric: "#5442c9",
     buttonOperation: "#3D3675",
     buttonEquals: "#5B1F89",
     buttonBasicOperation: "#3D3675",
@@ -128,10 +129,11 @@ export const zIndex = {
 };
 
 export const linearGradient = {
-    ocean: `linear-gradient(
-        165.59deg,
-        #abdbff95 -64.65%,
-        #a8ffff -2.09%,
-        #afa8ff00 74.49%
-    )`,
+    homeInteractiveWrapper: `linear-gradient(
+        151.78deg,
+        #532D65
+        -55.95%,
+        rgba(61, 60, 126, 0) 79.8%)
+    `,
 };
+

@@ -14,6 +14,8 @@ import { SendInputForm } from "./send-input.form";
 import { FeedbackBoard } from "./feedback.board";
 import {Calculator} from "./calculator/calculator";
 import { Description } from "./description/description";
+import { Separator } from "../../atomic/layout.org/separator.mol/separator.atm";
+import { InteractiveBoardWrapper } from "./home.style";
 
 export const HomeView: FC = () => {
     const [noticesState, noticesDispatch] = useService<NoticeViewModel[]>();
@@ -57,18 +59,22 @@ export const HomeView: FC = () => {
     return (
         <SharedLayout>
             <Row>
-            <Description></Description>
-            <Col></Col>
-            <Calculator></Calculator>
-                <FeedbackBoard
-                    data={noticesState.data ?? []}
-                    status={
-                        sendInputState.status === "pending"
-                            ? "pending"
-                            : noticesState.status
-                    }
-                />
-
+                <Col md={4}>
+                    <Description />
+                </Col>
+                <Col md={8}>
+                    <InteractiveBoardWrapper>
+                        <Calculator />
+                        <FeedbackBoard
+                            data={noticesState.data ?? []}
+                            status={
+                                sendInputState.status === "pending"
+                                    ? "pending"
+                                    : noticesState.status
+                            }
+                        />
+                    </InteractiveBoardWrapper>
+                </Col>
             </Row>
         </SharedLayout>
     );
