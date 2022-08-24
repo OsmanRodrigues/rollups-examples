@@ -1,8 +1,13 @@
+import { Col } from "react-grid-system";
 import styled from "styled-components";
-import { border, color } from "../../../atomic/styleguide.atm";
+import { border, color, radius } from "../../../atomic/styleguide.atm";
 import { ButtonType } from "./calculator-button";
 
-export const CalculatorWrapper = styled.div``;
+export const CalculatorWrapper = styled(Col)`
+    @media only screen and (max-width: 768px) {
+        padding-bottom: 1rem;
+    }
+`;
 
 export const InputtedOperationDisplay = styled.div`
     text-align: right;
@@ -28,12 +33,13 @@ export const CalculatorButtonGrid = styled.div`
     grid-template-columns: repeat(4, 74px);
     grid-template-rows: [row1-start] 10% [row1-end] repeat(5, 44px);
     grid-gap: 10px;
+    justify-content: right;
 `;
 
 export const CalculatorButtonWrapper = styled.button`
-    background: #5442c9;
+    background: ${color.buttonNumeric};
     border: none;
-    border-radius: 3px;
+    border-radius: ${radius.md};
     font-size: 1.68rem;
     line-height: 32px;
     font-style: normal;
