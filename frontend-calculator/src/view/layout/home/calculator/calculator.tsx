@@ -6,7 +6,7 @@ import {
     CalculatorWrapper,
     InputtedOperationDisplay,
     InputtingOperationDisplay,
-    Grid
+    CalculatorButtonGrid
 } from "./calculator.style";
 import { useCalculatorDisplay } from "./use-calculator-display";
 import { Paragraph } from "../../../atomic/typography.mol";
@@ -46,7 +46,7 @@ export const Calculator: React.FC<{}> = () =>{
             {showMalformedWarning ? (
                 <Paragraph justify="end">Malformed expression</Paragraph>
             ) : null}
-            <Grid>
+            <CalculatorButtonGrid>
                 <CalculatorButton
                     buttonType={ButtonType.Misc}
                     children="%"
@@ -153,7 +153,7 @@ export const Calculator: React.FC<{}> = () =>{
                     children="+"
                     onClick={() => handleCommonOperation("+", mainOperation)}
                 />
-                <CalculatorButton children="+/-" />
+                <CalculatorButton disabled />
                 <CalculatorButton
                     children="0"
                     onClick={() => handleCommonOperation("0", mainOperation)}
@@ -167,7 +167,7 @@ export const Calculator: React.FC<{}> = () =>{
                     children="="
                     onClick={() => handleSubmit(mainOperation)}
                 />
-            </Grid>
+            </CalculatorButtonGrid>
         </CalculatorWrapper>
     );
 };
