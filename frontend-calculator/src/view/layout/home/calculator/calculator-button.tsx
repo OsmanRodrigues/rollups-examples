@@ -1,9 +1,8 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import { CalculatorButtonWrapper } from "./calculator.style";
 
 type Props = React.HTMLProps<HTMLButtonElement> &{
     buttonType?: ButtonType,
-    label: string;
     background?: string;
     color?: string;
     fontsize?: number;
@@ -17,7 +16,11 @@ export enum ButtonType{
     Equals
 }
 
-export const Button: React.FC<Props> = ({type = ButtonType.Number,label,onClick}) =>{
+export const CalculatorButton: React.FC<PropsWithChildren<Props>> = ({
+    type = ButtonType.Number,
+    onClick,
+    children
+}) => {
     const styles: React.CSSProperties = {};
     if(type == ButtonType.Misc){
         styles.background = "#FFFFFF";
@@ -43,9 +46,9 @@ export const Button: React.FC<Props> = ({type = ButtonType.Number,label,onClick}
 
     return (
         <CalculatorButtonWrapper style={styles} onClick={onClick}>
-            {label}
+            {children}
         </CalculatorButtonWrapper>
-    )
+    );
 }
 
 
