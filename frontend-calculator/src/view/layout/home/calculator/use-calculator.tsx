@@ -274,21 +274,22 @@ export const useCalculator = () =>{
                 });
                 break;
             case "<":
-                if (Number.isNaN(Number(lastElement))) {
-                    return null;
-                }
                 setMainOperation(() => {
                     const currentOperationCopy = [...currentOperation];
-                    if (lastElement.length > 1) {
+
+                    if (
+                        !Number.isNaN(Number(lastElement)) &&
+                        lastElement.length > 1
+                    ) {
                         const newLastElement = lastElement.slice(
                             0,
                             lastElement.length - 1
                         );
                         currentOperation.pop();
                         currentOperation.push(newLastElement);
-                    } else {
-                        currentOperation.pop();
                     }
+                    else currentOperation.pop();
+
                     return currentOperationCopy;
                 });
                 break;

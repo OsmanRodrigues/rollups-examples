@@ -8,6 +8,7 @@ import {
     InputtingOperationDisplay,
     Grid
 } from "./calculator.style";
+import { useCalculatorDisplay } from "./use-calculator-display";
 
 export const Calculator: React.FC<{}> = () =>{
     const {
@@ -17,21 +18,10 @@ export const Calculator: React.FC<{}> = () =>{
         handleClear,
         getOperation,
     } = useCalculator();
-    const [inputtedOperation, setInputtedOperation] = useState("");
-
-    const getInputtingOperation = (
-        currentOperation: typeof mainOperation
-    ): string => {
-        if (currentOperation.length <= 3) return getOperation(currentOperation);
-        return getOperation(currentOperation.slice(-3));
-    };
-
-    useEffect(() => {
-        if (mainOperation.length >= 4) {
-            const operationStr = getOperation(mainOperation);
-            setInputtedOperation(operationStr);
-        } else if (mainOperation.length === 0) setInputtedOperation("");
-    }, [mainOperation]);
+    const {
+        getInputtingOperation,
+        inputtedOperation
+    } = useCalculatorDisplay(mainOperation, getOperation);
 
     return (
         <CalculatorWrapper>
