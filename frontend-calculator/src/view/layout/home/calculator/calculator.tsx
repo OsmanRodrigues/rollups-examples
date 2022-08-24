@@ -9,6 +9,7 @@ import {
     Grid
 } from "./calculator.style";
 import { useCalculatorDisplay } from "./use-calculator-display";
+import { Paragraph } from "../../../atomic/typography.mol";
 
 export const Calculator: React.FC<{}> = () =>{
     const {
@@ -19,23 +20,52 @@ export const Calculator: React.FC<{}> = () =>{
         getOperation,
     } = useCalculator();
     const {
+        inputtedOperation,
         getInputtingOperation,
-        inputtedOperation
+        hasMalformedExpression
     } = useCalculatorDisplay(mainOperation, getOperation);
+    const [showMalformedWarning, setShowMalformedWarning] = useState(false);
+
+    const handleSubmit = (operation: typeof mainOperation) => {
+        if (hasMalformedExpression(operation)) setShowMalformedWarning(true);
+        else {
+            const teste = getOperation(operation);
+            console.log(teste);
+        }
+    };
 
     return (
         <CalculatorWrapper>
             <InputtedOperationDisplay>
-                {inputtedOperation || '0'}
+                <Paragraph noPadding>
+                    {inputtedOperation || '0'}
+                </Paragraph>
             </InputtedOperationDisplay>
             <InputtingOperationDisplay>
-                {getInputtingOperation(mainOperation) || '0'}
+                <Paragraph noPadding>
+                    {getInputtingOperation(mainOperation) || '0'}
+                </Paragraph>
             </InputtingOperationDisplay>
+            {showMalformedWarning ?
+                <Paragraph justify="end">Malformed expression</Paragraph>
+            : null}
             <Grid>
                 <Button buttonType = {ButtonType.Misc} label="%"  onClick = {()=>handleSpecialOperation("%", mainOperation)}/>
-                <Button buttonType = {ButtonType.Misc} label="CE" onClick = {()=>handleClear("CE",mainOperation)}/>
-                <Button buttonType = {ButtonType.Misc} label="C"  onClick = {()=>handleClear("C",mainOperation)}/>
-                <Button buttonType = {ButtonType.Misc} label="<"  onClick = {()=>handleClear("<",mainOperation)}/>
+                <Button buttonType = {ButtonType.Misc} label="CE" onClick = {()=>handleClear(
+                        "CE",
+                        mainOperation,
+                        ()=> {setShowMalformedWarning(false)}
+                    )}/>
+                <Button buttonType = {ButtonType.Misc} label="C"  onClick = {()=>handleClear(
+                        "C",
+                        mainOperation,
+                        ()=> {setShowMalformedWarning(false)}
+                    )}/>
+                <Button buttonType = {ButtonType.Misc} label="<"  onClick = {()=>handleClear(
+                        "<",
+                        mainOperation,
+                        ()=> {setShowMalformedWarning(false)}
+                    )}/>
                 <Button buttonType = {ButtonType.Operation}  label="1/x" onClick = {()=>handleSpecialOperation("1/x",mainOperation)}/>
                 <Button buttonType = {ButtonType.Operation}  label="x²" onClick = {()=>handleCommonOperation("^",mainOperation)}/>
                 <Button buttonType = {ButtonType.Operation}  label="√" onClick = {()=>handleSpecialOperation("sqrt",mainOperation)}/>
@@ -55,10 +85,7 @@ export const Calculator: React.FC<{}> = () =>{
                 <Button label="+/-"/>
                 <Button label="0" onClick = {()=>handleCommonOperation("0",mainOperation)} />
                 <Button label="," onClick = {()=>handleCommonOperation(".",mainOperation)}/>
-                <Button buttonType = {ButtonType.Equals} label="=" onClick = {()=>{
-                    const teste = getOperation(mainOperation)
-                    console.log(teste)
-                }}/>
+                <Button buttonType = {ButtonType.Equals} label="=" onClick = {()=> handleSubmit(mainOperation)}/>
             </Grid>
         </CalculatorWrapper>
     )
