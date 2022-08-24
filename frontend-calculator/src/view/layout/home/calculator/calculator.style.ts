@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { color } from "../../../atomic/styleguide.atm";
+import { border, color } from "../../../atomic/styleguide.atm";
+import { ButtonType } from "./calculator-button";
 
 export const CalculatorWrapper = styled.div``;
 
@@ -22,10 +23,10 @@ export const InputtingOperationDisplay = styled.div`
     }
 `;
 
-export const Grid = styled.div`
+export const CalculatorButtonGrid = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 74px);
-    grid-template-rows: [row1-start] 25% [row1-end] repeat(5, 44px);
+    grid-template-rows: [row1-start] 10% [row1-end] repeat(5, 44px);
     grid-gap: 10px;
 `;
 
@@ -39,4 +40,39 @@ export const CalculatorButtonWrapper = styled.button`
     font-weight: bold;
     color: #ffffff;
     text-align: center;
+    &:disabled {
+        background: ${color.buttonOperation};
+        border: ${border.general} ${color.mediumMain};
+    }
 `;
+
+export const getCalculatorButtonStyles = (type: ButtonType): React.CSSProperties => {
+    if (type == ButtonType.Misc) {
+        return {
+            background: color.white,
+            color: color.dark,
+            fontSize: '0.875rem',
+            fontWeight: 700,
+        };
+    } else if (type == ButtonType.Operation) {
+        return {
+            background: color.buttonOperation,
+            color: color.white,
+            fontSize: '1.25rem',
+        };
+    } else if (type == ButtonType.Equals) {
+        return {
+            background: color.buttonEquals,
+            color: color.white,
+            fontSize: '1.5rem',
+        };
+    } else if (type == ButtonType.BasicOperation) {
+        return {
+            background: color.buttonBasicOperation,
+            color: color.white,
+            fontSize: '1.5rem',
+        };
+    }
+
+    return {};
+};

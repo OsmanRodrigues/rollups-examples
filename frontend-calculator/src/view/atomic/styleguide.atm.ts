@@ -4,6 +4,9 @@ const brandColor = {
     mediumMain: "#332C63",
     sweetMain: "#C4A8FF",
     displayMain: "#6D66A1",
+    buttonOperation: "#3D3675",
+    buttonEquals: "#5B1F89",
+    buttonBasicOperation: "#3D3675",
 };
 
 export const color = {
