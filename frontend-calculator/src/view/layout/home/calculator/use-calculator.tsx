@@ -25,7 +25,7 @@ const Numeral = {
     "9": "9"
 }
 
-enum CommonOperations {
+export enum CommonOperations {
     "+" = "+",
     "-" = "-",
     "/" = "/",
@@ -33,7 +33,7 @@ enum CommonOperations {
     "^" = "^",
 }
 
-enum SpecialOperations {
+export enum SpecialOperations {
     "1/x" = "1/x",
     "sqrt" = "sqrt",
     "%" = "%",
@@ -47,26 +47,13 @@ enum Delimiter {
 
 export const useCalculator = () =>{
     const [mainOperation, setMainOperation] = useState<string[]>([]);
-    //TODO: Transfer this validation to parent
-    //const [hasMalformedExpression, setHasMalformedExpression] = useState(false);
 
     const getOperation = (currentOperation: typeof mainOperation): string => {
         if (!currentOperation.length) return "";
-        //TODO: Transfer this validation to parent
-        //else if (currentOperation.length === 1) {
-        //    setHasMalformedExpression(true);
-        //    return "";
-        //};
 
         let operationCopy = [...currentOperation];
         const lastIndex = operationCopy.length - 1;
         const lastItem = operationCopy[lastIndex];
-
-        //TODO: Transfer this validation to parent
-        ///if (lastItem in CommonOperations || lastItem in SpecialOperations) {
-        ///    setHasMalformedExpression(true);
-        ///    return "";
-        ///}
 
         if (
             !Number.isNaN(Number(lastItem)) &&
@@ -250,7 +237,8 @@ export const useCalculator = () =>{
 
     const handleClear = (
         clearType: "CE" | "C" | "<",
-        currentOperation: typeof mainOperation
+        currentOperation: typeof mainOperation,
+        onClear?: (type: typeof clearType)=> void
     ) => {
         if (!currentOperation.length) {
             return null;
@@ -296,6 +284,8 @@ export const useCalculator = () =>{
             default:
                 break;
         }
+
+        onClear?.(clearType)
     };
 
     return {
