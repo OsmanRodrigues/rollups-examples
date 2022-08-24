@@ -10,8 +10,8 @@ export const id = {
 
 export const string = {
     resultPreview: {
-        title: "Result preview",
-        idleFeedback: "Use the calculator buttons to build a operation.🔎",
+        title: "History",
+        idleFeedback: "Use the calculator buttons to build a operation. 🧮",
         pendingFeedback: "Waiting for result...",
     },
     sendInputForm: {
@@ -22,8 +22,7 @@ export const string = {
         submitButtonText: "See result",
         clearButtonText: "Clear result",
         loadingButtonText: "Waiting...",
-        description:
-            "Use our first blockchain calculator!🧐",
+        description: "Use our first blockchain calculator!🧐",
     },
     sendInputFeedback: {
         requestStarted:

@@ -3,10 +3,10 @@ import { ButtonType } from "./calculator-button";
 import {CalculatorButton} from "./calculator-button";
 import { useCalculator } from "./use-calculator";
 import {
-    CalculatorWrapper,
     InputtedOperationDisplay,
     InputtingOperationDisplay,
-    CalculatorButtonGrid
+    CalculatorButtonGrid,
+    CalculatorWrapper
 } from "./calculator.style";
 import { useCalculatorDisplay } from "./use-calculator-display";
 import { Paragraph } from "../../../atomic/typography.mol";
@@ -36,7 +36,7 @@ export const Calculator: React.FC<{}> = () =>{
     };
 
     return (
-        <CalculatorWrapper>
+        <CalculatorWrapper xs={12} md={7}>
             <InputtedOperationDisplay>
                 <label>{getInputtedOperation(mainOperation) || "0"}</label>
             </InputtedOperationDisplay>

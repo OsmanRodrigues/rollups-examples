@@ -37,7 +37,7 @@ export const FeedbackBoard: FC<IFeedbackBoard> = ({
     const { message } = handleResult(data, status);
 
     return (
-        <Col sm={12} md={6}>
+        <Col xs={12} md={5}>
             <BoxWrapper isFluid>
                 {status === "pending" ? (
                     <Row justify="center">
