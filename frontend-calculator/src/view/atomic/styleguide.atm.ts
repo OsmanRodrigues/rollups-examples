@@ -3,6 +3,7 @@ const brandColor = {
     lightMain: "#5E4E92",
     mediumMain: "#332C63",
     sweetMain: "#C4A8FF",
+    displayMain: "#6D66A1",
 };
 
 export const color = {

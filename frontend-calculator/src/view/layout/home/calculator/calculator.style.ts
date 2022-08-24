@@ -1,23 +1,25 @@
 import styled from "styled-components";
+import { color } from "../../../atomic/styleguide.atm";
 
 export const CalculatorWrapper = styled.div``;
 
 export const InputtedOperationDisplay = styled.div`
-    font-size: 20px;
-    color: #ffff;
-    letter-spacing: 0.09em;
-    grid-column-end: span 4;
     text-align: right;
+
+    label {
+        color: ${color.displayMain};
+        font-size: 1.25rem;
+    }
 `;
 
 export const InputtingOperationDisplay = styled.div`
-    border-radius: 10px;
     text-align: right;
-    font-size: 48px;
-    grid-column-end: span 4;
-    color: #ffff;
-    font-weight: 700;
-    letter-spacing: 0.09em;
+
+    label {
+        color: ${color.white};
+        font-size: 3rem;
+        font-weight: 700;
+    }
 `;
 
 export const Grid = styled.div`
@@ -31,11 +33,10 @@ export const CalculatorButtonWrapper = styled.button`
     background: #5442c9;
     border: none;
     border-radius: 3px;
-    font-size: 27px;
+    font-size: 1.68rem;
     line-height: 32px;
-    font-family: "Rubik";
     font-style: normal;
-    font-weight: 500;
+    font-weight: bold;
     color: #ffffff;
     text-align: center;
 `;
