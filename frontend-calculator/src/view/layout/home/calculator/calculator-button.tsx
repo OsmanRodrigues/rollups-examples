@@ -1,6 +1,5 @@
 import React from "react";
-import styled from "styled-components";
-import { string } from "../constants";
+import { CalculatorButtonWrapper } from "./calculator.style";
 
 type Props = React.HTMLProps<HTMLButtonElement> &{
     buttonType?: ButtonType,
@@ -17,21 +16,6 @@ export enum ButtonType{
     BasicOperation,
     Equals
 }
-
-const Operation = [];
-
-const StyledButton = styled.button`
-background: #5442C9;
-border: none;
-border-radius: 3px;
-font-size: 27px;
-line-height: 32px;
-font-family: 'Rubik';
-font-style: normal;
-font-weight: 500;
-color: #FFFFFF;
-text-align: center;
-`;
 
 export const Button: React.FC<Props> = ({type = ButtonType.Number,label,onClick}) =>{
     const styles: React.CSSProperties = {};
@@ -58,7 +42,9 @@ export const Button: React.FC<Props> = ({type = ButtonType.Number,label,onClick}
     }
 
     return (
-        <StyledButton style={styles} onClick={onClick}>{label}</StyledButton>
+        <CalculatorButtonWrapper style={styles} onClick={onClick}>
+            {label}
+        </CalculatorButtonWrapper>
     )
 }
 
