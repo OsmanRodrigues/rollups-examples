@@ -21,12 +21,14 @@ export const Calculator: React.FC<{}> = () =>{
         getOperation,
     } = useCalculator();
     const {
+        checkDigitLength,
         getInputtedOperation,
         getInputtingOperation,
         hasExceededExpressionMaxLength,
         hasMalformedExpression
     } = useCalculatorDisplay(mainOperation, getOperation);
     const [showMalformedWarning, setShowMalformedWarning] = useState(false);
+    const digitCheckMessage = checkDigitLength(mainOperation);
 
     const handleSubmit = (operation: typeof mainOperation): void => {
         if (hasExceededExpressionMaxLength(operation)) return void null;
@@ -53,6 +55,9 @@ export const Calculator: React.FC<{}> = () =>{
                 <Paragraph justify="end">
                     The expression must contain a maximum of 10 operations.
                 </Paragraph>
+            ) : null}
+            {!!digitCheckMessage ? (
+                <Paragraph justify="end">{digitCheckMessage}</Paragraph>
             ) : null}
             <CalculatorButtonGrid>
                 <CalculatorButton
