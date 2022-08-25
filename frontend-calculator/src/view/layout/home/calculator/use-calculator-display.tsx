@@ -33,10 +33,18 @@ export const useCalculatorDisplay = (
 
         return false;
     };
+    const hasExceededExpressionMaxLength = (
+        currentOperation: typeof operation
+    ): boolean =>
+        !!currentOperation.length &&
+        currentOperation
+            .filter(item => !Number.isNaN(Number(item)))
+            .length > 10;
 
     return {
         getInputtedOperation,
         getInputtingOperation,
+        hasExceededExpressionMaxLength,
         hasMalformedExpression,
     };
 }
