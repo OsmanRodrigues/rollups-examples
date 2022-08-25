@@ -28,8 +28,10 @@ export const Calculator: React.FC<{}> = () =>{
     } = useCalculatorDisplay(mainOperation, getOperation);
     const [showMalformedWarning, setShowMalformedWarning] = useState(false);
 
-    const handleSubmit = (operation: typeof mainOperation) => {
-        if (hasMalformedExpression(operation)) setShowMalformedWarning(true);
+    const handleSubmit = (operation: typeof mainOperation): void => {
+        if (hasExceededExpressionMaxLength(operation)) return void null;
+        else if (hasMalformedExpression(operation))
+            setShowMalformedWarning(true);
         else {
             const teste = getOperation(operation);
             console.log(teste);
