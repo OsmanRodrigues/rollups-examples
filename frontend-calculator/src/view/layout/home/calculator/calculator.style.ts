@@ -30,10 +30,14 @@ export const InputtingOperationDisplay = styled.div`
 
 export const CalculatorButtonGrid = styled.div`
     display: grid;
-    grid-template-columns: repeat(4, 74px);
+    grid-template-columns: repeat(4, 4.5rem);
     grid-template-rows: [row1-start] 10% [row1-end] repeat(5, 44px);
     grid-gap: 10px;
     justify-content: right;
+
+    @media only screen and (max-width: 411px) {
+        grid-template-columns: repeat(4, 1fr);
+    }
 `;
 
 export const CalculatorButtonWrapper = styled.button`
