@@ -13,8 +13,7 @@ import { useOnboardedService } from "../../../controller/use-service/use-onboard
 import { SendInputForm } from "./send-input.form";
 import { FeedbackBoard } from "./feedback.board";
 import {Calculator} from "./calculator/calculator";
-import { Description } from "./description/description";
-import { Separator } from "../../atomic/layout.org/separator.mol/separator.atm";
+import { BrandBanner } from "./brand-banner/brand-banner";
 import { InteractiveBoardWrapper } from "./home.style";
 
 export const HomeView: FC = () => {
@@ -60,7 +59,7 @@ export const HomeView: FC = () => {
         <SharedLayout>
             <Row>
                 <Col md={4}>
-                    <Description />
+                    <BrandBanner />
                 </Col>
                 <Col md={8}>
                     <InteractiveBoardWrapper>

@@ -135,5 +135,10 @@ export const linearGradient = {
         -55.95%,
         rgba(61, 60, 126, 0) 79.8%)
     `,
+    homeBrandBannerHero: `linear-gradient(
+        126.67deg,
+        #2d2355 9.09%,
+        rgba(60, 35, 85, 0) 94.52%
+    )`,
 };
 
