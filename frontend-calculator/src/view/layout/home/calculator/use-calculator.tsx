@@ -39,7 +39,7 @@ export enum SpecialOperations {
     "%" = "%",
 }
 
-enum Delimiter {
+export enum Delimiter {
     "." = ".",
 }
 
