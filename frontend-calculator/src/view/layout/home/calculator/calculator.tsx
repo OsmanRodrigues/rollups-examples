@@ -23,6 +23,7 @@ export const Calculator: React.FC<{}> = () =>{
     const {
         getInputtedOperation,
         getInputtingOperation,
+        hasExceededExpressionMaxLength,
         hasMalformedExpression
     } = useCalculatorDisplay(mainOperation, getOperation);
     const [showMalformedWarning, setShowMalformedWarning] = useState(false);
@@ -45,6 +46,11 @@ export const Calculator: React.FC<{}> = () =>{
             </InputtingOperationDisplay>
             {showMalformedWarning ? (
                 <Paragraph justify="end">Malformed expression</Paragraph>
+            ) : null}
+            {hasExceededExpressionMaxLength(mainOperation) ? (
+                <Paragraph justify="end">
+                    The expression must contain a maximum of 10 operations.
+                </Paragraph>
             ) : null}
             <CalculatorButtonGrid>
                 <CalculatorButton
