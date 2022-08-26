@@ -10,27 +10,12 @@
 // specific language governing permissions and limitations under the License.
 
 import { ethers } from "ethers";
-import { GetNoticeDocument, Notice, NoticeKeys } from "../../generated/graphql";
+import { NoticeDocument, Notice, NoticeQueryVariables } from "../../generated/graphql";
 import { client } from "./config/client";
 
-// we don't get every field of Notice
-export type PartialNotice = Pick<
-    Notice,
-    | "__typename"
-    | "session_id"
-    | "epoch_index"
-    | "input_index"
-    | "notice_index"
-    | "payload"
->;
-
-export interface NoticeViewModel extends PartialNotice {
-    payload_parsed: string
+export interface NoticeViewModel extends Notice {
+    payload_parsed: string;
 }
-
-// define a type predicate to filter out notices
-export const isPartialNotice = (n: PartialNotice | null): n is PartialNotice =>
-    n !== null;
 
 /**
  * Queries a GraphQL server looking for the notices of an input
@@ -39,32 +24,27 @@ export const isPartialNotice = (n: PartialNotice | null): n is PartialNotice =>
  * @returns List of notices
  */
 
-export const getNotices = async (
-    noticeKeys: NoticeKeys,
+export const getNotice = async (
+    noticeQueryVariables: NoticeQueryVariables,
     noCache?: boolean
-): Promise<NoticeViewModel[]> => {
+): Promise<NoticeViewModel|null> => {
     // query the GraphQL server for notices of our input
-    const { data, error } = await client
-        .query({
-            query: GetNoticeDocument,
-            variables: {
-                query: noticeKeys
-            },
-            fetchPolicy: noCache ? 'network-only' : 'cache-first'
-        })
+    const { data, error } = await client.query({
+        query: NoticeDocument,
+        variables: noticeQueryVariables,
+        fetchPolicy: noCache ? "network-only" : "cache-first",
+    });
 
-    if (data?.GetNotice) {
-        return data.GetNotice.filter(isPartialNotice).map(
-            (partialNotice: PartialNotice) => ({
-                ...partialNotice,
-                payload_parsed: ethers.utils.toUtf8String(
-                    "0x" + partialNotice.payload
-                ),
-            })
-        );
+    if (data?.notice) {
+        return {
+            ...data.notice,
+            payload_parsed: ethers.utils.toUtf8String(
+                "0x" + data.notice.payload
+            ),
+        };
     } else if (error?.message) {
         throw new Error(error.message);
     } else {
-        return [];
+        return null;
     }
 };
