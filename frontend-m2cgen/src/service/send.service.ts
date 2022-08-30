@@ -11,7 +11,7 @@
 
 import { connect } from "./config/connect";
 import { ContractReceipt, ethers } from "ethers";
-import { InputMaybe, NoticeKeys } from "../../generated/graphql";
+import { InputMaybe, NoticesByEpochAndInputQueryVariables } from "../../generated/graphql";
 import { InputAddedEvent } from "@cartesi/rollups/dist/src/types/contracts/interfaces/IInput";
 import { WalletState, ConnectedChain } from "@web3-onboard/core";
 
@@ -20,11 +20,11 @@ interface SendInputParams {
 }
 
 export interface SendInputViewModel {
-    epochNumber: InputMaybe<string> | undefined;
-    inputIndex: InputMaybe<string> | undefined;
+    epochNumber: InputMaybe<number>;
+    inputIndex: InputMaybe<number>;
 }
 // TODO document this function
-export const findNoticeKeys = (receipt: ContractReceipt): NoticeKeys => {
+export const findNoticeKeys = (receipt: ContractReceipt): NoticesByEpochAndInputQueryVariables => {
     // get InputAddedEvent from transaction receipt
     const event = receipt.events?.find((e) => e.event === "InputAdded");
 
@@ -36,8 +36,8 @@ export const findNoticeKeys = (receipt: ContractReceipt): NoticeKeys => {
 
     const inputAdded = event as InputAddedEvent;
     return {
-        epoch_index: inputAdded.args.epochNumber.toString(),
-        input_index: inputAdded.args.inputIndex.toString(),
+        epoch_index: inputAdded.args.epochNumber.toNumber(),
+        input_index: inputAdded.args.inputIndex.toNumber(),
     };
 };
 
