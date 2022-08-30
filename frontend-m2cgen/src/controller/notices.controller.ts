@@ -26,6 +26,7 @@ export const fetchNotices = async (
         let fetchedNotices = await getNotices(
             params
         );
+        //TODO: change refetch to pub/sub
         const hasUnableToFindError = fetchedNotices.error?.match(
             /(unable|find|input|epoch)/gi
         );
