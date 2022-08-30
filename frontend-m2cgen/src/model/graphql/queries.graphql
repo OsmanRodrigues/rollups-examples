@@ -1,8 +1,21 @@
 # NOTICES
 
-query notice($id: ID!) {
-    notice(id: $id) {
-        id
-        payload
+query noticesByEpochAndInput($epoch_index: Int!, $input_index: Int!) {
+    epoch: epochI(index: $epoch_index) {
+        input(index: $input_index) {
+            notices {
+                nodes {
+                    id
+                    index
+                    payload
+                    input {
+                        index
+                        epoch {
+                            index
+                        }
+                    }
+                }
+            }
+        }
     }
 }
