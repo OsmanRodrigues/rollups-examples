@@ -10,7 +10,7 @@
 // specific language governing permissions and limitations under the License.
 
 import { Dispatch } from "react";
-import { NoticeKeys } from "../../generated/graphql";
+import { NoticesByEpochAndInputQueryVariables } from "../../generated/graphql";
 import { getNotices, NoticeViewModel } from "../service/notices.service";
 import { genTimerPromise } from "../utils/timer-promise";
 import { REFETCH_TIME_DEFAULT } from "./config/constants";
@@ -18,24 +18,28 @@ import { ServiceReducerActions } from "./use-service/use-service.hook";
 
 export const fetchNotices = async (
     dispatch: Dispatch<ServiceReducerActions<NoticeViewModel[]>>,
-    params?: NoticeKeys,
+    params: NoticesByEpochAndInputQueryVariables,
     refetchIfEmpty?: boolean
 ) => {
     dispatch({ type: "start_request" });
     try {
-        const paramsFallback = params ?? { epoch_index: "0" };
-        let fetchedNotices: NoticeViewModel[] = await getNotices(
-            paramsFallback
+        let fetchedNotices = await getNotices(
+            params
+        );
+        const hasUnableToFindError = fetchedNotices.error?.match(
+            /(unable|find|input|epoch)/gi
         );
 
-        if (refetchIfEmpty)
-            while (!fetchedNotices.length) {
+        if (refetchIfEmpty || hasUnableToFindError)
+            while (!fetchedNotices.data?.length) {
                 await genTimerPromise(REFETCH_TIME_DEFAULT);
-                const refetch = await getNotices(paramsFallback, true);
+                const refetch = await getNotices(params, true);
                 fetchedNotices = refetch;
             }
+        if (!!fetchedNotices.error)
+            throw new Error(fetchedNotices.error);
 
-        dispatch({ type: "resolve_request", data: fetchedNotices });
+        dispatch({ type: "resolve_request", data: fetchedNotices.data });
 
         return fetchedNotices;
     } catch (err) {
