@@ -1,5 +1,0 @@
-export NETWORK=goerli
-export MNEMONIC="vacuum install jungle exit piece front collect chimney carbon tunnel cause siege"
-export RPC_URL=https://goerli.infura.io/v3/7f85a2b6f7a545c89e5d65dbe5791ea1
-export WSS_URL=wss://goerli.infura.io/ws/v3/7f85a2b6f7a545c89e5d65dbe5791ea1
-export CHAIN_ID=5
