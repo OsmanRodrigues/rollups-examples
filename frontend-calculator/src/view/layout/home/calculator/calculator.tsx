@@ -11,8 +11,13 @@ import {
 import { useCalculatorDisplay } from "./use-calculator-display";
 import { Paragraph } from "../../../atomic/typography.mol";
 import { FiDelete } from "react-icons/fi";
+import { SendInputData } from "../../../../controller/send.controller";
 
-export const Calculator: React.FC<{}> = () =>{
+interface ICalculator {
+    handleSendInput: (data: SendInputData)=> void
+}
+
+export const Calculator: React.FC<ICalculator> = ({handleSendInput}) =>{
     const {
         mainOperation,
         handleCommonOperation,
@@ -34,10 +39,7 @@ export const Calculator: React.FC<{}> = () =>{
         if (hasExceededExpressionMaxLength(operation)) return void null;
         else if (hasMalformedExpression(operation))
             setShowMalformedWarning(true);
-        else {
-            const teste = getOperation(operation);
-            console.log(teste);
-        }
+        else handleSendInput({ Operation: getOperation(operation) });
     };
 
     return (

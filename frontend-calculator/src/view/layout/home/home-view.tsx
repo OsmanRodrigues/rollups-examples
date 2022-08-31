@@ -63,7 +63,7 @@ export const HomeView: FC = () => {
                 </Col>
                 <Col md={9} lg={8}>
                     <InteractiveBoardWrapper>
-                        <Calculator />
+                        <Calculator handleSendInput={handleSendInput} />
                         <FeedbackBoard
                             data={noticesState.data ?? []}
                             status={
