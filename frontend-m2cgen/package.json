@@ -16,7 +16,7 @@
     },
     "dependencies": {
         "@apollo/client": "3.6.9",
-        "@cartesi/rollups": "0.4.0",
+        "@cartesi/rollups": "0.5.0",
         "@ethersproject/providers": "5.5.3",
         "@reach/dialog": "0.17.0",
         "@web3-onboard/core": "2.6.0",
