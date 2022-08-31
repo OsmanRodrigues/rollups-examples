@@ -10,27 +10,25 @@
 // specific language governing permissions and limitations under the License.
 
 import { ethers } from "ethers";
-import { GetNoticeDocument, Notice, NoticeKeys } from "../../generated/graphql";
+import {
+    NoticesByEpochAndInputDocument,
+    Notice,
+    NoticesByEpochAndInputQueryVariables,
+} from "../../generated/graphql";
+import { string } from "../view/layout/shared/constants";
 import { client } from "./config/client";
 
-// we don't get every field of Notice
-export type PartialNotice = Pick<
-    Notice,
-    | "__typename"
-    | "session_id"
-    | "epoch_index"
-    | "input_index"
-    | "notice_index"
-    | "payload"
->;
+export interface NoticeViewModel extends Notice {
+    payload_parsed: string;
+}
 
-export interface NoticeViewModel extends PartialNotice {
-    payload_parsed: string
+export interface GetNoticesResult {
+    data: NoticeViewModel[] | null;
+    error: string | null;
 }
 
 // define a type predicate to filter out notices
-export const isPartialNotice = (n: PartialNotice | null): n is PartialNotice =>
-    n !== null;
+export const isPartialNotice = (n: Notice | null): n is Notice => n !== null;
 
 /**
  * Queries a GraphQL server looking for the notices of an input
@@ -40,31 +38,33 @@ export const isPartialNotice = (n: PartialNotice | null): n is PartialNotice =>
  */
 
 export const getNotices = async (
-    noticeKeys: NoticeKeys,
+    noticeQueryVariables: NoticesByEpochAndInputQueryVariables,
     noCache?: boolean
-): Promise<NoticeViewModel[]> => {
+): Promise<GetNoticesResult> => {
+    const result: GetNoticesResult = { data: null, error: null };
     // query the GraphQL server for notices of our input
-    const { data, error } = await client
-        .query({
-            query: GetNoticeDocument,
-            variables: {
-                query: noticeKeys
-            },
-            fetchPolicy: noCache ? 'network-only' : 'cache-first'
-        })
+    const { data, error, errors } = await client.query({
+        query: NoticesByEpochAndInputDocument,
+        variables: noticeQueryVariables,
+        fetchPolicy: noCache ? "network-only" : "cache-first",
+        errorPolicy: "ignore",
+    });
 
-    if (data?.GetNotice) {
-        return data.GetNotice.filter(isPartialNotice).map(
-            (partialNotice: PartialNotice) => ({
-                ...partialNotice,
-                payload_parsed: ethers.utils.toUtf8String(
-                    "0x" + partialNotice.payload
-                ),
-            })
-        );
-    } else if (error?.message) {
-        throw new Error(error.message);
-    } else {
-        return [];
+    const notices = data?.epoch?.input?.notices?.nodes;
+    if (!!notices) {
+        result.data = notices.filter(isPartialNotice).map((notice: Notice) => ({
+            ...notice,
+            payload_parsed: ethers.utils.toUtf8String(notice.payload),
+        }));
+    } else if (!!error?.message) {
+        result.error = error.message;
+    } else if (!!errors?.length) {
+        // @ts-ignore:next-line
+        const errorMessage: string = errors.reduce((prev, next) => {
+            return `${prev?.message || ""}\n${next?.message || ""}`;
+        });
+        result.error = errorMessage;
     }
+
+    return result;
 };
