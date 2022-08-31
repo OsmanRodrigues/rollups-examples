@@ -12,7 +12,7 @@ interface IFeedbackBoard {
 }
 
 const boardString = string.resultPreview;
-
+//TODO: implement history store to manage operations history board
 export const FeedbackBoard: FC<IFeedbackBoard> = ({
     data,
     status
@@ -30,7 +30,7 @@ export const FeedbackBoard: FC<IFeedbackBoard> = ({
         const notice = currentData[0];
 
         //TODO: adjust message
-        const message = `You got an ${notice.payload_parsed}!`;
+        const message = `Your result is: ${notice.payload_parsed}!`;
 
         return { message };
     };
