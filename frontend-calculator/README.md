@@ -1,4 +1,4 @@
-# Frontend knn
+# Frontend Calculator
 
 This project demonstrates how to implement a web application UI to interact with [calculator](../calculator/) DApp, both running locally and deployed on remote testnet networks.
 It's implemented mainly in Typescript and uses [reactjs](https://reactjs.org/) library to build ui, and [ethers](https://docs.ethers.io/v5/) library to communicate with the rollups smart contracts.
