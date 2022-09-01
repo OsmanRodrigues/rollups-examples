@@ -72,6 +72,6 @@ You can run this app in `development` and `production` modes by following the st
 
 ## Brief
 
-In general terms, the Calculator offers an interactive, web responsive and enjoyable UI which communicates with the knn DApp through nice and clean calculator interface, authenticated by a web 3.0 wallet.
+In general terms, the Calculator offers an interactive, web responsive and enjoyable UI which communicates with the calculator DApp through nice and clean calculator interface, authenticated by a web 3.0 wallet.
 
 
