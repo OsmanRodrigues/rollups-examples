@@ -29,3 +29,4 @@ generated
 .env.dev*
 .env.prod*
 .env.stag*
+.vercel
