@@ -7,12 +7,7 @@
         "dev": "vite",
         "build": "yarn gen-graphql && tsc && vite build",
         "preview": "vite preview",
-        "gen-graphql": "graphql-codegen --config codegen.yml",
-        "heroku-set-dev": "heroku git:remote -a frontend-m2cgen-dev",
-        "heroku-set-stg": "heroku git:remote -a frontend-m2cgen-stg",
-        "heroku-deploy": "cd ../ && git subtree push --prefix frontend-m2cgen heroku main",
-        "deploy-dev": "yarn heroku-set-dev && yarn heroku-deploy",
-        "deploy-stg": "yarn heroku-set-stg && yarn heroku-deploy"
+        "gen-graphql": "graphql-codegen --config codegen.yml"
     },
     "dependencies": {
         "@apollo/client": "3.6.9",
