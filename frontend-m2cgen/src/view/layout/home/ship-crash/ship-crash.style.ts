@@ -26,10 +26,15 @@ export const OceanWrapper = styled.div`
     z-index: ${zIndex.veryLow};
     position: absolute;
     width: 100%;
-    height: 100%;
+    height: 80%;
     border-radius: ${radius.md};
     background: ${linearGradient.ocean};
-    background-position: bottom;
+    background-origin: border-box;
+    background-position: bottom -20px right;
     background-size: 100% 50%;
     background-repeat: no-repeat;
+
+    @media only screen and (min-width: 768px) {
+        background-position: bottom -45px right;
+    }
 `;

@@ -48,45 +48,30 @@ export const FeedbackBoard: FC<IFeedbackBoard> = ({ data, status }) => {
     const { img, message } = handleResult(data, status);
 
     return (
-        <Col sm={12} md={6}>
-            <BoxWrapper isFluid>
-                {status === "pending" ? (
-                    <ShipCrashAnimation />
-                ) : (
-                    <>
-                        <Row justify="end">
-                            <Col xs="content">
-                                <H4 color="lightMain">{boardString.title}</H4>
-                            </Col>
-                        </Row>
-                        <Row justify="center">
-                            <Col xs="content">
-                                {status === "idle" || status === "rejected" ? (
-                                    <H1 color="sweetMain" justify="center">
-                                        {boardString.idleFeedback}
-                                    </H1>
-                                ) : null}
-                                {img ? (
-                                    <Image
-                                        src={img}
-                                        justify="center"
-                                        size="lg"
-                                    />
-                                ) : null}
-                                {message ? (
-                                    <H1
-                                        color="sweetMain"
-                                        justify="center"
-                                        isBold
-                                    >
-                                        {message}
-                                    </H1>
-                                ) : null}
-                            </Col>
-                        </Row>
-                    </>
-                )}
-            </BoxWrapper>
-        </Col>
+        <BoxWrapper sm={12} md={6} isFluid>
+            <Row justify="end">
+                <Col xs="content">
+                    <H4 color="lightMain">{boardString.title}</H4>
+                </Col>
+            </Row>
+            <Row justify="center" style={{ height: "100%" }}>
+                <Col xs={status === "pending" ? 12 : "content"}>
+                    {status === "pending" ? <ShipCrashAnimation /> : null}
+                    {status === "idle" || status === "rejected" ? (
+                        <H1 color="sweetMain" justify="center">
+                            {boardString.idleFeedback}
+                        </H1>
+                    ) : null}
+                    {img ? (
+                        <Image src={img} justify="center" size="lg" />
+                    ) : null}
+                    {message ? (
+                        <H1 color="sweetMain" justify="center" isBold>
+                            {message}
+                        </H1>
+                    ) : null}
+                </Col>
+            </Row>
+        </BoxWrapper>
     );
 };
