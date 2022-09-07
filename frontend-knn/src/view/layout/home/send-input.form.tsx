@@ -41,7 +41,7 @@ export const SendInputForm: FC<ISendInputForm> = ({
     const { handleSubmit, register, formState, clearErrors, reset, watch } =
         useForm<SendInputData>();
     const formValue = watch();
-    const lengthAndWidthMax = 10;
+    const lengthAndWidthMax = 8;
     const plMaxFallback = !!formValue.sl ? +formValue.sl : lengthAndWidthMax;
     const pwMaxFallback = !!formValue.sw ? +formValue.sw : lengthAndWidthMax;
     const chartDrawData = {
@@ -95,7 +95,7 @@ export const SendInputForm: FC<ISendInputForm> = ({
                                         flexDir="row"
                                         max={lengthAndWidthMax}
                                         min={0.1}
-                                        step={0.01}
+                                        step={0.1}
                                         isOutilined
                                         required
                                     />
@@ -123,7 +123,7 @@ export const SendInputForm: FC<ISendInputForm> = ({
                                         flexDir="row"
                                         max={lengthAndWidthMax}
                                         min={0.1}
-                                        step={0.01}
+                                        step={0.1}
                                         isOutilined
                                         required
                                     />
@@ -159,9 +159,9 @@ export const SendInputForm: FC<ISendInputForm> = ({
                                         register={register}
                                         type="number"
                                         flexDir="row"
-                                        max={pwMaxFallback}
+                                        max={lengthAndWidthMax}
                                         min={0.1}
-                                        step={0.01}
+                                        step={0.1}
                                         isOutilined
                                         required
                                     />
@@ -171,7 +171,7 @@ export const SendInputForm: FC<ISendInputForm> = ({
                                     name={formString.widthLabel}
                                     options={{
                                         required: true,
-                                        max: pwMaxFallback,
+                                        max: lengthAndWidthMax,
                                         min: 0.1,
                                     }}
                                 />
@@ -187,9 +187,9 @@ export const SendInputForm: FC<ISendInputForm> = ({
                                         register={register}
                                         type="number"
                                         flexDir="row"
-                                        max={plMaxFallback}
+                                        max={lengthAndWidthMax}
                                         min={0.1}
-                                        step={0.01}
+                                        step={0.1}
                                         isOutilined
                                         required
                                     />
@@ -199,7 +199,7 @@ export const SendInputForm: FC<ISendInputForm> = ({
                                     name={formString.lengthLabel}
                                     options={{
                                         required: true,
-                                        max: plMaxFallback,
+                                        max: lengthAndWidthMax,
                                         min: 0.1,
                                     }}
                                 />
