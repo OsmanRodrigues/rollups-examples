@@ -42,7 +42,7 @@ export const FeedbackBoard: FC<IFeedbackBoard> = ({
             return { irisType: null };
 
         const notice = currentData[0];
-        const irisType = notice.payload_parsed.toLowerCase();
+        const irisType = notice.payload_parsed.toLowerCase() as IrisType;
 
         return { irisType };
     };
@@ -75,7 +75,7 @@ export const FeedbackBoard: FC<IFeedbackBoard> = ({
                             ) : null}
                             {irisType && inputData ? (
                                 <IrisResultCard
-                                    irisType={IrisType.Setosa}
+                                    irisType={irisType}
                                     inputData={inputData}
                                 />
                             ) : null}
