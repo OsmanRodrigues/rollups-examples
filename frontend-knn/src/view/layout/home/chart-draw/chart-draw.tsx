@@ -62,7 +62,7 @@ export const ChartDraw: FC<IChartDraw> = ({
     const primaryAxis = useMemo(
         (): AxisOptions<Measurements> => ({
             getValue: (datum) => datum.w,
-            max: 12,
+            max: 8,
             min: 0,
         }),
         []
@@ -74,7 +74,7 @@ export const ChartDraw: FC<IChartDraw> = ({
                 getValue: (datum) => datum.l,
                 elementType: "area",
                 stacked: false,
-                max: 12,
+                max: 8,
                 min: 0,
             },
         ],
@@ -99,6 +99,7 @@ export const ChartDraw: FC<IChartDraw> = ({
                 <Chart
                     options={{
                         data,
+                        tooltip: false,
                         primaryAxis,
                         secondaryAxes,
                         getSeriesStyle: () => ({
