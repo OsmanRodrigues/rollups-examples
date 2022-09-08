@@ -9,7 +9,7 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the
 // specific language governing permissions and limitations under the License.
 
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { Col, Row } from "react-grid-system";
 import { NoticeViewModel } from "../../../service/notices.service";
 import { BoxWrapper } from "../../atomic/layout.org/layout.mol";
@@ -20,6 +20,8 @@ import CelebrationImgSVG from "../../../assets/img/celebration.svg";
 import { UseServiceState } from "../../../controller/use-service/use-service.hook";
 import { Image } from "../../atomic/image.mol/image.mol";
 import { ShipCrashAnimation } from "./ship-crash/ship-crash.animation";
+import { genTimerPromise } from "../../../utils/timer-promise";
+import { RESOLVED_REQUEST_TRANSITION_DURATION } from "./ship-crash/constants";
 
 interface IFeedbackBoard {
     data: NoticeViewModel[];
@@ -29,6 +31,7 @@ interface IFeedbackBoard {
 const boardString = string.resultPreview;
 
 export const FeedbackBoard: FC<IFeedbackBoard> = ({ data, status }) => {
+    const [shouldShownAnimation, setShouldShownAnimation] = useState<boolean>(false);
     const handleResult = (
         currentData: typeof data,
         currentStatus: typeof status
@@ -47,6 +50,13 @@ export const FeedbackBoard: FC<IFeedbackBoard> = ({ data, status }) => {
     };
     const { img, message } = handleResult(data, status);
 
+    useEffect(() => {
+        if (status === "resolved") genTimerPromise(
+            (RESOLVED_REQUEST_TRANSITION_DURATION + 1) * 1000
+        ).then(() => setShouldShownAnimation(false));
+        else if (status === "pending") setShouldShownAnimation(true);
+    }, [status]);
+
     return (
         <BoxWrapper sm={12} md={6} isFluid>
             <Row justify="end">
@@ -55,19 +65,19 @@ export const FeedbackBoard: FC<IFeedbackBoard> = ({ data, status }) => {
                 </Col>
             </Row>
             <Row justify="center" style={{ height: "100%" }}>
-                <Col xs={status === "pending" ? 12 : "content"}>
-                    {status === "pending" ?
+                <Col xs={shouldShownAnimation ? 12 : "content"}>
+                    {shouldShownAnimation ? (
                         <ShipCrashAnimation status={status} />
-                        : null}
+                    ) : null}
                     {status === "idle" || status === "rejected" ? (
                         <H1 color="sweetMain" justify="center">
                             {boardString.idleFeedback}
                         </H1>
                     ) : null}
-                    {img ? (
+                    {!shouldShownAnimation && img ? (
                         <Image src={img} justify="center" size="lg" />
                     ) : null}
-                    {message ? (
+                    {!shouldShownAnimation && message ? (
                         <H1 color="sweetMain" justify="center" isBold>
                             {message}
                         </H1>
