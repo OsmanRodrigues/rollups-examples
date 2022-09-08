@@ -22,6 +22,7 @@ import { Image } from "../../atomic/image.mol/image.mol";
 import { ShipCrashAnimation } from "./ship-crash/ship-crash.animation";
 import { genTimerPromise } from "../../../utils/timer-promise";
 import { RESOLVED_REQUEST_TRANSITION_DURATION } from "./ship-crash/constants";
+import { motion } from "framer-motion";
 
 interface IFeedbackBoard {
     data: NoticeViewModel[];
@@ -52,7 +53,7 @@ export const FeedbackBoard: FC<IFeedbackBoard> = ({ data, status }) => {
 
     useEffect(() => {
         if (status === "resolved") genTimerPromise(
-            (RESOLVED_REQUEST_TRANSITION_DURATION + 1) * 1000
+            (RESOLVED_REQUEST_TRANSITION_DURATION * 1000) + 300
         ).then(() => setShouldShownAnimation(false));
         else if (status === "pending") setShouldShownAnimation(true);
     }, [status]);
@@ -74,14 +75,23 @@ export const FeedbackBoard: FC<IFeedbackBoard> = ({ data, status }) => {
                             {boardString.idleFeedback}
                         </H1>
                     ) : null}
-                    {!shouldShownAnimation && img ? (
-                        <Image src={img} justify="center" size="lg" />
-                    ) : null}
-                    {!shouldShownAnimation && message ? (
-                        <H1 color="sweetMain" justify="center" isBold>
-                            {message}
-                        </H1>
-                    ) : null}
+                    {!shouldShownAnimation && img && message ?
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{
+                                duration: 0.8,
+                                delay: 0.5,
+                                ease: [0, 0.71, 0.2, 1.01],
+                            }}
+                        >
+
+                            <Image src={img} justify="center" size="lg" />
+                            <H1 color="sweetMain" justify="center" isBold>
+                                {message}
+                            </H1>
+                        </motion.div>
+                    : null}
                 </Col>
             </Row>
         </BoxWrapper>
