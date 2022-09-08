@@ -27,8 +27,13 @@ interface IShipCrashAnimation {
 }
 
 export const ShipCrashAnimation: FC<IShipCrashAnimation> = ({status}) => {
-    const [shipMotion, icebergMotion] = useShipCrashAnimationData(status);
-    return (
+    const {
+        shipMotion,
+        icebergMotion,
+        status: animationStatus
+    } = useShipCrashAnimationData(status);
+
+    return animationStatus === "ready" ? (
         <ShipCrashAnimationWrapper>
             <ShipCrashAnimationBoard xs={12}>
                 <motion.div {...shipMotion}>
@@ -40,5 +45,5 @@ export const ShipCrashAnimation: FC<IShipCrashAnimation> = ({status}) => {
             </ShipCrashAnimationBoard>
             <OceanWrapper />
         </ShipCrashAnimationWrapper>
-    );
+    ) : null;
 };
