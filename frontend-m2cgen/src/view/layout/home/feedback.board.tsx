@@ -56,7 +56,9 @@ export const FeedbackBoard: FC<IFeedbackBoard> = ({ data, status }) => {
             </Row>
             <Row justify="center" style={{ height: "100%" }}>
                 <Col xs={status === "pending" ? 12 : "content"}>
-                    {status === "pending" ? <ShipCrashAnimation /> : null}
+                    {status === "pending" ?
+                        <ShipCrashAnimation status={status} />
+                        : null}
                     {status === "idle" || status === "rejected" ? (
                         <H1 color="sweetMain" justify="center">
                             {boardString.idleFeedback}
