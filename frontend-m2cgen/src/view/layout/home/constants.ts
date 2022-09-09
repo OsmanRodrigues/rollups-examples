@@ -15,7 +15,7 @@ export const id = {
         ageInput: "Age",
         sexInput: "Sex",
         embarkedInput: "Embarked",
-        clearResultButton: "clearFormButton",
+        clearResultButton: "clearResultButton",
         clearAllButton: "clearAllButton"
     },
 };
