@@ -15,6 +15,8 @@ export const id = {
         ageInput: "Age",
         sexInput: "Sex",
         embarkedInput: "Embarked",
+        clearResultButton: "clearResultButton",
+        clearAllButton: "clearAllButton"
     },
 };
 
@@ -31,7 +33,8 @@ export const string = {
         sexInputText: "Gender",
         embarkedInputText: "Embarked from",
         submitButtonText: "See result",
-        clearButtonText: "Clear result",
+        clearResultButtonText: "Clear result",
+        clearAllButtonText: "Clear all",
         loadingButtonText: "Waiting...",
         description:
             "Try if you would survive or sink in the Titanic crash! 👀",

@@ -50,27 +50,60 @@ export const SendInputForm: FC<ISendInputForm> = ({
     const { handleSubmit, register, formState, clearErrors, reset } =
         useForm<SendInputData>();
     const handleClearForm = useCallback(
-        (e: any) => {
+        (e: React.MouseEvent<HTMLButtonElement, MouseEvent> ) => {
             e.preventDefault();
-            onClearForm();
-            clearErrors();
-            reset();
+
+            const buttonId = e.currentTarget.id;
+            const clearForm = () => {
+                clearErrors();
+                reset();
+            };
+
+            switch (buttonId) {
+                case id.sendInputForm.clearResultButton: {
+                    onClearForm();
+                    break;
+                }
+                case id.sendInputForm.clearAllButton:
+                    clearForm();
+                    onClearForm();
+                    break;
+            }
         },
         [onClearForm, clearErrors, reset]
     );
     const renderSubmitButton = useCallback(() => {
         return (
             <>
-                <Col xs="content">
-                    {canClearForm ? (
-                        <Button
-                            form={id.sendInputForm.main}
-                            type="reset"
-                            onClick={handleClearForm}
-                        >
-                            {formString.clearButtonText}
-                        </Button>
-                    ) : (
+                {canClearForm ? (
+                    <>
+                        <Col xs="content" sm={6}>
+                            <Button
+                                id={id.sendInputForm.clearResultButton}
+                                form={id.sendInputForm.main}
+                                type="reset"
+                                onClick={handleClearForm}
+                            >
+                                {formString.clearResultButtonText}
+                            </Button>
+                        </Col>
+                        <Visible xs>
+                            <Col xs={12}>
+                                <Separator/>
+                            </Col>
+                        </Visible>
+                        <Col xs="content" sm={6}>
+                            <Button
+                                id={id.sendInputForm.clearAllButton}
+                                onClick={handleClearForm}
+                            >
+                                {formString.clearAllButtonText}
+                            </Button>
+                        </Col>
+                    </>
+                ) : (
+                    <Col xs="content">
+
                         <Button
                             form={id.sendInputForm.main}
                             type="submit"
@@ -81,8 +114,8 @@ export const SendInputForm: FC<ISendInputForm> = ({
                                 ? formString.loadingButtonText
                                 : formString.submitButtonText}
                         </Button>
-                    )}
-                </Col>
+                    </Col>
+                )}
             </>
         );
     }, [canClearForm, handleClearForm, isLoading]);

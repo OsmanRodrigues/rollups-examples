@@ -9,7 +9,7 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the
 // specific language governing permissions and limitations under the License.
 
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { Col, Row } from "react-grid-system";
 import { NoticeViewModel } from "../../../service/notices.service";
 import { BoxWrapper } from "../../atomic/layout.org/layout.mol";
@@ -20,6 +20,9 @@ import CelebrationImgSVG from "../../../assets/img/celebration.svg";
 import { UseServiceState } from "../../../controller/use-service/use-service.hook";
 import { Image } from "../../atomic/image.mol/image.mol";
 import { ShipCrashAnimation } from "./ship-crash/ship-crash.animation";
+import { genTimerPromise } from "../../../utils/timer-promise";
+import { RESOLVED_REQUEST_TRANSITION_DURATION } from "./ship-crash/constants";
+import { motion } from "framer-motion";
 
 interface IFeedbackBoard {
     data: NoticeViewModel[];
@@ -29,6 +32,7 @@ interface IFeedbackBoard {
 const boardString = string.resultPreview;
 
 export const FeedbackBoard: FC<IFeedbackBoard> = ({ data, status }) => {
+    const [shouldShownAnimation, setShouldShownAnimation] = useState<boolean>(false);
     const handleResult = (
         currentData: typeof data,
         currentStatus: typeof status
@@ -47,46 +51,49 @@ export const FeedbackBoard: FC<IFeedbackBoard> = ({ data, status }) => {
     };
     const { img, message } = handleResult(data, status);
 
+    useEffect(() => {
+        if (status === "resolved") genTimerPromise(
+            (RESOLVED_REQUEST_TRANSITION_DURATION * 1000) + 300
+        ).then(() => setShouldShownAnimation(false));
+        else if (status === "pending") setShouldShownAnimation(true);
+    }, [status]);
+
     return (
-        <Col sm={12} md={6}>
-            <BoxWrapper isFluid>
-                {status === "pending" ? (
-                    <ShipCrashAnimation />
-                ) : (
-                    <>
-                        <Row justify="end">
-                            <Col xs="content">
-                                <H4 color="lightMain">{boardString.title}</H4>
-                            </Col>
-                        </Row>
-                        <Row justify="center">
-                            <Col xs="content">
-                                {status === "idle" || status === "rejected" ? (
-                                    <H1 color="sweetMain" justify="center">
-                                        {boardString.idleFeedback}
-                                    </H1>
-                                ) : null}
-                                {img ? (
-                                    <Image
-                                        src={img}
-                                        justify="center"
-                                        size="lg"
-                                    />
-                                ) : null}
-                                {message ? (
-                                    <H1
-                                        color="sweetMain"
-                                        justify="center"
-                                        isBold
-                                    >
-                                        {message}
-                                    </H1>
-                                ) : null}
-                            </Col>
-                        </Row>
-                    </>
-                )}
-            </BoxWrapper>
-        </Col>
+        <BoxWrapper sm={12} md={6} isFluid>
+            <Row justify="end">
+                <Col xs="content">
+                    <H4 color="lightMain">{boardString.title}</H4>
+                </Col>
+            </Row>
+            <Row justify="center" style={{ height: "100%" }}>
+                <Col xs={shouldShownAnimation ? 12 : "content"}>
+                    {shouldShownAnimation ? (
+                        <ShipCrashAnimation status={status} />
+                    ) : null}
+                    {status === "idle" || status === "rejected" ? (
+                        <H1 color="sweetMain" justify="center">
+                            {boardString.idleFeedback}
+                        </H1>
+                    ) : null}
+                    {!shouldShownAnimation && img && message ?
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{
+                                duration: 0.8,
+                                delay: 0.5,
+                                ease: [0, 0.71, 0.2, 1.01],
+                            }}
+                        >
+
+                            <Image src={img} justify="center" size="lg" />
+                            <H1 color="sweetMain" justify="center" isBold>
+                                {message}
+                            </H1>
+                        </motion.div>
+                    : null}
+                </Col>
+            </Row>
+        </BoxWrapper>
     );
 };

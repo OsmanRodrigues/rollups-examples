@@ -19,36 +19,31 @@ import {
     ShipCrashAnimationWrapper,
 } from "./ship-crash.style";
 import { Image } from "../../../atomic/image.mol/image.mol";
+import { useShipCrashAnimationData } from "./use-ship-crash-animation-data";
+import { UseServiceState } from "../../../../controller/use-service/use-service.hook";
 
-export const ShipCrashAnimation: FC = () => {
-    return (
+interface IShipCrashAnimation {
+    status: UseServiceState<any>["status"];
+}
+
+export const ShipCrashAnimation: FC<IShipCrashAnimation> = ({status}) => {
+    const {
+        shipMotion,
+        icebergMotion,
+        status: animationStatus
+    } = useShipCrashAnimationData(status);
+
+    return animationStatus === "ready" ? (
         <ShipCrashAnimationWrapper>
             <ShipCrashAnimationBoard xs={12}>
-                <motion.div
-                    initial={{
-                        x: -10,
-                        y: -14,
-                    }}
-                    animate={{
-                        x: 50,
-                    }}
-                    transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                    }}
-                >
+                <motion.div {...shipMotion}>
                     <Image src={ShipSVG} size="xs" />
                 </motion.div>
-                <motion.div
-                    initial={{
-                        x: 20,
-                        y: 22,
-                    }}
-                >
+                <motion.div {...icebergMotion}>
                     <Image src={IcebergSVG} />
                 </motion.div>
             </ShipCrashAnimationBoard>
             <OceanWrapper />
         </ShipCrashAnimationWrapper>
-    );
+    ) : null;
 };

@@ -9,6 +9,7 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the
 // specific language governing permissions and limitations under the License.
 
+import { Col } from "react-grid-system";
 import styled, { css } from "styled-components";
 import { border, color, radius, spacing } from "../styleguide.atm";
 
@@ -33,7 +34,7 @@ export const Main = styled.main`
     ${sharedDefaultCss}
 `;
 
-export const BoxWrapper = styled.div<Layout>`
+export const BoxWrapper = styled(Col)<Layout>`
     padding: 0 ${spacing.padding.md};
     border: ${border.small} ${color.mediumMain};
     border-radius: ${radius.lg};
@@ -43,6 +44,6 @@ export const BoxWrapper = styled.div<Layout>`
         ${color.mediumMain} 100%
     );
     ${({ isFluid }) => `
-        ${isFluid ? "width: 100%; height: 100%;" : ""}
+        ${isFluid ? "width: 100%; height: auto;" : ""}
     `}
 `;
