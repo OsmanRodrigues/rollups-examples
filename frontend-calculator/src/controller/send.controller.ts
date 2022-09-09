@@ -28,5 +28,7 @@ export const sendInput = async (
         return sendInputResult;
     } catch (err) {
         dispatch({ type: 'fail_request', error: err });
+
+        throw err;
     }
 };
