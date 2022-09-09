@@ -8,7 +8,7 @@ import {
 } from "react";
 
 export interface ResolvedOperation {
-    id: string;
+    id: number;
     operation: string;
     result: string;
 }
