@@ -10,16 +10,18 @@ import { toast } from "react-toast";
 import { string } from "./constants";
 import { resetServiceState } from "../../../controller/common.controller";
 import { useOnboardedService } from "../../../controller/use-service/use-onboarded-service";
-import { SendInputForm } from "./send-input.form";
 import { FeedbackBoard } from "./feedback.board";
 import {Calculator} from "./calculator/calculator";
 import { BrandBanner } from "./brand-banner/brand-banner";
 import { InteractiveBoardWrapper } from "./home.style";
+import { useCalculatorHistory } from "./calculator/calculator-history/calculator-history.context";
 
 export const HomeView: FC = () => {
     const [noticesState, noticesDispatch] = useService<NoticeViewModel[]>();
     const [sendInputState, sendInputDispatch] =
         useOnboardedService<SendInputViewModel>();
+    const [_, setHistory] = useCalculatorHistory();
+
     const handleSendInput = (data: SendInputData) => {
         if (sendInputState.chain) {
             toast.info(string.sendInputFeedback.requestStarted);
@@ -29,18 +31,23 @@ export const HomeView: FC = () => {
                 sendInputState.chain?.id,
                 sendInputState.wallet.provider
             )
-                .then((result) =>
+                .then((sendInputResult) =>
                     fetchNotices(
                         noticesDispatch,
                         {
-                            epoch_index: result?.epochNumber ?? 0,
-                            input_index: result?.inputIndex ?? 0,
+                            epoch_index: sendInputResult?.epochNumber ?? 0,
+                            input_index: sendInputResult?.inputIndex ?? 0,
                         },
                         true
                     )
-                        .then(() =>
+                        .then((fetchNoticesResult) => {
                             toast.success(string.fetchNoticesFeedback.onSucess)
-                        )
+                            setHistory({
+                                id: Date.now(),
+                                operation: data.Operation,
+                                result: fetchNoticesResult.data?.[0].payload_parsed ?? ''
+                            })
+                        })
                         .catch(() =>
                             toast.error(string.fetchNoticesFeedback.onError)
                         )
