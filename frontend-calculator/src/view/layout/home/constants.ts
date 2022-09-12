@@ -10,7 +10,8 @@ export const id = {
 
 export const string = {
     resultPreview: {
-        title: "History",
+        title: "Result preview",
+        titleWithHistory: "History",
         idleFeedback: "Use the calculator buttons to build a operation. 🧮",
         pendingFeedback: "Waiting for result...",
     },
