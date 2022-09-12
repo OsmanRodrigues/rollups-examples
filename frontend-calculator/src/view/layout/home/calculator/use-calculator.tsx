@@ -1,16 +1,4 @@
-import React, { useState } from "react";
-
-//Custom Hook
-/**
- * Use cases : Numeral Operator Numeral
- *             Numeral Operator
- *             Numeral Operator Numeral Operator
- * Special operators:
-"1/x = 1 / numeral
-"x²" = numeral ^ 2
-"√"  = sqrt(numeral)
-"%"  = percent * total %
- */
+import { useState } from "react";
 
 const Numeral = {
     "0": "0",
