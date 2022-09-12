@@ -43,6 +43,13 @@ export enum Delimiter {
     "." = ".",
 }
 
+
+export enum ClearType {
+    "CE"="CE",
+    "C"="C",
+    "<"="<",
+}
+
 //TODO: extract functions from useCalculator hook
 
 export const useCalculator = () =>{
@@ -236,7 +243,7 @@ export const useCalculator = () =>{
     };
 
     const handleClear = (
-        clearType: "CE" | "C" | "<",
+        clearType: keyof typeof ClearType,
         currentOperation: typeof mainOperation,
         onClear?: (type: typeof clearType)=> void
     ) => {

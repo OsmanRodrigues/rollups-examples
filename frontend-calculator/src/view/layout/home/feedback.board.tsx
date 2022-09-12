@@ -14,7 +14,7 @@ interface IFeedbackBoard {
 }
 
 const boardString = string.resultPreview;
-//TODO: implement a clear result feat
+
 export const FeedbackBoard: FC<IFeedbackBoard> = ({
     data,
     status
@@ -38,17 +38,18 @@ export const FeedbackBoard: FC<IFeedbackBoard> = ({
         return { message };
     };
     const { message } = handleResult(data, status);
+    const shouldShowResultPreview = status === "pending" || status === "resolved";
+    const shouldShowHistory = !shouldShowResultPreview && history.length;
 
     return (
         <Col xs={12} md={5}>
-            <BoxWrapper isFluid>
+            <BoxWrapper isFluid shouldMaxSize>
                 <Row justify="end">
                     <Col xs="content">
                         <H4 color="lightMain">
-                            {history.length ?
-                                boardString.titleWithHistory :
-                                boardString.title
-                            }
+                            {shouldShowHistory
+                                ? boardString.titleWithHistory
+                                : boardString.title}
                         </H4>
                     </Col>
                 </Row>
@@ -63,9 +64,9 @@ export const FeedbackBoard: FC<IFeedbackBoard> = ({
                 ) : (
                     <>
                         <Row justify="center">
-                            <Col xs={history.length ? 12 : "content"}>
+                            <Col xs={shouldShowHistory ? 12 : "content"}>
                                 {status === "idle" || status === "rejected" ? (
-                                    history.length ? (
+                                    shouldShowHistory ? (
                                         <CalculatorHistory history={history} />
                                     ) : (
                                         <H1 color="sweetMain" justify="center">

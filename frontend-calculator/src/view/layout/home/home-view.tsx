@@ -70,7 +70,10 @@ export const HomeView: FC = () => {
                 </Col>
                 <Col md={9} lg={8}>
                     <InteractiveBoardWrapper>
-                        <Calculator handleSendInput={handleSendInput} />
+                        <Calculator
+                            handleSendInput={handleSendInput}
+                            onClear={handleResetStates}
+                        />
                         <FeedbackBoard
                             data={noticesState.data ?? []}
                             status={
