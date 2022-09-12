@@ -1,5 +1,8 @@
-import { useEffect, useState } from "react";
-import { CommonOperations, Delimiter, SpecialOperations } from "./use-calculator";
+import {
+    CommonOperations,
+    Delimiter,
+    SpecialOperations
+} from "./use-calculator";
 
 export const useCalculatorDisplay = (
     operation: string[],

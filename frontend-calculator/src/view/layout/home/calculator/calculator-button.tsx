@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import { FC, HTMLProps, PropsWithChildren } from "react";
 import { CalculatorButtonWrapper, getCalculatorButtonStyles } from "./calculator.style";
 
 export enum ButtonType{
@@ -9,7 +9,7 @@ export enum ButtonType{
     Equals
 }
 
-type Props = React.HTMLProps<HTMLButtonElement> & {
+type Props = HTMLProps<HTMLButtonElement> & {
     buttonType?: ButtonType;
     background?: string;
     color?: string;
@@ -17,7 +17,7 @@ type Props = React.HTMLProps<HTMLButtonElement> & {
 };
 
 
-export const CalculatorButton: React.FC<PropsWithChildren<Props>> = ({
+export const CalculatorButton: FC<PropsWithChildren<Props>> = ({
     buttonType = ButtonType.Number,
     onClick,
     disabled,

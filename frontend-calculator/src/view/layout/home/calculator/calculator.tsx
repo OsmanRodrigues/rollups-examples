@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import { ButtonType } from "./calculator-button";
 import {CalculatorButton} from "./calculator-button";
 import { ClearType, useCalculator } from "./use-calculator";
@@ -18,7 +18,7 @@ interface ICalculator {
     onClear?: () => void;
 }
 
-export const Calculator: React.FC<ICalculator> = ({
+export const Calculator: FC<ICalculator> = ({
     handleSendInput,
     onClear
 }) => {
