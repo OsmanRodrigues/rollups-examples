@@ -1,17 +1,26 @@
 import styled, { css } from "styled-components";
-import { color as colorConstant, spacing } from "./styleguide.atm";
+import {
+    color as colorConstant,
+    spacing,
+    size as sizeConstant
+} from "./styleguide.atm";
 
 interface SharedDefaultProps {
     color?: keyof typeof colorConstant;
-    isBold?: boolean;
     paddingX?: "sm" | "md" | "lg";
     paddingY?: "sm" | "md" | "lg";
-    noPadding?: boolean;
     justify?: "start" | "center" | "end";
+    isBold?: boolean;
+    noPadding?: boolean;
+}
+
+interface LabelProps {
+    size?: keyof typeof sizeConstant.typography.label;
+    isBlock?: boolean;
 }
 
 const sharedDefaultCss = css<SharedDefaultProps>`
-    word-break: keep-all;
+    word-break: break-word;
     ${({ isBold, color, noPadding, paddingY, paddingX, justify }) => `
         ${isBold ? "font-weight: 500;" : ""}
         padding: ${
@@ -42,6 +51,10 @@ export const H4 = styled.h4<SharedDefaultProps>`
 export const Paragraph = styled.p<SharedDefaultProps>`
     ${sharedDefaultCss}
 `;
-export const Label = styled.label<SharedDefaultProps>`
+export const Label = styled.label<SharedDefaultProps & LabelProps>`
     ${sharedDefaultCss}
+    ${({ size, isBlock }) => `
+        font-size: ${sizeConstant.typography.label[size ?? 'md']};
+        ${isBlock ? 'display: block;' : ''}
+    `}
 `;

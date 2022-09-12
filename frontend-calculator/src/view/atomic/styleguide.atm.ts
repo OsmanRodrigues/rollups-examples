@@ -4,6 +4,7 @@ const brandColor = {
     mediumMain: "#332C63",
     sweetMain: "#C4A8FF",
     displayMain: "#6D66A1",
+    displayResult: "#B6B1DB",
     buttonNumeric: "#5442c9",
     buttonOperation: "#3D3675",
     buttonEquals: "#5B1F89",
@@ -59,7 +60,7 @@ export const size = {
         width: "121px",
     },
     card: {
-        height: "164px",
+        height: "26rem",
         width: "445px",
     },
     general: {
@@ -105,6 +106,13 @@ export const size = {
         },
     },
     scroll: "6px",
+    typography: {
+        label: {
+            sm: "0.8rem",
+            md: "1rem",
+            lg: "2rem"
+        }
+    }
 };
 
 export const border = {

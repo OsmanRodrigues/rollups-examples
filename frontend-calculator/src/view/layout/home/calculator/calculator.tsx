@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import { ButtonType } from "./calculator-button";
 import {CalculatorButton} from "./calculator-button";
-import { useCalculator } from "./use-calculator";
+import { ClearType, useCalculator } from "./use-calculator";
 import {
     InputtedOperationDisplay,
     InputtingOperationDisplay,
@@ -14,15 +14,19 @@ import { FiDelete } from "react-icons/fi";
 import { SendInputData } from "../../../../controller/send.controller";
 
 interface ICalculator {
-    handleSendInput: (data: SendInputData)=> void
+    handleSendInput: (data: SendInputData) => void;
+    onClear?: () => void;
 }
 
-export const Calculator: React.FC<ICalculator> = ({handleSendInput}) =>{
+export const Calculator: FC<ICalculator> = ({
+    handleSendInput,
+    onClear
+}) => {
     const {
         mainOperation,
         handleCommonOperation,
         handleSpecialOperation,
-        handleClear,
+        handleClear: handleCalculatorClear,
         getOperation,
     } = useCalculator();
     const {
@@ -41,6 +45,14 @@ export const Calculator: React.FC<ICalculator> = ({handleSendInput}) =>{
             setShowMalformedWarning(true);
         else handleSendInput({ Operation: getOperation(operation) });
     };
+
+    const handleClear = useCallback((clearType: keyof typeof ClearType) => {
+        handleCalculatorClear(clearType, mainOperation, () => {
+            setShowMalformedWarning(false);
+
+            if (clearType === "C") onClear?.();
+        });
+    }, [mainOperation, onClear]);
 
     return (
         <CalculatorWrapper xs={12} md={7}>
@@ -70,28 +82,16 @@ export const Calculator: React.FC<ICalculator> = ({handleSendInput}) =>{
                 <CalculatorButton
                     buttonType={ButtonType.Misc}
                     children="CE"
-                    onClick={() =>
-                        handleClear("CE", mainOperation, () => {
-                            setShowMalformedWarning(false);
-                        })
-                    }
+                    onClick={() => handleClear("CE")}
                 />
                 <CalculatorButton
                     buttonType={ButtonType.Misc}
                     children="C"
-                    onClick={() =>
-                        handleClear("C", mainOperation, () => {
-                            setShowMalformedWarning(false);
-                        })
-                    }
+                    onClick={() => handleClear("C")}
                 />
                 <CalculatorButton
                     buttonType={ButtonType.Misc}
-                    onClick={() =>
-                        handleClear("<", mainOperation, () => {
-                            setShowMalformedWarning(false);
-                        })
-                    }
+                    onClick={() =>handleClear("<")}
                 >
                     <FiDelete />
                 </CalculatorButton>

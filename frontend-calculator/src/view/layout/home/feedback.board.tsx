@@ -5,6 +5,8 @@ import { BoxWrapper } from "../../atomic/layout.org/layout.mol";
 import { H1, H4 } from "../../atomic/typography.mol";
 import { string } from "./constants";
 import { UseServiceState } from "../../../controller/use-service/use-service.hook";
+import { CalculatorHistory } from "./calculator/calculator-history/calculator-history";
+import { useCalculatorHistory } from "./calculator/calculator-history/calculator-history.context";
 
 interface IFeedbackBoard {
     data: NoticeViewModel[],
@@ -12,11 +14,12 @@ interface IFeedbackBoard {
 }
 
 const boardString = string.resultPreview;
-//TODO: implement history store to manage operations history board
+
 export const FeedbackBoard: FC<IFeedbackBoard> = ({
     data,
     status
 }) => {
+    const [history] = useCalculatorHistory();
     const handleResult = (
         currentData: typeof data,
         currentStatus: typeof status
@@ -35,10 +38,21 @@ export const FeedbackBoard: FC<IFeedbackBoard> = ({
         return { message };
     };
     const { message } = handleResult(data, status);
+    const shouldShowResultPreview = status === "pending" || status === "resolved";
+    const shouldShowHistory = !shouldShowResultPreview && history.length;
 
     return (
         <Col xs={12} md={5}>
-            <BoxWrapper isFluid>
+            <BoxWrapper isFluid shouldMaxSize>
+                <Row justify="end">
+                    <Col xs="content">
+                        <H4 color="lightMain">
+                            {shouldShowHistory
+                                ? boardString.titleWithHistory
+                                : boardString.title}
+                        </H4>
+                    </Col>
+                </Row>
                 {status === "pending" ? (
                     <Row justify="center">
                         <Col xs="content">
@@ -49,17 +63,16 @@ export const FeedbackBoard: FC<IFeedbackBoard> = ({
                     </Row>
                 ) : (
                     <>
-                        <Row justify="end">
-                            <Col xs="content">
-                                <H4 color="lightMain">{boardString.title}</H4>
-                            </Col>
-                        </Row>
                         <Row justify="center">
-                            <Col xs="content">
+                            <Col xs={shouldShowHistory ? 12 : "content"}>
                                 {status === "idle" || status === "rejected" ? (
-                                    <H1 color="sweetMain" justify="center">
-                                        {boardString.idleFeedback}
-                                    </H1>
+                                    shouldShowHistory ? (
+                                        <CalculatorHistory history={history} />
+                                    ) : (
+                                        <H1 color="sweetMain" justify="center">
+                                            {boardString.idleFeedback}
+                                        </H1>
+                                    )
                                 ) : null}
                                 {message ? (
                                     <H1

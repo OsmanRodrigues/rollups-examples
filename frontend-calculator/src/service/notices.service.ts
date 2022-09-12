@@ -15,7 +15,6 @@ import {
     Notice,
     NoticesByEpochAndInputQueryVariables,
 } from "../../generated/graphql";
-import { string } from "../view/layout/shared/constants";
 import { client } from "./config/client";
 
 export interface NoticeViewModel extends Notice {
