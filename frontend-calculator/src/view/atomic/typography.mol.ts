@@ -20,7 +20,7 @@ interface LabelProps {
 }
 
 const sharedDefaultCss = css<SharedDefaultProps>`
-    word-break: keep-all;
+    word-break: break-word;
     ${({ isBold, color, noPadding, paddingY, paddingX, justify }) => `
         ${isBold ? "font-weight: 500;" : ""}
         padding: ${
