@@ -21,6 +21,7 @@ import { Input } from "../../atomic/form.org/input.mol";
 import { Separator } from "../../atomic/layout.org/separator.mol/separator.atm";
 import { H1, Label, Paragraph } from "../../atomic/typography.mol";
 import { ChartDraw } from "./chart-draw/chart-draw";
+import { useParseChartDrawData } from "./chart-draw/use-parse-chart-draw-data";
 import { id, string } from "./constants";
 
 interface ISendInputForm {
@@ -38,20 +39,28 @@ export const SendInputForm: FC<ISendInputForm> = ({
     isLoading,
     canClearForm,
 }) => {
-    const { handleSubmit, register, formState, clearErrors, reset, watch } =
-        useForm<SendInputData>();
-    const formValue = watch();
+    const {
+        handleSubmit,
+        register,
+        formState,
+        clearErrors,
+        reset,
+        watch,
+        setError
+    } = useForm<SendInputData>();
+    const formData = watch();
     const lengthAndWidthMax = 8;
-    const plMaxFallback = !!formValue.sl ? +formValue.sl : lengthAndWidthMax;
-    const pwMaxFallback = !!formValue.sw ? +formValue.sw : lengthAndWidthMax;
-    const chartDrawData = {
-        ...formValue,
-        pl: formValue.pl > formValue.sl ? formValue.sl : formValue.pl,
-        pw: formValue.pw > formValue.sw ? formValue.sw : formValue.pw,
-    };
+    const chartDrawData = useParseChartDrawData(
+        formData,
+        lengthAndWidthMax,
+        setError,
+        clearErrors
+    );
+    const plMaxFallback = !!formData.sl ? +formData.sl : lengthAndWidthMax;
+    const pwMaxFallback = !!formData.sw ? +formData.sw : lengthAndWidthMax;
 
     const handleClearForm = useCallback(
-        (e: any) => {
+        (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             e.preventDefault();
             onClearForm();
             clearErrors();
@@ -240,7 +249,9 @@ export const SendInputForm: FC<ISendInputForm> = ({
 
 const renderSubmitButton = (
     canClearForm: boolean,
-    handleClearForm: (e: any) => void,
+    handleClearForm: (
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => void,
     isLoading: boolean
 ) => {
     return (
