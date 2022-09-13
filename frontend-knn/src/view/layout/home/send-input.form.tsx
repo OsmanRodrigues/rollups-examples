@@ -62,9 +62,24 @@ export const SendInputForm: FC<ISendInputForm> = ({
     const handleClearForm = useCallback(
         (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             e.preventDefault();
-            onClearForm();
-            clearErrors();
-            reset();
+
+            const buttonId = e.currentTarget.id;
+            const clearForm = () => {
+                clearErrors();
+                reset();
+            };
+
+            switch (buttonId) {
+                case id.sendInputForm.clearResultButton: {
+                    onClearForm();
+                    break;
+                }
+                case id.sendInputForm.clearAllButton:{
+                    clearForm();
+                    onClearForm();
+                    break;
+                }
+            }
         },
         [onClearForm, clearErrors, reset]
     );
@@ -255,27 +270,47 @@ const renderSubmitButton = (
     isLoading: boolean
 ) => {
     return (
-        <Col xs="content">
+        <>
             {canClearForm ? (
-                <Button
-                    form={id.sendInputForm.main}
-                    type="reset"
-                    onClick={handleClearForm}
-                >
-                    {formString.clearButtonText}
-                </Button>
+                <>
+                    <Col xs="content" sm={6}>
+                        <Button
+                            id={id.sendInputForm.clearResultButton}
+                            form={id.sendInputForm.main}
+                            type="reset"
+                            onClick={handleClearForm}
+                        >
+                            {formString.clearResultButtonText}
+                        </Button>
+                    </Col>
+                    <Visible xs>
+                        <Col xs={12}>
+                            <Separator />
+                        </Col>
+                    </Visible>
+                    <Col xs="content" sm={6}>
+                        <Button
+                            id={id.sendInputForm.clearAllButton}
+                            onClick={handleClearForm}
+                        >
+                            {formString.clearAllButtonText}
+                        </Button>
+                    </Col>
+                </>
             ) : (
-                <Button
-                    form={id.sendInputForm.main}
-                    type="submit"
-                    sideElement="right"
-                    disabled={isLoading}
-                >
-                    {isLoading
-                        ? formString.loadingButtonText
-                        : formString.submitButtonText}
-                </Button>
+                <Col xs="content">
+                    <Button
+                        form={id.sendInputForm.main}
+                        type="submit"
+                        sideElement="right"
+                        disabled={isLoading}
+                    >
+                        {isLoading
+                            ? formString.loadingButtonText
+                            : formString.submitButtonText}
+                    </Button>
+                </Col>
             )}
-        </Col>
+        </>
     );
 };

@@ -18,6 +18,8 @@ export const id = {
         petalWidthInput: "pw",
         sepalLengthInput: "sl",
         sepalWidthInput: "sw",
+        clearResultButton: "clearResultButton",
+        clearAllButton: "clearAllButton",
     },
 };
 
@@ -33,7 +35,8 @@ export const string = {
         lengthLabel: "L",
         widthLabel: "W",
         submitButtonText: "See result",
-        clearButtonText: "Clear result",
+        clearResultButtonText: "Clear result",
+        clearAllButtonText: "Clear all",
         loadingButtonText: "Waiting...",
         description: `Try to find an Iris flower from petal and sepal measurements! ${emoji.faceWithMonocle}`,
     },
