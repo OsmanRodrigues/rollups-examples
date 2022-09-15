@@ -243,3 +243,53 @@ A more generic Machine Learning DApp that illustrates how to use the [m2cgen (Mo
 Demonstrates how to handle ERC-20 deposits and withdrawals.
 The application parses ERC-20 deposits received from the Portal and emits a notice confirming receipt.
 It then issues corresponding vouchers to return the assets back to the depositor.
+
+### Common pitfalls while using rollups. 
+
+Here are some tips for the most commom problems while building, testing, and deploying the rollups dapps.
+
+#### Getting wrong values in the graphql notices
+
+Sometimes we will be testing more than one DApp in a host machine. In this scenario we can sometimes forget to run ```docker-compose -f ../docker-compose.yml -f ./docker-compose.override.yml down -v´´´ between the tests, or when it is mentioned in the previous documentation. It is recommended to always run this while changing the DApp we are using. Some known problems this can cause are:
+- Wrong array of notices
+- Blank array of notices
+- inconsistent epoch of blockchain
+
+#### Small diferences in commands
+
+Some commands are similar but not equal. For instance, while building an DApp for testing, we have ```docker buildx bake --load´´´ which builds the DApp for us. While Deploying an DApp, the command is similar but it adds the tag machine in : ````docker buildx machine bake --load´´´. There are some other commands, so be sure to check the right command for the right situation.
+
+#### Run the backend for the hostmode
+
+While testing, we can easily forget to run the enviroment step, which causes the dapp not working properlly. In host mode running the enviroment part is the backend itself, so if it isn't executed it will not work.
+
+#### Check if all files are generated for hostmode
+
+While building and creating an DApp, we can forget to generate all the files needed for it run in hostmode specially. Considering the production mode those files will be inside cartesi machine, those files need to be in the dapp folder in the host machine when we run this in hostmode. So, if your DApp generates binary files, model files and so on, be sure to generate those in the dapp folder too.
+
+#### Disk space
+
+Be sure to have enough space to run the DApps properly. While building, it will be using many docker images of the Cartesi infrastructure so don't underestimate the disk usage. 
+
+#### Free Docker from Sudo
+
+Some commands, specially while deploying an DApp, needs to use environment variables to work. If you, by some reason, run docker with "Sudo", it will not share the enviroment variables so it will cause the command to fail. So make sure to configure the host machine to not ask the sudo credentials while running docker.
+
+#### Using wallets in the deploy process (Testnets)
+
+In the Deploy phase, we import a wallet through the mnemonic configured in the variables. In metamask we can have more than one wallet, but when you use an mnemonic you are using the first account. That said, be sure this account has the currency needed to deploy and DApp (The currency used in the desired testnet). If not, the deploy won't be sucessfull.
+
+#### Importing a wallet to test the dapp in the localhost blockhain
+
+While testing an DApp, is natural to test it first in the localhost (hostmode) blockchain. But for that you will have to import one of the wallets listed in the first amount of the dapp logs. For that, you will have to use the private key listed there to import it to metamask. Here is how to do this with steps:
+
+#### Keep in mind the amount of delay while making transactions and using the DApp.
+
+While using this kind of dapps, we naturally have a stronger delay than we have in the web2 apps. With that said, some results can take a longer time to be exibihited. Some factors can impact in the amount of time needed for process and operation:
+- The desired blockchain can be busy
+- The host machine has low specs
+- The operation, for some other reason, is taking longer to be processed.
+
+
+
+
