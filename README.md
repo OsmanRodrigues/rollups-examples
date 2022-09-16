@@ -271,7 +271,7 @@ The application comes with an integrated wallet and is capable of handling depos
 It also implements a simple auction engine, which is responsible for creating auctions and handling bids, as well as transferring the auctioned NFTs to the winning bidder when the auction ends.
 It exercises the Rollups API, showing how to process advance and inspect requests, as well as how to generate Notices, Vouchers, and Reports.
 
-## Common pitfalls while using rollups.
+## Common pitfalls while using rollups
 
 Here are some tips for the most commom problems while building, testing, and deploying the rollups dapps.
 
@@ -281,7 +281,7 @@ Sometimes we will be testing more than one DApp in a host machine. In this scena
 
 -   Wrong array of notices
 -   Blank array of notices
--   inconsistent epoch of blockchain
+-   Inconsistent epoch of blockchain
 
 ### Small diferences in commands
 
@@ -289,7 +289,7 @@ Some commands are similar but not equal. For instance, while building an DApp fo
 
 ### Run the backend for the hostmode
 
-While testing, we can easily forget to run the enviroment step, which causes the dapp not working properlly. In host mode running the enviroment part is the backend itself, so if it isn't executed it will not work.
+While testing, we can easily forget to run the enviroment step, which causes the dapp not working properly. In host mode running the environment part is the backend itself, so if it isn't executed it will not work.
 
 ### Check if all files are generated for hostmode
 
@@ -315,15 +315,15 @@ While testing an DApp, is natural to test it first in the localhost (hostmode) b
 
 ![image](https://user-images.githubusercontent.com/4421825/190483700-1c70cf8c-e975-43ba-886f-916d93e049b8.png)
 
-And then import it to metamask using the private key. If you sucessfully add one of the wallets to metamask your wallet shoud look like below. Remeber: you have to be running the blockchain while trying to add it.
+And then import it to metamask using the private key. If you sucessfully add one of the wallets to metamask your wallet shoud look like below. Remeber: you have to be running the blockchain locally while trying to add it.
 
 ![image](https://user-images.githubusercontent.com/4421825/190484563-def28fde-775c-4b7b-a0ba-a8aa9112d02b.png)
 
 ### Wallet can't connect to the blockchain in localhost
 
-Sometimes the transactions done with a localhost blockchain wallet will not complete due to various reasons. In those scenarios, you will have to re-import the wallet to metamask to force some synchronization with the localhost blockchain. Keep in mind that different DApps can generate different wallets in the wallet list shown at the start of running, so it can be also a situation that you have to use another wallet.
+Sometimes the transactions done with a localhost blockchain wallet will not complete due to various reasons. In those scenarios, you will have to re-import the wallet to metamask to force some synchronization with the localhost blockchain. Keep in mind that different DApps can generate different wallets in the wallet list shown at the start of running, so it can be also a situation that you have to use another wallet. With that said, is necessary down the current docker composer and clear their volumes if you want to be running another dapp locally (in hostmode) and re-sign in wallet.
 
-### Keep in mind the amount of delay while making transactions and using the DApp.
+### Keep in mind the amount of delay while making transactions and using the DApp
 
 While using this kind of dapps, we naturally have a stronger delay than we have in the web2 apps. With that said, some results can take a longer time to be exibihited. Some factors can impact in the amount of time needed for process and operation:
 
