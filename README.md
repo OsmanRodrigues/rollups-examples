@@ -2,6 +2,10 @@
 
 This repository includes examples of decentralized applications implemented using [Cartesi Rollups](https://github.com/cartesi/rollups).
 
+You can use online development environments such as [Gitpod](https://gitpod.io/) and [CodeSandbox](https://codesandbox.io) to open this repository directly in your browser with all [required dependencies](https://cartesi.io/docs/build-dapps/requirements) already installed. These services allow you to start experimenting immediately, but keep in mind that they are provided by third-parties and are subject to unavailability and policy changes. They may also require access to your GitHub account in order to work properly.
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#prebuild/https://github.com/cartesi/rollups-examples/)
+
 ## Introduction
 
 From a developer’s point of view, each decentralized application or _DApp_ is composed of two main parts: a **front-end** and a **back-end**.
@@ -47,7 +51,10 @@ cd <example>
 docker buildx bake --load
 ```
 
-This will also build the example's Cartesi Machine containing the DApp's back-end logic. For certain examples, this may include special [procedures for downloading and installing additional dependencies](./calculator/README.md#installing-extra-dependencies) required by the application.
+This will also build the example's Cartesi Machine containing the DApp's back-end logic.
+
+The file `<example>/dapp.json` contains some configurations for building the application. In particular, it defines the back-end's entry-point executable, along with any other files that should be made available inside the Cartesi Machine.
+For certain examples, the build process also includes special [procedures for downloading and installing additional dependencies](./calculator/README.md#installing-extra-dependencies) required by the application.
 
 ## Running
 
@@ -92,6 +99,8 @@ The host environment can be executed with the following command:
 docker compose -f ../docker-compose.yml -f ./docker-compose.override.yml -f ../docker-compose-host.yml up
 ```
 
+_Note_: In production mode, rejected inputs are guaranteed to have no effect on the back-end, since in that case the Cartesi Machine is completely rolled back to its previous state. However, in host mode there is no such guarantee and it is possible for changes to persist, for instance if the DApp allows an invalid input to change a global variable or produce a database write before it is rejected.
+
 _Note_: When running in host mode, localhost ports `5003` and `5004` will be used by default for the communication between the Cartesi Rollups framework and the DApp's back-end.
 
 ### Interactive console
@@ -106,6 +115,12 @@ docker run --rm -it cartesi/dapp:<example>-devel-console
 ```
 
 The example's specific resources can generally be found within the `/mnt/dapp` directory.
+
+To run the console as the `root` user, type the following command:
+
+```shell
+docker run --rm -it cartesi/dapp:<example>-devel-console run-machine-console.sh --run-as-root
+```
 
 ### Advancing time
 
