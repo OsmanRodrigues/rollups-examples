@@ -103,6 +103,10 @@ export const GlobalStyle = createGlobalStyle`
     html {
         font-family: ${typography.fontFamily};
         font-size: ${typography.fontSize};
+        :root {
+            //Wallet modal z-index
+            --account-center-z-index: ${zIndex.veryHigh};
+        }
     }
 
     body {
