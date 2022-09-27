@@ -246,7 +246,7 @@ export const useCalculator = () =>{
             case "CE":
                 setMainOperation(() => {
                     const currentOperationCopy = [...currentOperation];
-                    currentOperation.pop();
+                    currentOperationCopy.pop();
 
                     return currentOperationCopy;
                 });
@@ -268,10 +268,10 @@ export const useCalculator = () =>{
                             0,
                             lastElement.length - 1
                         );
-                        currentOperation.pop();
-                        currentOperation.push(newLastElement);
+                        currentOperationCopy.pop();
+                        currentOperationCopy.push(newLastElement);
                     }
-                    else currentOperation.pop();
+                    else currentOperationCopy.pop();
 
                     return currentOperationCopy;
                 });

@@ -91,7 +91,7 @@ export const Calculator: FC<ICalculator> = ({
                 />
                 <CalculatorButton
                     buttonType={ButtonType.Misc}
-                    onClick={() =>handleClear("<")}
+                    onClick={() => handleClear("<")}
                 >
                     <FiDelete />
                 </CalculatorButton>
