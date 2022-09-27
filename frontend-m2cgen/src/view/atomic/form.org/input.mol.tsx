@@ -10,10 +10,10 @@
 // specific language governing permissions and limitations under the License.
 
 import { FC } from "react";
-import { Label, Paragraph } from "../typography.mol";
+import { Label } from "../typography.mol";
 import { SelectWrapper, InputWrapper, InputLayout } from "./form.mol";
 import { AiOutlineDown } from "react-icons/ai";
-import { handleFormError } from "./helpers";
+import { InputError } from "./helpers";
 import { FieldError } from "react-hook-form";
 
 export interface Option {
@@ -38,11 +38,14 @@ export const Input: FC<IInput> = ({
     required,
     register,
     value,
+    max,
+    min,
     handleChange,
     ...other
 }) => {
     const idFallback = other.id ?? "";
-    const registeredProps = register?.(idFallback, { required });
+    const registerValidation = { required, max, min };
+    const registeredProps = register?.(idFallback, registerValidation);
 
     return (
         <>
@@ -105,11 +108,11 @@ export const Input: FC<IInput> = ({
                     {...registeredProps}
                 />
             )}
-            {inputError ? (
-                <Paragraph color="white">
-                    {handleFormError(inputError, other.name ?? idFallback)}
-                </Paragraph>
-            ) : null}
+            <InputError
+                error={inputError}
+                name={other.name ?? idFallback}
+                options={registerValidation}
+            />
         </>
     );
 };
