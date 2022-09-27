@@ -51,3 +51,10 @@ export const string = {
         onError: "Sorry! An error occurred while get result, try again later.",
     },
 };
+
+export const config = {
+    ageInput: {
+        max: 150,
+        min: 10
+    }
+}
