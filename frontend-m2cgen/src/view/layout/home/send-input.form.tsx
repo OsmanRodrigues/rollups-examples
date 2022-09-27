@@ -19,7 +19,7 @@ import { FieldsetWrapper, FormWrapper } from "../../atomic/form.org/form.mol";
 import { Input, Option } from "../../atomic/form.org/input.mol";
 import { Separator } from "../../atomic/layout.org/separator.mol/separator.atm";
 import { H1, Paragraph } from "../../atomic/typography.mol";
-import { id, string } from "./constants";
+import { id, string, config } from "./constants";
 
 interface ISendInputForm {
     handleSendInput: (data: SendInputData) => void;
@@ -138,6 +138,8 @@ export const SendInputForm: FC<ISendInputForm> = ({
                                 register={register}
                                 inputError={formState.errors.Age}
                                 type="number"
+                                max={config.ageInput.max}
+                                min={config.ageInput.min}
                                 isOutilined
                                 required
                             />
