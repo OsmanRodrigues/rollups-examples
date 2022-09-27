@@ -54,6 +54,9 @@ export const CalculatorButtonWrapper = styled.button`
         background: ${color.buttonOperation};
         border: ${border.general} ${color.mediumMain};
     }
+    &:hover {
+        cursor: pointer;
+    }
 `;
 
 export const getCalculatorButtonStyles = (type: ButtonType): React.CSSProperties => {
