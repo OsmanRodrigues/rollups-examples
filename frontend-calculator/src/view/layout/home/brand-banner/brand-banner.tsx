@@ -1,22 +1,25 @@
 import React from "react";
 import { Label, Paragraph } from "../../../atomic/typography.mol";
+import { string } from "../constants";
 import {
     BrandBannerHero,
 } from "./brand-banner.style";
+
+const brandString = string.brandBanner;
 
 export const BrandBanner: React.FC<{}> = () =>{
     return (
         <>
             <BrandBannerHero>
                 <Label paddingX="sm" justify="start" isBold>
-                    Web3
+                    {brandString.heroPart1}
                 </Label>
                 <Label paddingX="sm" justify="start" isBold>
-                    Calculator
+                    {brandString.heroPart2}
                 </Label>
             </BrandBannerHero>
             <Paragraph color="gray">
-                Mount your math expression and calculate it in the blockchain.
+                {brandString.description}
             </Paragraph>
         </>
     );
