@@ -9,10 +9,16 @@ export const id = {
 };
 
 export const string = {
+    brandBanner: {
+        heroPart1: "Web3",
+        heroPart2: "Calculator",
+        description:
+            "Build your math expression and calculate it in the blockchain.",
+    },
     resultPreview: {
         title: "Result preview",
         titleWithHistory: "History",
-        idleFeedback: "Use the calculator buttons to build a operation. 🧮",
+        idleFeedback: "Use the calculator buttons to build an expression. 🧮",
         pendingFeedback: "Waiting for result...",
     },
     sendInputForm: {
