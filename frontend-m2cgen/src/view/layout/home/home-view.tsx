@@ -23,6 +23,7 @@ import { toast } from "react-toast";
 import { string } from "./constants";
 import { resetServiceState } from "../../../controller/common.controller";
 import { useOnboardedService } from "../../../controller/use-service/use-onboarded-service";
+import { OnboardTourProvider } from "./onboard-tour/onboard-tour.context";
 
 export const HomeView: FC = () => {
     const [noticesState, noticesDispatch] = useService<NoticeViewModel[]>();
@@ -62,29 +63,31 @@ export const HomeView: FC = () => {
     };
 
     return (
-        <SharedLayout>
-            <Row>
-                <SendInputForm
-                    handleSendInput={handleSendInput}
-                    onClearForm={handleResetStates}
-                    isLoading={
-                        sendInputState.status === "pending" ||
-                        noticesState.status === "pending"
-                    }
-                    canClearForm={
-                        sendInputState.status === "resolved" &&
-                        noticesState.status === "resolved"
-                    }
-                />
-                <FeedbackBoard
-                    data={noticesState.data ?? []}
-                    status={
-                        sendInputState.status === "pending"
-                            ? "pending"
-                            : noticesState.status
-                    }
-                />
-            </Row>
-        </SharedLayout>
+        <OnboardTourProvider>
+            <SharedLayout>
+                <Row>
+                    <SendInputForm
+                        handleSendInput={handleSendInput}
+                        onClearForm={handleResetStates}
+                        isLoading={
+                            sendInputState.status === "pending" ||
+                            noticesState.status === "pending"
+                        }
+                        canClearForm={
+                            sendInputState.status === "resolved" &&
+                            noticesState.status === "resolved"
+                        }
+                    />
+                    <FeedbackBoard
+                        data={noticesState.data ?? []}
+                        status={
+                            sendInputState.status === "pending"
+                                ? "pending"
+                                : noticesState.status
+                        }
+                    />
+                </Row>
+            </SharedLayout>
+        </OnboardTourProvider>
     );
 };

@@ -20,6 +20,7 @@ import { Input, Option } from "../../atomic/form.org/input.mol";
 import { Separator } from "../../atomic/layout.org/separator.mol/separator.atm";
 import { H1, Paragraph } from "../../atomic/typography.mol";
 import { id, string, config } from "./constants";
+import { onboardTourCSSClass } from "./onboard-tour/onboard-tour.steps";
 
 interface ISendInputForm {
     handleSendInput: (data: SendInputData) => void;
@@ -105,6 +106,7 @@ export const SendInputForm: FC<ISendInputForm> = ({
                     <Col xs="content">
 
                         <Button
+                            className={onboardTourCSSClass["onboard-tour-element-3"]}
                             form={id.sendInputForm.main}
                             type="submit"
                             sideElement="right"
@@ -126,6 +128,7 @@ export const SendInputForm: FC<ISendInputForm> = ({
             <Paragraph color="gray">{formString.description}</Paragraph>
             <Separator />
             <FormWrapper
+                className={onboardTourCSSClass["onboard-tour-element-2"]}
                 id={id.sendInputForm.main}
                 onSubmit={handleSubmit(handleSendInput)}
             >
