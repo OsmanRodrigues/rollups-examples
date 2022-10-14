@@ -23,6 +23,7 @@ import { ShipCrashAnimation } from "./ship-crash/ship-crash.animation";
 import { genTimerPromise } from "../../../utils/timer-promise";
 import { RESOLVED_REQUEST_TRANSITION_DURATION } from "./ship-crash/constants";
 import { motion } from "framer-motion";
+import { onboardTourCSSClass } from "./onboard-tour/onboard-tour.steps";
 
 interface IFeedbackBoard {
     data: NoticeViewModel[];
@@ -59,7 +60,12 @@ export const FeedbackBoard: FC<IFeedbackBoard> = ({ data, status }) => {
     }, [status]);
 
     return (
-        <BoxWrapper sm={12} md={6} isFluid>
+        <BoxWrapper
+            className={onboardTourCSSClass["onboard-tour-element-4"]}
+            sm={12}
+            md={6}
+            isFluid
+        >
             <Row justify="end">
                 <Col xs="content">
                     <H4 color="lightMain">{boardString.title}</H4>
