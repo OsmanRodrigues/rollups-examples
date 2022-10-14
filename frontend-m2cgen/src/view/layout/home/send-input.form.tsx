@@ -20,7 +20,7 @@ import { Input, Option } from "../../atomic/form.org/input.mol";
 import { Separator } from "../../atomic/layout.org/separator.mol/separator.atm";
 import { H1, Paragraph } from "../../atomic/typography.mol";
 import { id, string, config } from "./constants";
-import { onboardTourCSSClass } from "./onboard-tour/onboard-tour.steps";
+import { onboardTourCSSClass } from "./onboard-tour/onboard-tour.style";
 
 interface ISendInputForm {
     handleSendInput: (data: SendInputData) => void;

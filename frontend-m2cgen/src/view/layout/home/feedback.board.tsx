@@ -23,7 +23,7 @@ import { ShipCrashAnimation } from "./ship-crash/ship-crash.animation";
 import { genTimerPromise } from "../../../utils/timer-promise";
 import { RESOLVED_REQUEST_TRANSITION_DURATION } from "./ship-crash/constants";
 import { motion } from "framer-motion";
-import { onboardTourCSSClass } from "./onboard-tour/onboard-tour.steps";
+import { onboardTourCSSClass } from "./onboard-tour/onboard-tour.style";
 
 interface IFeedbackBoard {
     data: NoticeViewModel[];
