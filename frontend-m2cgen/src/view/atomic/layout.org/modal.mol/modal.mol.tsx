@@ -14,6 +14,7 @@ import { ModalCloseButton, ModalContent, ModalWrapper } from "./modal.style";
 
 export interface IModal {
     isOpen: boolean;
+    labelledBy?: string;
     onOpen?: () => void;
     onClose?: () => void;
 }
@@ -21,6 +22,7 @@ export interface IModal {
 export const Modal: FC<PropsWithChildren<IModal>> = ({
     children,
     isOpen,
+    labelledBy,
     onClose,
     onOpen,
 }) => {
@@ -30,7 +32,7 @@ export const Modal: FC<PropsWithChildren<IModal>> = ({
 
     return (
         <ModalWrapper isOpen={isOpen} onDismiss={onClose}>
-            <ModalContent>
+            <ModalContent aria-labelledby={labelledBy}>
                 <ModalCloseButton
                     onClick={() => {
                         onClose?.();
