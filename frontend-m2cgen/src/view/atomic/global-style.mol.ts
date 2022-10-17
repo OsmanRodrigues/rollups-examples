@@ -138,15 +138,23 @@ export const GlobalStyle = createGlobalStyle`
             font-family: ${typography.fontFamily};
             color: ${color.dark};
             background-color: ${color.white};
-            border: ${border.general} ${color.lightMain};
+            border: ${border.general} ${color.sweetMain};
             border-radius: ${radius.md};
             padding: ${spacing.padding.md};
 
             header {
                 display: flex;
                 justify-content: space-between;
-                color: ${color.lightMain};
                 font-weight: ${typography.weight.bold};
+
+                button {
+                    color: ${color.lightMain};
+                    cursor: pointer;
+
+                    &:hover:enabled {
+                        color: ${color.sweetMain};
+                    }
+                }
             }
             .shepherd-text {
                 padding: ${spacing.padding.md} 0;
