@@ -19,6 +19,9 @@ export const string = {
     },
     manageWalletModal: {
         title: "Wallet Management",
+        aria: {
+            labelledById: "wallet-management-modal"
+        },
         switchChainInput: {
             id: "switchChainInput",
             name: "Switch chain",

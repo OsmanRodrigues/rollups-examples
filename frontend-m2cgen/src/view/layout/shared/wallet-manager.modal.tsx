@@ -27,10 +27,19 @@ export const WalletManagerModal: FC<IModal> = ({ isOpen, onClose }) => {
     const [{ chains, connectedChain, settingChain }, setChain] = useSetChain();
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal
+            isOpen={isOpen}
+            onClose={onClose}
+            labelledBy={modalString.aria.labelledById}
+        >
             <Row justify="center">
                 <Col xs="content">
-                    <H1 color="dark">{modalString.title}</H1>
+                    <H1
+                        id={modalString.aria.labelledById}
+                        color="dark"
+                    >
+                        {modalString.title}
+                    </H1>
                 </Col>
             </Row>
             <Separator large />
