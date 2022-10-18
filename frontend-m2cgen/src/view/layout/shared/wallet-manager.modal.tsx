@@ -22,27 +22,19 @@ import { string } from "./constants";
 
 const modalString = string.manageWalletModal;
 
-export const WalletManagerModal: FC<IModal> = ({ isOpen, onClose }) => {
+type IWalletManagerModal = Pick<IModal, 'isOpen' | 'onClose'>;
+
+export const WalletManagerModal: FC<IWalletManagerModal> = ({ isOpen, onClose }) => {
     const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
     const [{ chains, connectedChain, settingChain }, setChain] = useSetChain();
 
     return (
         <Modal
             isOpen={isOpen}
+            title={modalString.title}
             onClose={onClose}
             labelledBy={modalString.aria.labelledById}
         >
-            <Row justify="center">
-                <Col xs="content">
-                    <H1
-                        id={modalString.aria.labelledById}
-                        color="dark"
-                    >
-                        {modalString.title}
-                    </H1>
-                </Col>
-            </Row>
-            <Separator large />
             {!!wallet ? (
                 <>
                     <Row justify="center">
