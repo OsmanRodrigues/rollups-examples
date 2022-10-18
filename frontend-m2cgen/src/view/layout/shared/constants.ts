@@ -10,17 +10,31 @@
 // specific language governing permissions and limitations under the License.
 
 export const string = {
+    aboutButton: {
+        text: "About",
+    },
+    aboutModal: {
+        title: "About",
+        aria: {
+            labelledById: "about-modal",
+        },
+        textTitle: "Titanic Survivor - An DApp by locus Powered By CArtesi.",
+        textContent1:
+            "This DApp is one from a series of DApps born from the partnership of Locus Custom Software and Cartesi. The main objective was to bring common concepts from the web2 to the web3 through the Cartesi rollups technology.",
+        textContent2:
+            "Bringing more complex machine learning models than the Iris Classifier, the Titanic Survivor DApp uses Logistic Regression from Scikit-Learn throught m2cgen library and this is used to the prediction step. This prediction, and all the computation, is done inside the blockchain, thanks to the Cartesi API which brings those kind of concepts to the blockchain, therefore, one of the great benefits of using it.",
+        CTAButton: {
+            text: "OK"
+        }
+    },
     header: "Locus DApp | Powered By Cartesi",
     manageWalletButton: {
         text: "Manage wallet",
     },
-    onboardTourButton: {
-        text: "Start DApp tour"
-    },
     manageWalletModal: {
         title: "Wallet Management",
         aria: {
-            labelledById: "wallet-management-modal"
+            labelledById: "wallet-management-modal",
         },
         switchChainInput: {
             id: "switchChainInput",
@@ -33,5 +47,8 @@ export const string = {
         disconnectButton: {
             text: "Disconnect",
         },
+    },
+    onboardTourButton: {
+        text: "Start DApp tour",
     },
 };
