@@ -12,7 +12,6 @@
 import { FC, PropsWithChildren, useEffect } from "react";
 import { Row, Col } from "react-grid-system";
 import { H1 } from "../../typography.mol";
-import { Separator } from "../separator.mol/separator.atm";
 import { ModalCloseButton, ModalContent, ModalWrapper } from "./modal.style";
 
 export interface IModal {
@@ -50,7 +49,6 @@ export const Modal: FC<PropsWithChildren<IModal>> = ({
                         </H1>
                     </Col>
                 </Row>
-                <Separator large />
                 {children}
             </ModalContent>
         </ModalWrapper>

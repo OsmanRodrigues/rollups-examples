@@ -35,6 +35,7 @@ export const WalletManagerModal: FC<IWalletManagerModal> = ({ isOpen, onClose })
             onClose={onClose}
             labelledBy={modalString.aria.labelledById}
         >
+            <Separator large />
             {!!wallet ? (
                 <>
                     <Row justify="center">
