@@ -10,10 +10,14 @@
 // specific language governing permissions and limitations under the License.
 
 import { FC, PropsWithChildren, useEffect } from "react";
+import { Row, Col } from "react-grid-system";
+import { H1 } from "../../typography.mol";
+import { Separator } from "../separator.mol/separator.atm";
 import { ModalCloseButton, ModalContent, ModalWrapper } from "./modal.style";
 
 export interface IModal {
     isOpen: boolean;
+    title: string;
     labelledBy?: string;
     onOpen?: () => void;
     onClose?: () => void;
@@ -22,6 +26,7 @@ export interface IModal {
 export const Modal: FC<PropsWithChildren<IModal>> = ({
     children,
     isOpen,
+    title,
     labelledBy,
     onClose,
     onOpen,
@@ -38,6 +43,14 @@ export const Modal: FC<PropsWithChildren<IModal>> = ({
                         onClose?.();
                     }}
                 />
+                <Row justify="center">
+                    <Col xs="content">
+                        <H1 id={labelledBy} color="dark">
+                            {title}
+                        </H1>
+                    </Col>
+                </Row>
+                <Separator large />
                 {children}
             </ModalContent>
         </ModalWrapper>
