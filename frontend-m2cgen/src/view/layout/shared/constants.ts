@@ -18,7 +18,7 @@ export const string = {
         aria: {
             labelledById: "about-modal",
         },
-        textTitle: "Titanic Survivor - An DApp by locus Powered By CArtesi.",
+        textTitle: "Titanic Survivor - An DApp by locus Powered By Cartesi.",
         textContent1:
             "This DApp is one from a series of DApps born from the partnership of Locus Custom Software and Cartesi. The main objective was to bring common concepts from the web2 to the web3 through the Cartesi rollups technology.",
         textContent2:
