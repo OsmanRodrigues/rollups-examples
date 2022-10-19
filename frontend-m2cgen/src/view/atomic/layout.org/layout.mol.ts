@@ -23,11 +23,15 @@ const sharedDefaultCss = css`
 
 export const Header = styled.header`
     ${sharedDefaultCss}
-    top: 0px;
-    left: 0px;
-    right: 0px;
     display: flex;
     justify-content: space-between;
+`;
+
+export const Footer = styled.footer`
+    ${sharedDefaultCss}
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `;
 
 export const Main = styled.main`

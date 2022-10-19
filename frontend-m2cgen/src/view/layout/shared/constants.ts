@@ -14,6 +14,9 @@ export const string = {
     manageWalletButton: {
         text: "Manage wallet",
     },
+    onboardTourButton: {
+        text: "Start DApp tour"
+    },
     manageWalletModal: {
         title: "Wallet Management",
         switchChainInput: {
