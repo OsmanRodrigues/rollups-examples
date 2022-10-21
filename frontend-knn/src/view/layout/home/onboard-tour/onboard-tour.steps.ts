@@ -75,7 +75,7 @@ export const onBoardTourSteps: ShepherdOptionsWithType[] = [
         },
         title: "Petal sizes",
         text: [
-            `In this area the user can input the sizes for petal of the flower.
+            `In this area you can input the sizes for petal of the flower.
             The range of those values goes from 0.1 to 8.0, but it has a restriction
             for the petal value should have be lower or equal than sepal values.`,
         ],
@@ -88,7 +88,7 @@ export const onBoardTourSteps: ShepherdOptionsWithType[] = [
         },
         title: "The chart",
         text: [
-            `This area is a graphic representation of the values choosen by the user.`,
+            `This area is a graphic representation of the values choosen by you.`,
         ],
         ...sharedOptions,
     },
