@@ -18,7 +18,7 @@ interface SharedDefaultProps {
     paddingX?: "sm" | "md" | "lg";
     paddingY?: "sm" | "md" | "lg";
     noPadding?: boolean;
-    justify?: boolean | "start" | "center" | "end";
+    justify?: true | "start" | "center" | "end";
 }
 
 const sharedDefaultCss = css<SharedDefaultProps>`
