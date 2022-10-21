@@ -23,6 +23,7 @@ import { H1, Label, Paragraph } from "../../atomic/typography.mol";
 import { ChartDraw } from "./chart-draw/chart-draw";
 import { useParseChartDrawData } from "./chart-draw/use-parse-chart-draw-data";
 import { id, string } from "./constants";
+import { OnboardTourHighlightWrapper } from "./onboard-tour/onboard-tour-highlight.wrapper";
 import { onboardTourCSSClass } from "./onboard-tour/onboard-tour.style";
 
 interface ISendInputForm {
@@ -96,141 +97,157 @@ export const SendInputForm: FC<ISendInputForm> = ({
                 </Col>
                 <Col xs={12} md={4} lg={3}>
                     <FormWrapper
-                        className={onboardTourCSSClass['onboard-tour-element-2']}
+                        className={
+                            onboardTourCSSClass["onboard-tour-element-2"]
+                        }
                         id={id.sendInputForm.main}
                         onSubmit={handleSubmit(handleSendInput)}
                     >
-                        <Row className={onboardTourCSSClass['onboard-tour-element-3']}>
-                            <Col>
-                                <Label paddingX="sm">
-                                    {formString.sepalLabel}
-                                </Label>
-                            </Col>
-                        </Row>
-                        <Row className={onboardTourCSSClass['onboard-tour-element-3']}>
-                            <Col xs={6} md={12}>
-                                <FieldsetWrapper
-                                    form={id.sendInputForm.main}
-                                    flexDir="row"
-                                >
-                                    <Input
-                                        id={id.sendInputForm.sepalWidthInput}
+                        <OnboardTourHighlightWrapper className="onboard-tour-element-3">
+                            <Row>
+                                <Col>
+                                    <Label paddingX="sm">
+                                        {formString.sepalLabel}
+                                    </Label>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col xs={6} md={12}>
+                                    <FieldsetWrapper
+                                        form={id.sendInputForm.main}
+                                        flexDir="row"
+                                    >
+                                        <Input
+                                            id={
+                                                id.sendInputForm.sepalWidthInput
+                                            }
+                                            name={formString.widthLabel}
+                                            register={register}
+                                            type="number"
+                                            flexDir="row"
+                                            max={lengthAndWidthMax}
+                                            min={0.1}
+                                            step={0.1}
+                                            isOutilined
+                                            required
+                                        />
+                                    </FieldsetWrapper>
+                                    <InputError
+                                        error={formState.errors.sw}
                                         name={formString.widthLabel}
-                                        register={register}
-                                        type="number"
-                                        flexDir="row"
-                                        max={lengthAndWidthMax}
-                                        min={0.1}
-                                        step={0.1}
-                                        isOutilined
-                                        required
+                                        options={{
+                                            required: true,
+                                            max: lengthAndWidthMax,
+                                            min: 0.1,
+                                        }}
                                     />
-                                </FieldsetWrapper>
-                                <InputError
-                                    error={formState.errors.sw}
-                                    name={formString.widthLabel}
-                                    options={{
-                                        required: true,
-                                        max: lengthAndWidthMax,
-                                        min: 0.1,
-                                    }}
-                                />
-                            </Col>
-                            <Col xs={6} md={12}>
-                                <FieldsetWrapper
-                                    form={id.sendInputForm.main}
-                                    flexDir="row"
-                                >
-                                    <Input
-                                        id={id.sendInputForm.sepalLengthInput}
+                                </Col>
+                                <Col xs={6} md={12}>
+                                    <FieldsetWrapper
+                                        form={id.sendInputForm.main}
+                                        flexDir="row"
+                                    >
+                                        <Input
+                                            id={
+                                                id.sendInputForm
+                                                    .sepalLengthInput
+                                            }
+                                            name={formString.lengthLabel}
+                                            register={register}
+                                            type="number"
+                                            flexDir="row"
+                                            max={lengthAndWidthMax}
+                                            min={0.1}
+                                            step={0.1}
+                                            isOutilined
+                                            required
+                                        />
+                                    </FieldsetWrapper>
+                                    <InputError
+                                        error={formState.errors.sl}
                                         name={formString.lengthLabel}
-                                        register={register}
-                                        type="number"
-                                        flexDir="row"
-                                        max={lengthAndWidthMax}
-                                        min={0.1}
-                                        step={0.1}
-                                        isOutilined
-                                        required
+                                        options={{
+                                            required: true,
+                                            max: lengthAndWidthMax,
+                                            min: 0.1,
+                                        }}
                                     />
-                                </FieldsetWrapper>
-                                <InputError
-                                    error={formState.errors.sl}
-                                    name={formString.lengthLabel}
-                                    options={{
-                                        required: true,
-                                        max: lengthAndWidthMax,
-                                        min: 0.1,
-                                    }}
-                                />
-                            </Col>
-                        </Row>
+                                </Col>
+                            </Row>
+                        </OnboardTourHighlightWrapper>
                         <Separator />
-                        <Row className={onboardTourCSSClass['onboard-tour-element-4']}>
-                            <Col>
-                                <Label paddingX="sm">
-                                    {formString.petalLabel}
-                                </Label>
-                            </Col>
-                        </Row>
-                        <Row className={onboardTourCSSClass['onboard-tour-element-4']}>
-                            <Col xs={6} md={12}>
-                                <FieldsetWrapper
-                                    form={id.sendInputForm.main}
-                                    flexDir="row"
-                                >
-                                    <Input
-                                        id={id.sendInputForm.petalWidthInput}
+                        <OnboardTourHighlightWrapper className="onboard-tour-element-4">
+                            <Row>
+                                <Col>
+                                    <Label paddingX="sm">
+                                        {formString.petalLabel}
+                                    </Label>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col xs={6} md={12}>
+                                    <FieldsetWrapper
+                                        form={id.sendInputForm.main}
+                                        flexDir="row"
+                                    >
+                                        <Input
+                                            id={
+                                                id.sendInputForm.petalWidthInput
+                                            }
+                                            name={formString.widthLabel}
+                                            register={register}
+                                            type="number"
+                                            flexDir="row"
+                                            max={pwMaxFallback}
+                                            min={0.1}
+                                            step={0.1}
+                                            isOutilined
+                                            required
+                                        />
+                                    </FieldsetWrapper>
+                                    <InputError
+                                        error={formState.errors.pw}
                                         name={formString.widthLabel}
-                                        register={register}
-                                        type="number"
-                                        flexDir="row"
-                                        max={pwMaxFallback}
-                                        min={0.1}
-                                        step={0.1}
-                                        isOutilined
-                                        required
+                                        options={{
+                                            required: true,
+                                            max: pwMaxFallback,
+                                            min: 0.1,
+                                        }}
                                     />
-                                </FieldsetWrapper>
-                                <InputError
-                                    error={formState.errors.pw}
-                                    name={formString.widthLabel}
-                                    options={{
-                                        required: true,
-                                        max: pwMaxFallback,
-                                        min: 0.1,
-                                    }}
-                                />
-                            </Col>
-                            <Col xs={6} md={12}>
-                                <FieldsetWrapper
-                                    form={id.sendInputForm.main}
-                                    flexDir="row"
-                                >
-                                    <Input
-                                        id={id.sendInputForm.petalLengthInput}
+                                </Col>
+                                <Col xs={6} md={12}>
+                                    <FieldsetWrapper
+                                        form={id.sendInputForm.main}
+                                        flexDir="row"
+                                    >
+                                        <Input
+                                            id={
+                                                id.sendInputForm
+                                                    .petalLengthInput
+                                            }
+                                            name={formString.lengthLabel}
+                                            register={register}
+                                            type="number"
+                                            flexDir="row"
+                                            max={plMaxFallback}
+                                            min={0.1}
+                                            step={0.1}
+                                            isOutilined
+                                            required
+                                        />
+                                    </FieldsetWrapper>
+                                    <InputError
+                                        error={formState.errors.pl}
                                         name={formString.lengthLabel}
-                                        register={register}
-                                        type="number"
-                                        flexDir="row"
-                                        max={plMaxFallback}
-                                        min={0.1}
-                                        step={0.1}
-                                        isOutilined
-                                        required
+                                        options={{
+                                            required: true,
+                                            max: plMaxFallback,
+                                            min: 0.1,
+                                        }}
                                     />
-                                </FieldsetWrapper>
-                                <InputError
-                                    error={formState.errors.pl}
-                                    name={formString.lengthLabel}
-                                    options={{
-                                        required: true,
-                                        max: plMaxFallback,
-                                        min: 0.1,
-                                    }}
-                                />
-                            </Col>
-                        </Row>
+                                </Col>
+                            </Row>
+                        </OnboardTourHighlightWrapper>
                     </FormWrapper>
                 </Col>
             </Row>

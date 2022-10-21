@@ -60,7 +60,7 @@ export const onBoardTourSteps: ShepherdOptionsWithType[] = [
     {
         attachTo: {
             element: `.${onboardTourCSSClass["onboard-tour-element-3"]}`,
-            on: "bottom",
+            on: "top",
         },
         title: "Sepal sizes",
         text: [
@@ -71,7 +71,7 @@ export const onBoardTourSteps: ShepherdOptionsWithType[] = [
     {
         attachTo: {
             element: `.${onboardTourCSSClass["onboard-tour-element-4"]}`,
-            on: "bottom",
+            on: "top",
         },
         title: "Petal sizes",
         text: [
