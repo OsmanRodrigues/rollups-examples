@@ -23,6 +23,7 @@ import { H1, Label, Paragraph } from "../../atomic/typography.mol";
 import { ChartDraw } from "./chart-draw/chart-draw";
 import { useParseChartDrawData } from "./chart-draw/use-parse-chart-draw-data";
 import { id, string } from "./constants";
+import { onboardTourCSSClass } from "./onboard-tour/onboard-tour.style";
 
 interface ISendInputForm {
     handleSendInput: (data: SendInputData) => void;
@@ -95,17 +96,18 @@ export const SendInputForm: FC<ISendInputForm> = ({
                 </Col>
                 <Col xs={12} md={4} lg={3}>
                     <FormWrapper
+                        className={onboardTourCSSClass['onboard-tour-element-2']}
                         id={id.sendInputForm.main}
                         onSubmit={handleSubmit(handleSendInput)}
                     >
-                        <Row>
+                        <Row className={onboardTourCSSClass['onboard-tour-element-3']}>
                             <Col>
                                 <Label paddingX="sm">
                                     {formString.sepalLabel}
                                 </Label>
                             </Col>
                         </Row>
-                        <Row>
+                        <Row className={onboardTourCSSClass['onboard-tour-element-3']}>
                             <Col xs={6} md={12}>
                                 <FieldsetWrapper
                                     form={id.sendInputForm.main}
@@ -164,14 +166,14 @@ export const SendInputForm: FC<ISendInputForm> = ({
                             </Col>
                         </Row>
                         <Separator />
-                        <Row>
+                        <Row className={onboardTourCSSClass['onboard-tour-element-4']}>
                             <Col>
                                 <Label paddingX="sm">
                                     {formString.petalLabel}
                                 </Label>
                             </Col>
                         </Row>
-                        <Row>
+                        <Row className={onboardTourCSSClass['onboard-tour-element-4']}>
                             <Col xs={6} md={12}>
                                 <FieldsetWrapper
                                     form={id.sendInputForm.main}
@@ -299,7 +301,8 @@ const renderSubmitButton = (
                 </>
             ) : (
                 <Col xs="content">
-                    <Button
+                        <Button
+                        className={onboardTourCSSClass['onboard-tour-element-6']}
                         form={id.sendInputForm.main}
                         type="submit"
                         sideElement="right"
