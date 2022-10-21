@@ -1,32 +1,24 @@
-import { ShepherdButtonWithType, ShepherdOptionsWithType } from "react-shepherd";
-import { resetTourScroll } from "./helpers";
+import { ShepherdOptionsWithType } from "react-shepherd";
+import { resetTourScroll, getStepButtons } from "./helpers";
 import { onboardTourCSSClass } from "./onboard-tour.style";
-
-const buttons: ShepherdButtonWithType[] = [
-    {
-        classes: onboardTourCSSClass["onboard-tour-button-secondary"],
-        text: "Exit",
-        type: "cancel",
-    },
-    {
-        classes: onboardTourCSSClass["onboard-tour-button-primary"],
-        text: "Back",
-        type: "back",
-    },
-    {
-        classes: onboardTourCSSClass["onboard-tour-button-secondary"],
-        text: "Next",
-        type: "next",
-    },
-];
 
 const sharedOptions: ShepherdOptionsWithType = {
     beforeShowPromise: resetTourScroll,
-    buttons,
+    buttons: getStepButtons(),
     scrollTo: false,
     cancelIcon: {
         enabled: true,
     },
+};
+
+const firstStepOptions: ShepherdOptionsWithType = {
+    ...sharedOptions,
+    buttons: getStepButtons('FirstStep'),
+};
+
+const lastStepOptions: ShepherdOptionsWithType = {
+    ...sharedOptions,
+    buttons: getStepButtons("LastStep"),
 };
 
 export const onBoardTourSteps: ShepherdOptionsWithType[] = [
@@ -39,7 +31,7 @@ export const onBoardTourSteps: ShepherdOptionsWithType[] = [
         text: [
             "First, connect your wallet properly. You will need a Metamask and Goerli testnet account with currency to use the DApp.",
         ],
-        ...sharedOptions,
+        ...firstStepOptions,
     },
     {
         attachTo: {
@@ -73,6 +65,6 @@ export const onBoardTourSteps: ShepherdOptionsWithType[] = [
         text: [
             "This area will shown you the prediction result computed by the DApp backend.",
         ],
-        ...sharedOptions,
+        ...lastStepOptions,
     },
 ];
