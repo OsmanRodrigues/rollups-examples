@@ -160,10 +160,22 @@ export const GlobalStyle = createGlobalStyle`
                 padding: ${spacing.padding.md} 0;
             }
             footer {
-                button {
+                button.onboard-tour-button-primary {
                     ${buttonVariantCss.secondary}
-                    padding: ${spacing.padding.sm};
+                }
+                button.onboard-tour-button-secondary {
+                    ${buttonVariantCss.link}
+                    &:hover:enabled {
+                        color: ${color.sweetMain};
+                    }
+                }
+                button {
+                    padding: ${spacing.padding.sm} !important;
                     margin-right: ${spacing.margin.general.sm};
+                    &:disabled {
+                        cursor: not-allowed;
+                        opacity: 0.4;
+                    }
                 }
             }
         }
