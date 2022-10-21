@@ -44,7 +44,7 @@ export const Modal: FC<PropsWithChildren<IModal>> = ({
                 />
                 <Row justify="center">
                     <Col xs="content">
-                        <H1 id={labelledBy} color="dark">
+                        <H1 id={labelledBy} color="dark" justify="center">
                             {title}
                         </H1>
                     </Col>
