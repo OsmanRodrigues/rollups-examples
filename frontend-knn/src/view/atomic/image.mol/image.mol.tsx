@@ -34,7 +34,7 @@ export const Image: FC<IImage> = ({
         <ImageWrapper justify={justify} size={size}>
             <img {...other} />
             {description ? (
-                <Paragraph justify="justify" color={options?.textColor}>
+                <Paragraph color={options?.textColor} justify>
                     {description}
                 </Paragraph>
             ) : null}

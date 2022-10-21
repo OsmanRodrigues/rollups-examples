@@ -20,6 +20,7 @@ import {
 import { Measurements, Series } from "./types";
 import flowerBg from "../../../../assets/img/flower-bg.svg";
 import { SendInputData } from "../../../../controller/send.controller";
+import { onboardTourCSSClass } from "../onboard-tour/onboard-tour.style";
 
 interface IChartDraw {
     inputData: SendInputData;
@@ -95,7 +96,7 @@ export const ChartDraw: FC<IChartDraw> = ({
                     </pattern>
                 </defs>
             </ChartDrawSVGDefs>
-            <ChartDrawWrapper>
+            <ChartDrawWrapper className={onboardTourCSSClass['onboard-tour-element-5']}>
                 <Chart
                     options={{
                         data,

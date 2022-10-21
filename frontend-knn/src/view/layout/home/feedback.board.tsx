@@ -20,6 +20,7 @@ import { IrisResultCard } from "./iris-result.card/iris-result.card";
 import { IrisType } from "./iris-result.card/constants";
 import { SendInputData } from "../../../controller/send.controller";
 import { PengindLoadingState } from "./pending.loading-state";
+import { onboardTourCSSClass } from "./onboard-tour/onboard-tour.style";
 
 interface IFeedbackBoard {
     data: NoticeViewModel[];
@@ -50,7 +51,7 @@ export const FeedbackBoard: FC<IFeedbackBoard> = ({
 
     return (
         <Col sm={12} md={6}>
-            <BoxWrapper isFluid>
+            <BoxWrapper className={onboardTourCSSClass['onboard-tour-element-7']} isFluid>
                 <Row justify="end">
                     <Col xs="content">
                         <H4 color="lightMain">{boardString.title}</H4>

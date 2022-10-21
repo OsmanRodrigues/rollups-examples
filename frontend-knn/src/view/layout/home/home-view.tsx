@@ -23,6 +23,7 @@ import { resetServiceState } from "../../../controller/common.controller";
 import { useOnboardedService } from "../../../controller/use-service/use-onboarded-service";
 import { SendInputForm } from "./send-input.form";
 import { FeedbackBoard } from "./feedback.board";
+import { OnboardTourProvider } from "./onboard-tour/onboard-tour.context";
 
 //TODO: implement context pattern to improve state management
 
@@ -66,30 +67,32 @@ export const HomeView: FC = () => {
     };
 
     return (
-        <SharedLayout>
-            <Row>
-                <SendInputForm
-                    handleSendInput={handleSendInput}
-                    onClearForm={handleResetStates}
-                    isLoading={
-                        sendInputState.status === "pending" ||
-                        noticesState.status === "pending"
-                    }
-                    canClearForm={
-                        sendInputState.status === "resolved" &&
-                        noticesState.status === "resolved"
-                    }
-                />
-                <FeedbackBoard
-                    data={noticesState.data ?? []}
-                    inputData={inputData}
-                    status={
-                        sendInputState.status === "pending"
-                            ? "pending"
-                            : noticesState.status
-                    }
-                />
-            </Row>
-        </SharedLayout>
+        <OnboardTourProvider>
+            <SharedLayout>
+                <Row>
+                    <SendInputForm
+                        handleSendInput={handleSendInput}
+                        onClearForm={handleResetStates}
+                        isLoading={
+                            sendInputState.status === "pending" ||
+                            noticesState.status === "pending"
+                        }
+                        canClearForm={
+                            sendInputState.status === "resolved" &&
+                            noticesState.status === "resolved"
+                        }
+                    />
+                    <FeedbackBoard
+                        data={noticesState.data ?? []}
+                        inputData={inputData}
+                        status={
+                            sendInputState.status === "pending"
+                                ? "pending"
+                                : noticesState.status
+                        }
+                    />
+                </Row>
+            </SharedLayout>
+        </OnboardTourProvider>
     );
 };
