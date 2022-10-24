@@ -12,6 +12,7 @@ import { useCalculatorDisplay } from "./use-calculator-display";
 import { Paragraph } from "../../../atomic/typography.mol";
 import { FiDelete } from "react-icons/fi";
 import { SendInputData } from "../../../../controller/send.controller";
+import { onboardTourCSSClass } from "../onboard-tour/onboard-tour.style";
 
 interface ICalculator {
     handleSendInput: (data: SendInputData) => void;
@@ -55,7 +56,11 @@ export const Calculator: FC<ICalculator> = ({
     }, [mainOperation, onClear]);
 
     return (
-        <CalculatorWrapper xs={12} md={7}>
+        <CalculatorWrapper
+            className={onboardTourCSSClass['onboard-tour-element-2']}
+            xs={12}
+            md={7}
+        >
             <InputtedOperationDisplay>
                 <label>{getInputtedOperation(mainOperation) || "0"}</label>
             </InputtedOperationDisplay>
@@ -178,6 +183,7 @@ export const Calculator: FC<ICalculator> = ({
                     onClick={() => handleCommonOperation(".", mainOperation)}
                 />
                 <CalculatorButton
+                    className={onboardTourCSSClass['onboard-tour-element-3']}
                     buttonType={ButtonType.Equals}
                     children="="
                     onClick={() => handleSubmit(mainOperation)}
