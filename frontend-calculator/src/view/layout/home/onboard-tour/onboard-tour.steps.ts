@@ -38,7 +38,7 @@ export const onBoardTourSteps: ShepherdOptionsWithType[] = [
             element: `.${onboardTourCSSClass["onboard-tour-element-2"]}`,
             on: "bottom",
         },
-        title: "The keyboard",
+        title: "The calculator",
         text: [
             `You can mount an expression using the buttons of the calculator keyboard here.
             The expression can have up to 15 different operations.`,
