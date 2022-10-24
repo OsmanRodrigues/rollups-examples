@@ -14,7 +14,7 @@ const buttonSharedCss = css`
     cursor: pointer;
 `;
 
-const buttonVariantCss = {
+export const buttonVariantCss = {
     primary: css`
         ${buttonSharedCss}
         border: ${border.general} ${color.white};

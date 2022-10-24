@@ -35,17 +35,18 @@ export const spacing = {
         sm: "0.6rem",
         md: "1rem",
         lg: "2.0rem",
-        xlg: "4.0rem"
+        xlg: "4.0rem",
     },
     margin: {
         general: {
             lg: "1.8rem",
+            sm: "0.8rem",
         },
         separator: {
             horizontal: {
                 lg: "1.5rem 0rem",
                 md: "0.75rem 0rem",
-                xlg: "2.8rem 0rem"
+                xlg: "2.8rem 0rem",
             },
             vertical: {
                 md: "0rem 0.125rem",

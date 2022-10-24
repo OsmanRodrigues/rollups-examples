@@ -43,8 +43,12 @@ export const FeedbackBoard: FC<IFeedbackBoard> = ({
     const shouldShowHistory = !shouldShowResultPreview && history.length;
 
     return (
-        <Col xs={12} md={5} className={onboardTourCSSClass['onboard-tour-element-4']}>
-            <BoxWrapper isFluid shouldMaxSize>
+        <Col xs={12} md={5}>
+            <BoxWrapper
+                className={onboardTourCSSClass["onboard-tour-element-4"]}
+                isFluid
+                shouldMaxSize
+            >
                 <Row justify="end">
                     <Col xs="content">
                         <H4 color="lightMain">
