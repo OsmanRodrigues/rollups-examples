@@ -15,6 +15,7 @@ import {Calculator} from "./calculator/calculator";
 import { BrandBanner } from "./brand-banner/brand-banner";
 import { InteractiveBoardWrapper } from "./home.style";
 import { useCalculatorHistory } from "./calculator/calculator-history/calculator-history.context";
+import { OnboardTourProvider } from "./onboard-tour/onboard-tour.context";
 
 export const HomeView: FC = () => {
     const [noticesState, noticesDispatch] = useService<NoticeViewModel[]>();
@@ -63,28 +64,30 @@ export const HomeView: FC = () => {
     };
 
     return (
-        <SharedLayout>
-            <Row>
-                <Col md={3} lg={4}>
-                    <BrandBanner />
-                </Col>
-                <Col md={9} lg={8}>
-                    <InteractiveBoardWrapper>
-                        <Calculator
-                            handleSendInput={handleSendInput}
-                            onClear={handleResetStates}
-                        />
-                        <FeedbackBoard
-                            data={noticesState.data ?? []}
-                            status={
-                                sendInputState.status === "pending"
-                                    ? "pending"
-                                    : noticesState.status
-                            }
-                        />
-                    </InteractiveBoardWrapper>
-                </Col>
-            </Row>
-        </SharedLayout>
+        <OnboardTourProvider>
+            <SharedLayout>
+                <Row>
+                    <Col md={3} lg={4}>
+                        <BrandBanner />
+                    </Col>
+                    <Col md={9} lg={8}>
+                        <InteractiveBoardWrapper>
+                            <Calculator
+                                handleSendInput={handleSendInput}
+                                onClear={handleResetStates}
+                            />
+                            <FeedbackBoard
+                                data={noticesState.data ?? []}
+                                status={
+                                    sendInputState.status === "pending"
+                                        ? "pending"
+                                        : noticesState.status
+                                }
+                            />
+                        </InteractiveBoardWrapper>
+                    </Col>
+                </Row>
+            </SharedLayout>
+        </OnboardTourProvider>
     );
 }

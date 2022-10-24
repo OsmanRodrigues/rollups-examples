@@ -7,6 +7,7 @@ import { string } from "./constants";
 import { UseServiceState } from "../../../controller/use-service/use-service.hook";
 import { CalculatorHistory } from "./calculator/calculator-history/calculator-history";
 import { useCalculatorHistory } from "./calculator/calculator-history/calculator-history.context";
+import { onboardTourCSSClass } from "./onboard-tour/onboard-tour.style";
 
 interface IFeedbackBoard {
     data: NoticeViewModel[],
@@ -42,7 +43,7 @@ export const FeedbackBoard: FC<IFeedbackBoard> = ({
     const shouldShowHistory = !shouldShowResultPreview && history.length;
 
     return (
-        <Col xs={12} md={5}>
+        <Col xs={12} md={5} className={onboardTourCSSClass['onboard-tour-element-4']}>
             <BoxWrapper isFluid shouldMaxSize>
                 <Row justify="end">
                     <Col xs="content">
