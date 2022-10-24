@@ -21,10 +21,12 @@ export const CalculatorButton: FC<PropsWithChildren<Props>> = ({
     buttonType = ButtonType.Number,
     onClick,
     disabled,
-    children
+    className,
+    children,
 }) => (
     <CalculatorButtonWrapper
         disabled={disabled}
+        className={className}
         style={getCalculatorButtonStyles(buttonType)}
         onClick={onClick}
     >

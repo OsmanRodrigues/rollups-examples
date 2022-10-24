@@ -14,7 +14,10 @@ export const string = {
             loading: "Connecting...",
         },
         disconnectButton: {
-            text: "Disconnect"
-        }
+            text: "Disconnect",
+        },
+    },
+    onboardTourButton: {
+        text: "Start DApp tour",
     },
 };
