@@ -9,7 +9,7 @@ interface SharedDefaultProps {
     color?: keyof typeof colorConstant;
     paddingX?: "sm" | "md" | "lg";
     paddingY?: "sm" | "md" | "lg";
-    justify?: "start" | "center" | "end";
+    justify?: true | "start" | "center" | "end";
     isBold?: boolean;
     noPadding?: boolean;
 }
@@ -31,7 +31,11 @@ const sharedDefaultCss = css<SharedDefaultProps>`
                 ? "0"
                 : `${spacing.padding.sm} 0`
         };
-        ${justify ? `text-align: ${justify};` : ""}
+        ${
+            justify
+                ? `text-align: ${justify === true ? "justify" : justify};`
+                : ""
+        }
         color: ${colorConstant[color ?? "white"]};
     `};
 `;
