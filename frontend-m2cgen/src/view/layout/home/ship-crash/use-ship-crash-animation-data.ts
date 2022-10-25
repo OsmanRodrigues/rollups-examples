@@ -1,3 +1,14 @@
+// Copyright 2022 Cartesi Pte. Ltd.
+
+// Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+// this file except in compliance with the License. You may obtain a copy of the
+// License at http://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software distributed
+// under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+// CONDITIONS OF ANY KIND, either express or implied. See the License for the
+// specific language governing permissions and limitations under the License.
+
 import { HTMLMotionProps } from "framer-motion";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { UseServiceState } from "../../../../controller/use-service/use-service.hook";
@@ -6,13 +17,13 @@ import {
     SHIP_INITIAL_X,
     PIXEL_DIVISOR,
     BREAKPOINT,
-    RESOLVED_REQUEST_TRANSITION_DURATION
+    RESOLVED_REQUEST_TRANSITION_DURATION,
 } from "./constants";
 
 interface UseShipCrashAnimationDataReturn {
     shipMotion: HTMLMotionProps<"div">;
     icebergMotion: HTMLMotionProps<"div">;
-    status: "idle"|"pending" |"ready";
+    status: "idle" | "pending" | "ready";
 }
 const initialShipMotionProps: HTMLMotionProps<"div"> = {
     initial: {
@@ -20,7 +31,7 @@ const initialShipMotionProps: HTMLMotionProps<"div"> = {
         y: -14,
     },
     animate: {
-        x: 30
+        x: 30,
     },
     transition: {
         duration: 60,
@@ -34,20 +45,23 @@ const initialIcebergMotionProps: HTMLMotionProps<"div"> = {
     },
 };
 const getShipResponsiveX = (breakpoint: number, size: number) =>
-    ((size*SHIP_INITIAL_X) / breakpoint) -
-    ((breakpoint-size) / (size > breakpoint ? PIXEL_DIVISOR*(1+(breakpoint-size)) : PIXEL_DIVISOR));
+    (size * SHIP_INITIAL_X) / breakpoint -
+    (breakpoint - size) /
+        (size > breakpoint
+            ? PIXEL_DIVISOR * (1 + (breakpoint - size))
+            : PIXEL_DIVISOR);
 
 export const useShipCrashAnimationData = (
-    requestStatus: UseServiceState<any>['status']
+    requestStatus: UseServiceState<any>["status"]
 ): UseShipCrashAnimationDataReturn => {
     const [status, setStatus] =
-        useState<UseShipCrashAnimationDataReturn['status']>('idle');
+        useState<UseShipCrashAnimationDataReturn["status"]>("idle");
     const [shipMotion, setShipMotion] = useState(() => initialShipMotionProps);
 
     useLayoutEffect(() => {
-        if (requestStatus === 'pending') {
+        if (requestStatus === "pending") {
             const updateShipMotion = async () => {
-                setStatus('pending');
+                setStatus("pending");
                 await genTimerPromise(1000);
                 setShipMotion((prev) => {
                     const { innerWidth } = window;
@@ -57,33 +71,33 @@ export const useShipCrashAnimationData = (
                             : BREAKPOINT.DESKTOP;
 
                     const newShipMotion =
-                        typeof prev.initial === 'object'
+                        typeof prev.initial === "object"
                             ? {
-                                ...prev,
-                                initial: {
-                                    ...prev.initial,
-                                    x: -getShipResponsiveX(
-                                        breakpointFallback,
-                                        innerWidth
-                                    ),
-                                },
-                            }
+                                  ...prev,
+                                  initial: {
+                                      ...prev.initial,
+                                      x: -getShipResponsiveX(
+                                          breakpointFallback,
+                                          innerWidth
+                                      ),
+                                  },
+                              }
                             : {};
                     return newShipMotion;
                 });
-                setStatus('ready');
-            }
-            window.addEventListener('resize', updateShipMotion);
+                setStatus("ready");
+            };
+            window.addEventListener("resize", updateShipMotion);
             updateShipMotion();
 
-            return () => window.removeEventListener('resize', updateShipMotion);
+            return () => window.removeEventListener("resize", updateShipMotion);
         }
     }, [requestStatus]);
 
     useEffect(() => {
-        if (requestStatus === 'resolved') {
-            setStatus('pending');
-            setShipMotion(prev => {
+        if (requestStatus === "resolved") {
+            setStatus("pending");
+            setShipMotion((prev) => {
                 const newShipMotion =
                     typeof prev.initial === "object"
                         ? {
@@ -99,13 +113,13 @@ export const useShipCrashAnimationData = (
                         : {};
                 return newShipMotion;
             });
-            setStatus('ready');
+            setStatus("ready");
         }
-    }, [requestStatus])
+    }, [requestStatus]);
 
     return {
         shipMotion,
         icebergMotion: initialIcebergMotionProps,
-        status
+        status,
     };
 };
