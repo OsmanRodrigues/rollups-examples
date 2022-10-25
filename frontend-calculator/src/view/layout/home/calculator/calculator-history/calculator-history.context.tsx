@@ -1,3 +1,14 @@
+// Copyright 2022 Cartesi Pte. Ltd.
+
+// Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+// this file except in compliance with the License. You may obtain a copy of the
+// License at http://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software distributed
+// under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+// CONDITIONS OF ANY KIND, either express or implied. See the License for the
+// specific language governing permissions and limitations under the License.
+
 import {
     createContext,
     PropsWithChildren,
@@ -17,7 +28,10 @@ type CalculatorHistory = [
     (resolvedOperation: ResolvedOperation) => void
 ];
 
-export const CalculatorHistoryContext = createContext<CalculatorHistory>([[], ()=>{}]);
+export const CalculatorHistoryContext = createContext<CalculatorHistory>([
+    [],
+    () => {},
+]);
 CalculatorHistoryContext.displayName = "CalculatorHistoryContext";
 
 export const CalculatorHistoryProvider: FC<PropsWithChildren> = ({
@@ -26,9 +40,9 @@ export const CalculatorHistoryProvider: FC<PropsWithChildren> = ({
     const [history, setHistory] = useState<ResolvedOperation[]>([]);
     const memoizedDispatch = useCallback(
         (resolvedOperation: ResolvedOperation) => {
-            setHistory(prevHistory => {
+            setHistory((prevHistory) => {
                 const hasInHistory = prevHistory.some(
-                    operation => operation.id === resolvedOperation.id
+                    (operation) => operation.id === resolvedOperation.id
                 );
 
                 if (hasInHistory) return prevHistory;
@@ -37,7 +51,7 @@ export const CalculatorHistoryProvider: FC<PropsWithChildren> = ({
                 newHistory.push(resolvedOperation);
 
                 return newHistory;
-            })
+            });
         },
         []
     );
@@ -53,9 +67,10 @@ export const CalculatorHistoryProvider: FC<PropsWithChildren> = ({
 export const useCalculatorHistory = () => {
     const context = useContext(CalculatorHistoryContext);
 
-    if (context === undefined) throw new Error(
-        `useCalculatorHistory must be used within a CalculatorHistoryProvider.`
-    );
+    if (context === undefined)
+        throw new Error(
+            `useCalculatorHistory must be used within a CalculatorHistoryProvider.`
+        );
 
     return context;
-}
+};

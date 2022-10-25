@@ -1,3 +1,14 @@
+// Copyright 2022 Cartesi Pte. Ltd.
+
+// Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+// this file except in compliance with the License. You may obtain a copy of the
+// License at http://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software distributed
+// under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+// CONDITIONS OF ANY KIND, either express or implied. See the License for the
+// specific language governing permissions and limitations under the License.
+
 import { FC } from "react";
 import { Col, Row } from "react-grid-system";
 import { NoticeViewModel } from "../../../service/notices.service";
@@ -10,26 +21,20 @@ import { useCalculatorHistory } from "./calculator/calculator-history/calculator
 import { onboardTourCSSClass } from "./onboard-tour/onboard-tour.style";
 
 interface IFeedbackBoard {
-    data: NoticeViewModel[],
-    status: UseServiceState<any>['status']
+    data: NoticeViewModel[];
+    status: UseServiceState<any>["status"];
 }
 
 const boardString = string.resultPreview;
 
-export const FeedbackBoard: FC<IFeedbackBoard> = ({
-    data,
-    status
-}) => {
+export const FeedbackBoard: FC<IFeedbackBoard> = ({ data, status }) => {
     const [history] = useCalculatorHistory();
     const handleResult = (
         currentData: typeof data,
         currentStatus: typeof status
     ) => {
-
-        if (
-            currentStatus !== 'resolved' &&
-            !data?.length
-        ) return { message: null };
+        if (currentStatus !== "resolved" && !data?.length)
+            return { message: null };
 
         const notice = currentData[0];
 
@@ -39,7 +44,8 @@ export const FeedbackBoard: FC<IFeedbackBoard> = ({
         return { message };
     };
     const { message } = handleResult(data, status);
-    const shouldShowResultPreview = status === "pending" || status === "resolved";
+    const shouldShowResultPreview =
+        status === "pending" || status === "resolved";
     const shouldShowHistory = !shouldShowResultPreview && history.length;
 
     return (

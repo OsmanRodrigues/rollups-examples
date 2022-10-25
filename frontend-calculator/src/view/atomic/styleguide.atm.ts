@@ -1,3 +1,14 @@
+// Copyright 2022 Cartesi Pte. Ltd.
+
+// Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+// this file except in compliance with the License. You may obtain a copy of the
+// License at http://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software distributed
+// under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+// CONDITIONS OF ANY KIND, either express or implied. See the License for the
+// specific language governing permissions and limitations under the License.
+
 const brandColor = {
     main: "#1E1941",
     lightMain: "#5E4E92",
@@ -25,8 +36,8 @@ export const typography = {
     weight: {
         light: "300",
         regular: "400",
-        bold: "500"
-    }
+        bold: "500",
+    },
 };
 
 export const spacing = {
@@ -111,21 +122,21 @@ export const size = {
         label: {
             sm: "0.8rem",
             md: "1rem",
-            lg: "2rem"
-        }
-    }
+            lg: "2rem",
+        },
+    },
 };
 
 export const border = {
     general: "2px solid",
     separator: "1px solid",
     small: "1px solid",
-    large: "4px solid"
+    large: "4px solid",
 };
 
 export const radius = {
     md: "4px",
-    lg: "8px"
+    lg: "8px",
 };
 
 export const zIndex = {
@@ -150,4 +161,3 @@ export const linearGradient = {
         rgba(60, 35, 85, 0) 94.52%
     )`,
 };
-
