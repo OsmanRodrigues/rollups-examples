@@ -1,3 +1,14 @@
+// Copyright 2022 Cartesi Pte. Ltd.
+
+// Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+// this file except in compliance with the License. You may obtain a copy of the
+// License at http://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software distributed
+// under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+// CONDITIONS OF ANY KIND, either express or implied. See the License for the
+// specific language governing permissions and limitations under the License.
+
 import { FC } from "react";
 import { fetchNotices } from "../../../controller/notices.controller";
 import { SendInputData, sendInput } from "../../../controller/send.controller";
@@ -11,7 +22,7 @@ import { string } from "./constants";
 import { resetServiceState } from "../../../controller/common.controller";
 import { useOnboardedService } from "../../../controller/use-service/use-onboarded-service";
 import { FeedbackBoard } from "./feedback.board";
-import {Calculator} from "./calculator/calculator";
+import { Calculator } from "./calculator/calculator";
 import { BrandBanner } from "./brand-banner/brand-banner";
 import { InteractiveBoardWrapper } from "./home.style";
 import { useCalculatorHistory } from "./calculator/calculator-history/calculator-history.context";
@@ -42,21 +53,21 @@ export const HomeView: FC = () => {
                         true
                     )
                         .then((fetchNoticesResult) => {
-                            toast.success(string.fetchNoticesFeedback.onSucess)
+                            toast.success(string.fetchNoticesFeedback.onSucess);
                             setHistory({
                                 id: Date.now(),
                                 operation: data.Operation,
-                                result: fetchNoticesResult.data?.[0].payload_parsed ?? ''
-                            })
+                                result:
+                                    fetchNoticesResult.data?.[0]
+                                        .payload_parsed ?? "",
+                            });
                         })
                         .catch(() =>
                             toast.error(string.fetchNoticesFeedback.onError)
                         )
                 )
                 .catch(() => toast.error(string.sendInputFeedback.onError));
-        } else toast.error(
-            string.sendInputFeedback.web3OnboardError
-        );
+        } else toast.error(string.sendInputFeedback.web3OnboardError);
     };
     const handleResetStates = () => {
         resetServiceState(noticesDispatch);
@@ -90,4 +101,4 @@ export const HomeView: FC = () => {
             </SharedLayout>
         </OnboardTourProvider>
     );
-}
+};

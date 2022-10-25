@@ -1,3 +1,14 @@
+// Copyright 2022 Cartesi Pte. Ltd.
+
+// Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+// this file except in compliance with the License. You may obtain a copy of the
+// License at http://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software distributed
+// under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+// CONDITIONS OF ANY KIND, either express or implied. See the License for the
+// specific language governing permissions and limitations under the License.
+
 import { useState } from "react";
 
 const Numeral = {
@@ -10,8 +21,8 @@ const Numeral = {
     "6": "6",
     "7": "7",
     "8": "8",
-    "9": "9"
-}
+    "9": "9",
+};
 
 export enum CommonOperations {
     "+" = "+",
@@ -31,16 +42,15 @@ export enum Delimiter {
     "." = ".",
 }
 
-
 export enum ClearType {
-    "CE"="CE",
-    "C"="C",
-    "<"="<",
+    "CE" = "CE",
+    "C" = "C",
+    "<" = "<",
 }
 
 //TODO: extract functions from useCalculator hook
 
-export const useCalculator = () =>{
+export const useCalculator = () => {
     const [mainOperation, setMainOperation] = useState<string[]>([]);
 
     const getOperation = (currentOperation: typeof mainOperation): string => {
@@ -233,7 +243,7 @@ export const useCalculator = () =>{
     const handleClear = (
         clearType: keyof typeof ClearType,
         currentOperation: typeof mainOperation,
-        onClear?: (type: typeof clearType)=> void
+        onClear?: (type: typeof clearType) => void
     ) => {
         if (!currentOperation.length) {
             return null;
@@ -270,8 +280,7 @@ export const useCalculator = () =>{
                         );
                         currentOperationCopy.pop();
                         currentOperationCopy.push(newLastElement);
-                    }
-                    else currentOperationCopy.pop();
+                    } else currentOperationCopy.pop();
 
                     return currentOperationCopy;
                 });
@@ -280,7 +289,7 @@ export const useCalculator = () =>{
                 break;
         }
 
-        onClear?.(clearType)
+        onClear?.(clearType);
     };
 
     return {
@@ -290,4 +299,4 @@ export const useCalculator = () =>{
         handleSpecialOperation,
         handleClear,
     };
-}
+};
