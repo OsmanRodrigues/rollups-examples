@@ -1,3 +1,14 @@
+// Copyright 2022 Cartesi Pte. Ltd.
+
+// Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+// this file except in compliance with the License. You may obtain a copy of the
+// License at http://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software distributed
+// under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+// CONDITIONS OF ANY KIND, either express or implied. See the License for the
+// specific language governing permissions and limitations under the License.
+
 import { Col } from "react-grid-system";
 import styled from "styled-components";
 import { border, color, radius } from "../../../atomic/styleguide.atm";
@@ -59,31 +70,33 @@ export const CalculatorButtonWrapper = styled.button`
     }
 `;
 
-export const getCalculatorButtonStyles = (type: ButtonType): React.CSSProperties => {
+export const getCalculatorButtonStyles = (
+    type: ButtonType
+): React.CSSProperties => {
     if (type == ButtonType.Misc) {
         return {
             background: color.white,
             color: color.dark,
-            fontSize: '0.875rem',
+            fontSize: "0.875rem",
             fontWeight: 700,
         };
     } else if (type == ButtonType.Operation) {
         return {
             background: color.buttonOperation,
             color: color.white,
-            fontSize: '1.25rem',
+            fontSize: "1.25rem",
         };
     } else if (type == ButtonType.Equals) {
         return {
             background: color.buttonEquals,
             color: color.white,
-            fontSize: '1.5rem',
+            fontSize: "1.5rem",
         };
     } else if (type == ButtonType.BasicOperation) {
         return {
             background: color.buttonBasicOperation,
             color: color.white,
-            fontSize: '1.5rem',
+            fontSize: "1.5rem",
         };
     }
 
