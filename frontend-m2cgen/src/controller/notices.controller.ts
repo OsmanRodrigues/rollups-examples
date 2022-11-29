@@ -31,12 +31,19 @@ export const fetchNotices = async (
             /(unable|find|input|epoch)/gi
         );
 
-        if (refetchIfEmpty || hasUnableToFindError)
+        if (refetchIfEmpty || hasUnableToFindError) {
+            let refetchCount = 0;
+            let refetchTime = REFETCH_TIME_DEFAULT;
+
             while (!fetchedNotices.data?.length) {
-                await genTimerPromise(REFETCH_TIME_DEFAULT);
+                await genTimerPromise(refetchTime);
                 const refetch = await getNotices(params, true);
                 fetchedNotices = refetch;
+                refetchCount += 1;
+                if (refetchCount % 5 === 0)
+                    refetchTime += refetchCount * 1000
             }
+        }
         if (!!fetchedNotices.error)
             throw new Error(fetchedNotices.error);
 
