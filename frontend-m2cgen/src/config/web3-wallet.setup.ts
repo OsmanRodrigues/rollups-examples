@@ -22,20 +22,12 @@ import {
     WalletUrl,
 } from "./types";
 
-export const chains: Chain[] = [
-    {
-        id: ChainId.localhost,
-        token: ChainToken.localhost,
-        label: ChainLabel.localhost,
-        rpcUrl: ChainRpcUrl.localhost,
-    },
-    {
-        id: ChainId.testnet,
-        token: ChainToken.testnet,
-        label: ChainLabel.testnet,
-        rpcUrl: ChainRpcUrl.testnet,
-    },
-];
+export const chains: Chain[] = Object.keys(ChainId).map((chain) => ({
+    id: ChainId[chain as keyof typeof ChainId],
+    label: ChainLabel[chain as keyof typeof ChainLabel],
+    rpcUrl: ChainRpcUrl[chain as keyof typeof ChainRpcUrl],
+    token: ChainToken[chain as keyof typeof ChainToken],
+}));
 
 const wallets = Object.keys(WalletName).map((wallet) => ({
     name: wallet,
