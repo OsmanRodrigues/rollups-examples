@@ -11,22 +11,26 @@
 
 export enum ChainId {
     localhost = "0x7a69",
-    testnet = "0x5",
+    goerli_testnet = "0x5",
+    arbitrum_goerli_testnet = "0x66eed",
 }
 
 export enum ChainToken {
     localhost = "ETH",
-    testnet = "ETH",
+    goerli_testnet = "ETH",
+    arbitrum_goerli_testnet = "AGOR",
 }
 
 export enum ChainLabel {
     localhost = "localhost",
-    testnet = "Goerli testnet",
+    goerli_testnet = "Goerli testnet",
+    arbitrum_goerli_testnet = "Arbitrum testnet",
 }
 
 export enum ChainRpcUrl {
     localhost = "http://localhost:8545",
-    testnet = "https://goerli.etherscan.io/",
+    goerli_testnet = "https://goerli.etherscan.io/",
+    arbitrum_goerli_testnet = "https://goerli-rollup.arbitrum.io/rpc",
 }
 
 export interface Chain {
